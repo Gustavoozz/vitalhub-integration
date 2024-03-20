@@ -21,7 +21,10 @@ export const InputVerify = styled(Input)`
     justify-content: center;
 `
 
-export const InputUser = styled.TextInput`
+export const InputUser = styled.TextInput.attrs({
+    placeholderTextColor: '#33303E',
+    multiline: true,
+})`
     width: 90%;
     background-color: #F5F3F3;
     border-radius: 5px;
@@ -34,7 +37,8 @@ export const PhotoButton = styled.TouchableOpacity`
     width: 90%;
     background-color: #F5F3F3;
     border-radius: 5px;
-    height: 111; fon-fFamily: 'MontserratAlternates_500Medium';
+    height: 111px;
+    font-family: 'MontserratAlternates_500Medium';
     padding-bottom: 0px;
 
     height: 54px;
