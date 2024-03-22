@@ -1,6 +1,6 @@
 import { Button, ButtonGoogle } from "../../components/Button/Style";
 import { Container } from "../../components/Container/Style";
-import { Input } from "../../components/Input/Style";
+import { Input, InputError } from "../../components/Input/Style";
 import { LinkMedium, TextAccount, TextReenviar } from "../../components/Link/Style";
 import { Logo } from "../../components/Logo/Style";
 import { ButtonTitle, ButtonTitleGoogle, Title } from "../../components/Title/Style";
@@ -8,52 +8,109 @@ import { ContentAccount } from "../../components/ContentAccount/Style";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 
+// API importada
+import api from "../../services/Service";
+
 export const Login = ({ navigation }) => {
+    const [email, setEmail] = useState(""); // email
+    const [senha, setSenha] = useState(""); // senha
+    const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
+    const [paginaErro, setPaginaErro] = useState(false)
 
-    // Show password eye:
-    const [password, setPassword] = useState(''); 
-    const [showPassword, setShowPassword] = useState(false); 
-
-    const toggleShowPassword = () => { 
-        setShowPassword(!showPassword); 
-    }; 
+    const TrocarVisibilidadeSenha = () => {
+        setMostrarSenha(!mostrarSenha);
+    };
 
     async function Login() {
-        navigation.navigate("Main")
+        await api.post('/Login', {
+            email: email,
+            senha: senha
+        }).then(reponse => {
+            setPaginaErro(false);
+
+            console.log(reponse);
+        }
+        ).catch(error => {
+            setPaginaErro(true);
+
+            console.log(error);
+        });
+
+        // navigation.navigate("Main")
     }
 
     async function LoginDoctor() {
-        navigation.navigate("MainDoctor")
-    }
+        navigation.navigate("MainDoctor");
+    };
 
-    return(
+    return (
         <Container>
-            <Logo
-            source={require('../../assets/VitalHub_Logo.png')}
-            />
+            <Logo source={require('../../assets/VitalHub_Logo.png')} />
 
             <Title>Entrar ou criar conta</Title>
 
-            <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold' }}
-            placeholder="Usuário ou E-mail"
-            placeholderTextColor="#34898F"
-            />
-            
-            <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold' }}
-            placeholder="Senha"
-            placeholderTextColor="#34898F"
-            secureTextEntry={!showPassword}
-            value={password}
-            onChangeText={setPassword}
-            />
+            {paginaErro ?
+                <>
+                    <InputError
+                        placeholder="Usuário ou E-mail"
+                        onChangeText={(txt) => setEmail(txt)}
+                        value={email}
+                    />
 
-            <MaterialCommunityIcons
-            style={{ marginLeft: 300, marginBottom: 0, position: 'relative', bottom: 55 }}
-            name={showPassword ? 'eye-off' : 'eye'} 
-            size={24} 
-            color="#49B3BA"
-            onPress={toggleShowPassword} 
-            /> 
+                    <InputError
+                        placeholder="Senha"
+                        secureTextEntry={!mostrarSenha}
+                        value={senha}
+                        onChangeText={(txt) => setSenha(txt)}
+                    />
+
+                    <MaterialCommunityIcons
+                        style={{
+                            marginLeft: 300,
+                            position: 'relative',
+                            bottom: 55
+                        }}
+                        name={mostrarSenha ? 'eye-off' : 'eye'}
+                        size={24}
+                        color="#DB163D"
+                        onPress={TrocarVisibilidadeSenha}
+                    />
+
+                    <TextAccount
+                        style={{
+                            color: "#DB2C15",
+                            position: 'relative',
+                            top: -20
+                        }}
+                    >Usuário ou senha incorretos</TextAccount>
+                </>
+                :
+                <>
+                    <Input
+                        placeholder="Usuário ou E-mail"
+                        onChangeText={(txt) => setEmail(txt)}
+                        value={email}
+                    />
+
+                    <Input
+                        placeholder="Senha"
+                        secureTextEntry={!mostrarSenha}
+                        value={senha}
+                        onChangeText={(txt) => setSenha(txt)}
+                    />
+
+                    <MaterialCommunityIcons
+                        style={{
+                            marginLeft: 300,
+                            position: 'relative',
+                            bottom: 55
+                        }}
+                        name={mostrarSenha ? 'eye-off' : 'eye'}
+                        size={24}
+                        color="#49B3BA"
+                        onPress={TrocarVisibilidadeSenha}
+                    />
+                </>}
 
             <LinkMedium onPress={() => navigation.replace("RecuperarSenha")}>Esqueceu sua senha?</LinkMedium>
 
