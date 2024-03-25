@@ -49,6 +49,8 @@ export const InputUser = styled.TextInput.attrs({
     
     border-radius: 5px;
     background-color: #F5F3F3;
+
+    font-family: 'MontserratAlternates_500Medium';
 `
 
 export const PhotoButton = styled.TouchableOpacity`

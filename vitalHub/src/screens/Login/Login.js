@@ -14,8 +14,8 @@ import api from "../../services/Service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Login = ({ navigation }) => {
-    const [email, setEmail] = useState(""); // email
-    const [senha, setSenha] = useState(""); // senha
+    const [email, setEmail] = useState("medico@medico.com"); // email
+    const [senha, setSenha] = useState("medico"); // senha
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
     const [paginaErro, setPaginaErro] = useState(false)
 
@@ -32,9 +32,7 @@ export const Login = ({ navigation }) => {
 
             await AsyncStorage.setItem("token", JSON.stringify(response.data))
 
-            navigation.navigate("Main")
-
-            console.log("Logado");
+            navigation.navigate("MainDoctor")
         }
         ).catch(error => {
             setPaginaErro(true);

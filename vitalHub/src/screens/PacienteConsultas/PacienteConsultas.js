@@ -21,91 +21,91 @@ const Consultas = [
 
 export const PacienteConsultas = ({ navigation }) => {
 
-    const [ statusLista, setStatusLista ] = useState("pendente");
-    const [ statusType, setStatusType ] = useState("Rotina");
+    const [statusLista, setStatusLista] = useState("pendente");
+    const [statusType, setStatusType] = useState("Rotina");
 
-    const [ showModalCancel, setShowModalCancel ] = useState(false);
-    const [ showModalSchedule, setShowModalSchedule ] = useState(false);
-    const [ showModalNotification, setShowModalNotification ] = useState(false);
-    
-    return(
+    const [showModalCancel, setShowModalCancel] = useState(false);
+    const [showModalSchedule, setShowModalSchedule] = useState(false);
+    const [showModalNotification, setShowModalNotification] = useState(false);
+
+    return (
         <Container>
             <HeaderHome>
-            <UserDoctor
-            source={require('../../assets/User.png')}
-            />
+                <UserDoctor
+                    source={require('../../assets/User.png')}
+                />
 
-        <InfoContainer>
-                 <UserText>Bem-vindo</UserText>
-               <MontSerratWhite>Richard Kosta </MontSerratWhite>
-            </InfoContainer>
+                <InfoContainer>
+                    <UserText>Bem-vindo</UserText>
+                    <MontSerratWhite>Richard Kosta </MontSerratWhite>
+                </InfoContainer>
 
-            <Octicons name="bell-fill" size={24} color="white" />
+                <Octicons name="bell-fill" size={24} color="white" />
             </HeaderHome>
 
             <DoctorContainer>
-            <CalendarHome/>
+                <CalendarHome />
 
-            <ContainerButton style={{ marginBottom: 20 }}> 
-           <BtnListAppointment
-            textButton={"Agendadas"}
-            clickButton={statusLista === "pendente"}
-            onPress={() => setStatusLista("pendente")}
-            />
+                <ContainerButton style={{ marginBottom: 20 }}>
+                    <BtnListAppointment
+                        textButton={"Agendadas"}
+                        clickButton={statusLista === "pendente"}
+                        onPress={() => setStatusLista("pendente")}
+                    />
 
-            <BtnListAppointment
-            textButton={"Realizadas"}
-            clickButton={statusLista === "realizado"}
-            onPress={() => setStatusLista("realizado")}
-            />
+                    <BtnListAppointment
+                        textButton={"Realizadas"}
+                        clickButton={statusLista === "realizado"}
+                        onPress={() => setStatusLista("realizado")}
+                    />
 
-            <BtnListAppointment
-            textButton={"Canceladas"}
-            clickButton={statusLista === "cancelado"}
-            onPress={() => setStatusLista("cancelado")}
-            /> 
-            </ContainerButton>
+                    <BtnListAppointment
+                        textButton={"Canceladas"}
+                        clickButton={statusLista === "cancelado"}
+                        onPress={() => setStatusLista("cancelado")}
+                    />
+                </ContainerButton>
 
-            <ListComponent
-            data={Consultas}
-            keyExtractor={(item) => item.id}
-            renderItem={({item}) =>
-            statusLista == item.situacao && (
-                <CardPaciente
-                navigation={navigation}
-                situacao={item.situacao}
-                onPressNotification={() => setShowModalNotification(true)}
-                onPressCancel={() => setShowModalCancel(true)}
-                onPressAppointment={() => setShowModalAppointment(true)}
+                <ListComponent
+                    data={Consultas}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) =>
+                        statusLista == item.situacao && (
+                            <CardPaciente
+                                navigation={navigation}
+                                situacao={item.situacao}
+                                onPressNotification={() => setShowModalNotification(true)}
+                                onPressCancel={() => setShowModalCancel(true)}
+                                onPressAppointment={() => setShowModalAppointment(true)}
+                            />
+                        )
+                    }
+                    showsVerticalScrollIndicator={false}
                 />
-            )
-            }
-            showsVerticalScrollIndicator={false}
-            />
-            
-            <ButtonPatient
-            onPressSchedule={() => setShowModalSchedule(true)}
-            />
 
-            <CancelationModal
-            visible={showModalCancel}
-            setShowModalCancel={setShowModalCancel}
-            />
+                <ButtonPatient
+                    onPressSchedule={() => setShowModalSchedule(true)}
+                />
 
-            <ScheduleModal
-            visible={showModalSchedule}
-            setShowModalSchedule={setShowModalSchedule}
-            />
+                <CancelationModal
+                    visible={showModalCancel}
+                    setShowModalCancel={setShowModalCancel}
+                />
 
-            <NotificationModal
-            visible={showModalNotification}
-            setShowModalNotification={setShowModalNotification}
-            />  
+                <ScheduleModal
+                    visible={showModalSchedule}
+                    setShowModalSchedule={setShowModalSchedule}
+                />
 
-            
+                <NotificationModal
+                    visible={showModalNotification}
+                    setShowModalNotification={setShowModalNotification}
+                />
+
+
 
             </DoctorContainer>
         </Container>
-        
+
     )
 }

@@ -6,61 +6,86 @@ import { SubTextQuick, TextQuick } from "../../components/Text/Text"
 import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
 
+import { userDecodeToken, userLogout } from "../../utils/Auth"
+import { useEffect, useState } from "react"
+
 export const Perfil = ({ navigation }) => {
-    return(
-        <ContainerUser contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+    const [nome, setNome] = useState();
+    const [email, setEmail] = useState();
+
+    async function profileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+        }
+
+        setNome(token.name);
+
+        setEmail(token.email);
+    }
+
+    useEffect(() => {
+        profileLoad();
+    })
+
+    return (
+        <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <PhotoContainer>
-            <UserContainer source={require('../../assets/User.png')}/>
+                <UserContainer source={require('../../assets/User.png')} />
 
-            <InformationContent>
-
-            <TitleUser>Richard Kosta</TitleUser>
-            <SubTextQuick>richard.kosta@gmail.com</SubTextQuick>
-            
-            </InformationContent>
+                <InformationContent>
+                    <TitleUser>{nome}</TitleUser>
+                    <SubTextQuick>{email}</SubTextQuick>
+                </InformationContent>
             </PhotoContainer>
-            
+
             <LabelUser>Data de Nascimento</LabelUser>
-            <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-            placeholder="04/05/1999"
-            placeholderTextColor="#33303E"/>
+
+            <InputUser
+                placeholder="04/05/1999"
+            />
 
             <LabelUser>CPF</LabelUser>
-            <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-            placeholder="859********"
-            placeholderTextColor="#33303E"/>
+
+            <InputUser
+                placeholder="859********"
+            />
 
             <LabelUser>Endereço</LabelUser>
-            <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-            placeholder="Rua Vicenso Silva, 987"
-            placeholderTextColor="#33303E"/>
+
+            <InputUser
+                placeholder="Rua Vicenso Silva, 987"
+            />
 
             <CityContainer>
-            <View>
-            <LabelUser>CEP</LabelUser>
-            <InputCity style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-            placeholder="06548-909"
-            placeholderTextColor="#33303E"/>
-            </View>
-            
-            <View>
-            <LabelUser>Cidade</LabelUser>
-            <InputCity style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-            placeholder="Moema-SP"
-            placeholderTextColor="#33303E"/>   
-            </View>
+                <View>
+                    <LabelUser>CEP</LabelUser>
+
+                    <InputCity
+                        placeholder="06548-909"
+                    />
+                </View>
+
+                <View>
+                    <LabelUser>Cidade</LabelUser>
+                    
+                    <InputCity
+                        placeholder="Moema-SP"
+                    />
+                </View>
             </CityContainer>
 
             <Button>
-            <ButtonTitle>Salvar</ButtonTitle>
+                <ButtonTitle>Salvar</ButtonTitle>
             </Button>
 
             <Button onPress={() => navigation.navigate("Login")}>
-            <ButtonTitle>Editar</ButtonTitle>
+                <ButtonTitle>Editar</ButtonTitle>
             </Button>
 
-            <ButtonUser onPress={() => navigation.replace("Login")}>
-                <ButtonTitle>Sair do App</ButtonTitle>
+            <ButtonUser onPress={() => userLogout() && navigation.navigate("Login")}>
+                <ButtonTitle>Logout</ButtonTitle>
             </ButtonUser>
         </ContainerUser>
     )
