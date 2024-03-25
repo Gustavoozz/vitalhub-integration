@@ -8,42 +8,42 @@ import { ButtonTitle, LabelProntuario, LabelUser, TitleUser } from "../../compon
 import { UserContainer } from "../../components/UserContainer/Style"
 
 export const Prontuario = () => {
-    return(
-        <ContainerUser contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
-        <PhotoContainer>
-        <UserContainer source={require('../../assets/User.png')}/>
-        </PhotoContainer>
+    return (
+        <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+            <PhotoContainer>
+                <UserContainer source={require('../../assets/User.png')} />
+            </PhotoContainer>
 
-        <ContentProntuario>
-        <TitleUser>Richard Kosta</TitleUser>
-        <SubTextQuick>22 anos    richard.kosta@gmail.com</SubTextQuick>    
-        </ContentProntuario>
-          
-        <LabelProntuario>Descrição da Consulta</LabelProntuario>
-        <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-        placeholder="Descrição..."
-        placeholderTextColor="#34898F"/>
+            <ContentProntuario>
+                <TitleUser>Richard Kosta</TitleUser>
+                <SubTextQuick>22 anos    richard.kosta@gmail.com</SubTextQuick>
+            </ContentProntuario>
 
-        <LabelProntuario>Diagnóstico do paciente</LabelProntuario>
-        <Input style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-        placeholder="Diagnóstico..."
-        placeholderTextColor="#34898F"/>
+            <LabelProntuario>Descrição da Consulta</LabelProntuario>
+            <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
+                placeholder="Descrição..."
+            />
 
-        <LabelProntuario>Prescrição médica</LabelProntuario>
-        <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-        placeholder="Prescrição medica..."
-        placeholderTextColor="#34898F"/>
+            <LabelProntuario>Diagnóstico do paciente</LabelProntuario>
+            <Input style={{ fontFamily: 'MontserratAlternates_500Medium' }}
+                placeholder="Diagnóstico..."
+            />
 
-        <Button>
-        <ButtonTitle>Salvar</ButtonTitle>
-        </Button>
+            <LabelProntuario>Prescrição médica</LabelProntuario>
+            <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
+                placeholder="Prescrição medica..."
+            />
 
-        <ButtonEdit>
-        <ButtonTitle>Editar</ButtonTitle>
-        </ButtonEdit>
+            <Button>
+                <ButtonTitle>Salvar</ButtonTitle>
+            </Button>
 
-        <CancelText>Cancelar</CancelText>
+            <ButtonEdit>
+                <ButtonTitle>Editar</ButtonTitle>
+            </ButtonEdit>
+
+            <CancelText>Cancelar</CancelText>
         </ContainerUser>
-        
+
     )
 }

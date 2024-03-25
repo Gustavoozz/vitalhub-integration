@@ -7,29 +7,26 @@ import { TextQuick } from "../../components/Text/Text";
 import { ButtonTitle, Title } from "../../components/Title/Style";
 
 export const Cadastro = ({ navigation }) => {
-    return(
+    return (
         <Container>
-             <Logo
-            source={require('../../assets/VitalHub_Logo.png')}
+            <Logo
+                source={require('../../assets/VitalHub_Logo.png')}
             />
 
             <Title>Criar conta</Title>
 
             <TextQuick>Insira seu endereço de e-mail e senha para realizar seu cadastro.</TextQuick>
 
-            <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold' }}
-            placeholder="Usuário ou E-mail"
-            placeholderTextColor="#34898F"
+            <Input
+                placeholder="Usuário ou E-mail"
             />
 
-            <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold' }}
-            placeholder="Senha"
-            placeholderTextColor="#34898F"
+            <Input
+                placeholder="Senha"
             />
 
-            <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold' }}
-            placeholder="Confirmar Senha"
-            placeholderTextColor="#34898F"
+            <Input
+                placeholder="Confirmar Senha"
             />
 
             <Button>

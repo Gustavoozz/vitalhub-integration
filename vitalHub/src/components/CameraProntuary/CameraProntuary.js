@@ -1,99 +1,147 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState, useRef } from 'react';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
-import * as MediaLibrary from 'expo-media-library'
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as MediaLibrary from 'expo-media-library';
 
-export default function CameraProntuary({ visible, setUriCameraCapture, setShowCameraModal, ...rest}) {
+import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+
+
+export default function CameraModal({
+  navigation,
+  visible,
+  setShowCamera,
+  setPhotoUpload,
+  ...rest
+}) {
+  // 
   const cameraRef = useRef(null);
-  const [ photo, setPhoto ] = useState(null);
-  const [ openModal, setOpenModal ] = useState(false);
-  const [ tipoCamera, setTipoCamera ] = useState(CameraType.front);
-  const [ capturePhoto, setCapturePhoto ] = useState(null);
+  const [photo, setPhoto] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [tipoCamera, setTipoCamera] = useState(CameraType.front);
+
+  /*
+  DESAFIOS
+  1 - Quando salvar a foto e clicar na lixeira - remover a galeria.
+  2 - Permitir a foto com flash.
+  3 - Botão para recarregar o autofocus.
+  4 - Capturar e salvar vídeos.
+  */
 
   useEffect(() => {
-    ( async () => {
-      const { status : cameraStatus } = await Camera.requestCameraPermissionsAsync();
+    (async () => {
+      const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync();
 
-      const { status : mediaStatus } = await MediaLibrary.requestPermissionsAsync();
-    })();
-  }, [])
-
-
-  async function SendFormPhoto() {
-
-    await setUriCameraCapture(capturePhoto);
-
-    handleClose();
-  }
+      const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync();
+    })()
+  }, []);
 
   async function CapturePhoto() {
-    if( cameraRef ) {
+    if (cameraRef) {
       const photo = await cameraRef.current.takePictureAsync();
-      setPhoto( photo.uri )
 
-      setOpenModal(true)
+      setPhoto(photo.uri);
 
-      console.log(photo)
+      setOpenModal(true);
+
+      console.log(photo);
     }
   }
 
-
-  function ClearPhoto() {
-    setPhoto(null);
+  function UploadPhoto() {
+    setPhotoUpload(photo);
 
     setOpenModal(false);
+    setShowCamera(false);
   }
 
-function handleClose() {
-  setShowCameraModal(false);
+  function ClearPhoto() {
+    setPhoto(null)
 
-    navigation.replace("ViewPrescription")
+    setOpenModal(false)
   }
 
   return (
-    
-    <Modal {...rest} visible={visible} transparent={true} animationType="slide">
-      <Camera 
-      ref={cameraRef}
-      style={ styles.camera }
-      type={ tipoCamera }
-      ratio='16:9'
-      >
-      <View style={ styles.viewFlip }>
-      <TouchableOpacity style={ styles.btnFlip} onPress={() => setTipoCamera( tipoCamera == CameraType.front ? CameraType.back : CameraType.front)}>
-      <MaterialIcons name="cameraswitch" size={35} color="white" />
-      </TouchableOpacity>
+    // modal
+    <Modal {...rest} visible={visible} transparent={true} animationType='fade'>
+      {/* container inteiro */}
+      <View style={styles.container}>
+        {/* camera */}
+        <Camera
+          ref={cameraRef}
+          style={styles.camera}
+          type={tipoCamera}
+          ratio='16:9'
+        >
+          <View style={styles.viewFlip}>
+
+          </View>
+        </Camera>
+
+        <View style={styles.bottom}>
+          {/* retornar */}
+          <TouchableOpacity
+            style={styles.btnReturn}
+            onPress={() => setShowCamera(false)}>
+            <MaterialCommunityIcons name="keyboard-return" size={24} color="#FFF" />
+          </TouchableOpacity>
+
+          {/* tirar foto */}
+          <TouchableOpacity
+            style={styles.btnCapture}
+            onPress={() => CapturePhoto()}
+          >
+            <FontAwesome name='camera' size={23} color={"#FFF"} />
+          </TouchableOpacity>
+
+          {/* trocar câmera */}
+          <TouchableOpacity
+            style={styles.btnSwitch}
+            onPress={() => setTipoCamera(tipoCamera == CameraType.front ?
+              CameraType.back :
+              CameraType.front
+            )}
+          >
+            <MaterialIcons name="cameraswitch" size={24} color="#FFF" />
+          </TouchableOpacity>
+
+        </View>
+
+
+
+        <Modal animationType='slide' transparent={false} visible={openModal}>
+          <View style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 20
+          }}>
+            <View style={{
+              margin: 10,
+              flexDirection: 'row'
+            }}>
+              {/* botões de controle */}
+              <TouchableOpacity style={styles.btnClear} onPress={() => ClearPhoto()}>
+                <FontAwesome name='trash' size={45} color={"#FF0000"} />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.btnUpload} onPress={() => UploadPhoto()}>
+                <FontAwesome name='upload' size={35} color={"#121212"} />
+              </TouchableOpacity>
+            </View>
+
+            <Image
+              style={{
+                width: '100%',
+                height: 500,
+                borderRadius: 15,
+              }}
+              source={{ uri: photo }}
+            />
+
+          </View>
+        </Modal>
       </View>
-      </Camera>
-
-      <TouchableOpacity style={ styles.btnCapture } onPress={() => CapturePhoto()}>
-      <FontAwesome name='camera' size={23} color='#fff'/>
-      </TouchableOpacity>
-
-      <Modal animationType='slide' transparent={false} visible={openModal}>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20 }}>
-
-      <View style ={{ margin: 10, flexDirection: 'row', gap: 20 }}>
-
-      <TouchableOpacity style={ styles.btnClear } onPress={() => ClearPhoto()}>
-      <FontAwesome name='trash' size={35} color='#121212'/>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={ styles.btnUpload } onPress={() => SendFormPhoto()}>
-      <FontAwesome name='upload' size={35} color='#121212`'/>
-      </TouchableOpacity>
-
-      
-      </View>
-
-      <Image
-      style={{ width: '100%', height: 500, borderRadius: 15 }}
-      source={{ uri: photo }}
-      />
-      </View>
-      </Modal>
     </Modal>
   );
 }
@@ -101,23 +149,28 @@ function handleClose() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
+  bottom: {
+    flexDirection: 'row',
+
+  },
+
   camera: {
     flex: 1,
-    height: '80%',
     width: '100%',
+    height: '80%',
   },
 
   viewFlip: {
     flex: 1,
     backgroundColor: 'transparent',
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+    alignContent: 'flex-end',
+    justifyContent: 'center'
   },
 
   btnFlip: {
@@ -126,23 +179,22 @@ const styles = StyleSheet.create({
 
   txtFlip: {
     fontSize: 20,
-    color: '#ffffff',
+    color: '#FFF',
     marginBottom: 20,
   },
 
   btnCapture: {
     padding: 20,
     margin: 20,
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: '#121212',
-
     justifyContent: 'center',
-    alignItems: 'center',
+    alignContent: 'center',
   },
 
   btnClear: {
     padding: 20,
-    backgroundColor: 'transparent',
+    backgroundColor: 'center',
 
     justifyContent: 'center',
     alignItems: 'center',
@@ -155,5 +207,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-});
 
+  btnReturn: {
+    padding: 20,
+    margin: 20,
+    borderRadius: 20,
+    backgroundColor: '#121212',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+
+  btnSwitch: {
+    padding: 20,
+    margin: 20,
+    borderRadius: 20,
+    backgroundColor: '#121212',
+    justifyContent: 'center',
+    alignContent: 'center',
+  }
+});

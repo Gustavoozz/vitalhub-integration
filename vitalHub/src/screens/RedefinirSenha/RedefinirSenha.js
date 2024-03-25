@@ -8,30 +8,23 @@ import { ButtonTitle, Title } from "../../components/Title/Style";
 import { Feather } from "@expo/vector-icons";
 
 export const RedefinirSenha = ({ navigation }) => {
-    return(
+    return (
         <Container>
-         <Feather style={{ position: 'absolute', left: 20, top: 30}} name="x-circle" size={30} color="#34898F" onPress={() => navigation.navigate("Login")}/>
-        <Logo
-        source={require('../../assets/VitalHub_Logo.png')}
-        />
+            <Feather style={{ position: 'absolute', left: 20, top: 30 }} name="x-circle" size={30} color="#34898F" onPress={() => navigation.navigate("Login")} />
+            
+            <Logo source={require('../../assets/VitalHub_Logo.png')} />
 
-        <Title>Redefinir Senha</Title>
+            <Title>Redefinir Senha</Title>
 
-        <TextQuick>Insira e confirme a sua nova senha</TextQuick>
+            <TextQuick>Insira e confirme a sua nova senha</TextQuick>
 
-        <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold' }}
-        placeholder="Nova Senha"
-        placeholderTextColor="#34898F"
-        />
+            <Input placeholder="Nova Senha" />
 
-        <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold' }}
-        placeholder="Confirmar nova senha"
-        placeholderTextColor="#34898F"
-        />
+            <Input placeholder="Confirmar nova senha" />
 
-        <Button>
-            <ButtonTitle>Confirmar nova senha</ButtonTitle>
-        </Button>
+            <Button>
+                <ButtonTitle>Confirmar nova senha</ButtonTitle>
+            </Button>
         </Container>
     );
 }

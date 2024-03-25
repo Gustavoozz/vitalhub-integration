@@ -1,44 +1,67 @@
-import styled from "styled-components";
+import { styled, css } from "styled-components/native";
 
-export const Input = styled.TextInput`
+export const Input = styled.TextInput.attrs({
+    placeholderTextColor: "#34898F",
+})`
     width: 90%;
-    border: 2px solid #49B3BA;
     height: 60px;
-    border-radius: 5px;
+
     margin-bottom: 15px;
-    color: #34898F;
     padding: 16px;
+
+    border: 2px solid #49B3BA;
+    border-radius: 5px;
     background-color: #FAFAFA;
+
+    color: #34898F;
+    font-family: "MontserratAlternates_600SemiBold";
+`
+
+export const InputError = styled(Input).attrs({
+    placeholderTextColor: "#DB2C15"
+})`
+    border: 2px solid #DB163D;
+
+    color: #DB2C15;
 `
 
 export const InputVerify = styled(Input)`
     width: 20%;
-    font-size: 40px;
     height: 75px;
+    
     padding: 0px;
-    text-align: center;
     align-items: center;
     justify-content: center;
+
+    text-align: center;
+
+    font-size: 40px;
 `
 
-export const InputUser = styled.TextInput`
-    width: 90%;
-    background-color: #F5F3F3;
-    border-radius: 5px;
-
+export const InputUser = styled.TextInput.attrs({
+    placeholderTextColor: '#33303E',
+    multiline: true,
+})`
     height: 54px;
+    width: 90%;
+
     padding-left: 20px;
+    
+    border-radius: 5px;
+    background-color: #F5F3F3;
 `
 
 export const PhotoButton = styled.TouchableOpacity`
     width: 90%;
+    height: 111px;
+
+    padding-left: 20px;
+    padding-bottom: 0px;
+    
     background-color: #F5F3F3;
     border-radius: 5px;
-    height: 111; fon-fFamily: 'MontserratAlternates_500Medium';
-    padding-bottom: 0px;
 
-    height: 54px;
-    padding-left: 20px;
+    font-family: 'MontserratAlternates_500Medium';
 `
 
 export const InputCity = styled(InputUser)`
@@ -47,5 +70,6 @@ export const InputCity = styled(InputUser)`
 
 export const InputProntuario = styled(Input)`
     height: 121px;
+
     padding-bottom: 90px;
 `
