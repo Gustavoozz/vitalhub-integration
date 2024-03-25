@@ -11,6 +11,8 @@ import { useState } from "react";
 // API importada
 import api from "../../services/Service";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const Login = ({ navigation }) => {
     const [email, setEmail] = useState(""); // email
     const [senha, setSenha] = useState(""); // senha
@@ -25,18 +27,20 @@ export const Login = ({ navigation }) => {
         await api.post('/Login', {
             email: email,
             senha: senha
-        }).then(reponse => {
+        }).then(async response => {
             setPaginaErro(false);
 
-            console.log(reponse);
+            await AsyncStorage.setItem("token", JSON.stringify(response.data))
+
+            navigation.navigate("Main")
+
+            console.log("Logado");
         }
         ).catch(error => {
             setPaginaErro(true);
 
             console.log(error);
         });
-
-        // navigation.navigate("Main")
     }
 
     async function LoginDoctor() {
