@@ -28,7 +28,7 @@ export const NotificationBell = styled.Image`
     margin-top: 20px;
 `
 
-export const Clock = styled.Image`
+export const Clock = styled.View`
     width: 14px;
     height: 14px;
     color: ${(props) => props.situacao == "pendente" ? "#4E4B59" : "#49B3BA"};

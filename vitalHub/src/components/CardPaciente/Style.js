@@ -79,7 +79,6 @@ export const Hour = styled.Text`
     color: ${(props) => props.situacao == "pendente" ? "#49B3BA" : "#4E4B59"};
     text-align: center;
     font-family: 'Quicksand_600SemiBold';
-    color: #49B3BA;
     padding-bottom: 3px;
 `   
 

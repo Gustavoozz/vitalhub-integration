@@ -12,21 +12,21 @@ const SplashScreen = () => {
         // Animação para aumentar o tamanho do logo
         const scaleUpAnimation = Animated.timing(logoScale, {
             toValue: 1.3, // Aumentar para 1.5 vezes o tamanho original
-            duration: 1000,
+            duration: 3000,
             useNativeDriver: true
         });
 
         // Animação para diminuir o tamanho do logo
         const scaleDownAnimation = Animated.timing(logoScale, {
-            toValue: 1, // Retornar ao tamanho original
-            duration: 1000,
+            toValue: 5, // Retornar ao tamanho original
+            duration: 3000,
             useNativeDriver: true
         });
 
         // Animação para diminuir a opacidade
         const opacityAnimation = Animated.timing(opacity, {
             toValue: 0, // Diminuir a opacidade para 0
-            duration: 1000,
+            duration: 3000,
             useNativeDriver: true
         });
 
@@ -40,8 +40,8 @@ const SplashScreen = () => {
 
         // Navegue para a próxima tela após 3 segundos
         const timer = setTimeout(() => {
-            navigation.replace('Navegacao');
-        }, 2000);
+            navigation.replace('Login');
+        }, 3000);
 
         // Limpe o temporizador se o componente for desmontado antes do tempo limite
         return () => clearTimeout(timer);
