@@ -3352,11 +3352,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\54454818835\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\54454818835\\Desktop\\2023-3S-3DS-Alunos\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
       "projectName": "WebAPI",
-      "projectPath": "C:\\Users\\54454818835\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "projectPath": "C:\\Users\\54454818835\\Desktop\\2023-3S-3DS-Alunos\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
       "packagesPath": "C:\\Users\\54454818835\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\54454818835\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\obj\\",
+      "outputPath": "C:\\Users\\54454818835\\Desktop\\2023-3S-3DS-Alunos\\API-VitalHub\\WebAPI\\WebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\54454818835\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3467,12 +3467,6 @@
     }
   },
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problema ao ler o arquivo de cache C:\\Users\\54454818835\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\obj\\project.nuget.cache: Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1902",
       "level": "Warning",

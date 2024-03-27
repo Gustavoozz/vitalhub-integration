@@ -51,9 +51,9 @@ export const CityContainer = styled.View`
 
 export const HeaderHome = styled(LinearGradient).attrs({
     colors: ['#60BFC5', '#496BBA'],
-    start: {x: -0.03, y: 1.5},
-    end: {x: 1, y:0}
-   })`
+    start: { x: -0.03, y: 1.5 },
+    end: { x: 1, y: 0 }
+})`
    width: 100%;
    border-radius: 0px 0px 15px 15px;
    height: 102px;
