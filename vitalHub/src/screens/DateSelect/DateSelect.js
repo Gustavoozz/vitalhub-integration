@@ -1,11 +1,9 @@
 import { useState } from "react"
-import { Button } from "../../components/Button/Style"
 import CalendarComponent from "../../components/CalendarComponent/CalendarComponent"
 import { Container } from "../../components/Container/Style"
 
 import { SelectInput } from "../../components/SelectInput/SelectInput"
 import { ButtonTitle, LabelUser, Title } from "../../components/Title/Style"
-import { CancelLink } from "../ClinicSelect/Style"
 import { SchedulingModal } from "../../components/SchedulingModal/SchedulingModal"
 import { ButtonDate } from "../../components/ButtonDate/ButtonDate"
 

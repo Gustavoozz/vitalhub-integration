@@ -32,7 +32,7 @@ export const Login = ({ navigation }) => {
 
             await AsyncStorage.setItem("token", JSON.stringify(response.data))
 
-            navigation.navigate("MainDoctor")
+            navigation.navigate("Main")
         }
         ).catch(error => {
             setPaginaErro(true);
@@ -41,9 +41,9 @@ export const Login = ({ navigation }) => {
         });
     }
 
-    async function LoginDoctor() {
-        navigation.navigate("MainDoctor");
-    };
+    // async function LoginDoctor() {
+    //     navigation.navigate("MainDoctor");
+    // };
 
     return (
         <Container>

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { Button } from "../../components/Button/Style"
-import { ContainerUser } from "../../components/Container/Style"
+import { Container, ContainerUser } from "../../components/Container/Style"
 import { ListComponent } from "../../components/List/List"
 
 import { ButtonTitle, Title } from "../../components/Title/Style"
-import { CancelLink } from "../ClinicSelect/Style"
-import { DoctorCard } from "./Style"
 import api from "../../services/Service"
+import DoctorCard from "../../components/DoctorCard/DoctorCard"
+import { TextReenviar } from "../../components/Link/Style"
+
 
 // const Medicos = [
 //    {id: 1, nome: "Usmar", especialidade: "Cardiologista"},
@@ -17,28 +18,32 @@ import api from "../../services/Service"
 //    {id: 6, nome: "Usmar", especialidade: "Cardiologista"},
 // ]
 
-
 export const DoctorSelect = ({ navigation }) => {
 
-   const [medico, setMedico] = useState();
+   const [medicoLista, setMedicoLista] = useState([]);
 
    async function GetDoctor() {
       await api.get('/Medicos')
+      .then( response => {
+         setMedicoLista(response.data)
+      }). catch( error => {
+         console.log(error)
+      })
    }
 
    useEffect(() => {
       GetDoctor();
-   }, [])
+   }, []) 
    
     return(
-        <ContainerUser contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+        <Container contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
              <Title style={{ marginTop: 30, marginBottom: 50 }}>Selecionar médico</Title>
 
              <ListComponent
-               data={setMedico}
+               data={medicoLista}
                keyExtractor={(item) => item.id}
-               renderItem={() => (
-               <DoctorCard/>
+               renderItem={({item}) => (
+               <DoctorCard medico={item}/>
                )}
                showsVerticalScrollIndicator={false}
              />
@@ -49,7 +54,7 @@ export const DoctorSelect = ({ navigation }) => {
                <ButtonTitle>Continuar</ButtonTitle>
             </Button>
 
-          <CancelLink style={{ marginBottom: 0 }} onPress={() => navigation.replace("ClinicSelect")}>Cancelar</CancelLink>
-        </ContainerUser>
+          <TextReenviar style={{ marginBottom: 20 }} onPress={() => navigation.replace("ClinicSelect")}>Cancelar</TextReenviar>
+        </Container>
     )  
 }
