@@ -20,15 +20,6 @@ import {
     ButtonTakePhoto,
     ButtonTakePhotoText,
     FlexibleBox,
-    ImageDoctor,
-    ImagePhoto,
-    InputBox,
-    Line,
-    PhotoBox,
-    PhotoBoxNull,
-    RecordContainer,
-    RecordContent,
-    TextPhotoBox
 } from "./Style";
 import CameraModal from '../../components/CameraProntuary/CameraProntuary'
 // import * as MediaLibrary xfrom 'expo-media-library'
@@ -38,8 +29,7 @@ export const ViewPrescription = ({ navigation }) => {
     const [photo, setPhoto] = useState(null);
 
     return (
-        <Container>
-            <ContainerUser>
+            <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
                 <PhotoContainer>
                     <UserContainer source={require('../../assets/UserDoctorBig.png')} />
                 </PhotoContainer>
@@ -51,7 +41,7 @@ export const ViewPrescription = ({ navigation }) => {
 
                 <LabelUser>Descrição da consulta</LabelUser>
                 <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 30 }}
-                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e  \nacompanhamento médico constante`}
+                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e \nacompanhamento médico constante`}
                     placeholderTextColor="#4E4B59"
                 />
 
@@ -74,7 +64,7 @@ export const ViewPrescription = ({ navigation }) => {
                     <PhotoButton style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
                         placeholder="                  Nenhuma foto informada"
                         placeholderTextColor="#4E4B59"
-                        onPress={() => setShowCameraModal()}
+                        onPress={() => setShowCamera()}
                     ><ButtonTitle style={{ fontFamily: 'MontserratAlternates_500Medium', fontSize: 14, color: '#4E4B59', textTransform: 'none', marginTop: 43, marginLeft: 80 }}>Nenhuma foto informada</ButtonTitle></PhotoButton>
                 </View>
 
@@ -103,6 +93,6 @@ export const ViewPrescription = ({ navigation }) => {
                     setPhotoUpload={setPhoto}
                 />
             </ContainerUser>
-        </Container>
+
     )
 }

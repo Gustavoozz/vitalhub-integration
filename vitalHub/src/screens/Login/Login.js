@@ -6,7 +6,8 @@ import { Logo } from "../../components/Logo/Style";
 import { ButtonTitle, ButtonTitleGoogle, Title } from "../../components/Title/Style";
 import { ContentAccount } from "../../components/ContentAccount/Style";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { userDecodeToken } from "../../utils/Auth";
 
 // API importada
 import api from "../../services/Service";
@@ -14,8 +15,8 @@ import api from "../../services/Service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Login = ({ navigation }) => {
-    const [email, setEmail] = useState("medico@medico.com"); // email
-    const [senha, setSenha] = useState("medico"); // senha
+    const [email, setEmail] = useState("fernando@paciente.com"); // email
+    const [senha, setSenha] = useState("paciente123"); // senha
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
     const [paginaErro, setPaginaErro] = useState(false)
 
@@ -32,7 +33,9 @@ export const Login = ({ navigation }) => {
 
             await AsyncStorage.setItem("token", JSON.stringify(response.data))
 
+           
             navigation.navigate("Main")
+            
         }
         ).catch(error => {
             setPaginaErro(true);
@@ -40,6 +43,8 @@ export const Login = ({ navigation }) => {
             console.log(error);
         });
     }
+
+
 
     // async function LoginDoctor() {
     //     navigation.navigate("MainDoctor");
@@ -78,7 +83,7 @@ export const Login = ({ navigation }) => {
                         onPress={TrocarVisibilidadeSenha}
                     />
 
-                    <TextAccount
+                    <TextAccount 
                         style={{
                             color: "#DB2C15",
                             position: 'relative',
@@ -120,9 +125,9 @@ export const Login = ({ navigation }) => {
                 <ButtonTitle>Entrar</ButtonTitle>
             </Button>
 
-            <Button onPress={(e) => LoginDoctor()}>
+            {/* <Button onPress={(e) => LoginDoctor()}>
                 <ButtonTitle>Entrar como Doutor ( Teste )</ButtonTitle>
-            </Button>
+            </Button> */}
 
             <ButtonGoogle>
                 <AntDesign name="google" size={20} color="#496BBA" />

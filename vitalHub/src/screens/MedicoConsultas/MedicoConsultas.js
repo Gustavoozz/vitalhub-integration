@@ -1,24 +1,15 @@
-import { View } from "react-native"
-import { CardTest, Container, DoctorContainer, HeaderHome, InfoContainer } from "../../components/Container/Style"
-import { NotificationBell, UserDoctor } from "../../components/Logo/Style"
-
-import { MontSerratWhite, UserText } from "../../components/Text/Text"
-import { ButtonTitle, Title } from "../../components/Title/Style"
-import CalendarStrip from 'react-native-calendar-strip'
-
-import { SelectButton, WhiteSelectButton } from "../../components/Button/Style"
+import { Container, DoctorContainer } from "../../components/Container/Style"
 import { CardPaciente } from "../../components/CardPaciente/CardPaciente"
 import { CalendarHome } from "../../components/CalendarList/CalendarHome"
 
 import { ContainerButton } from "./Style"
 import { BtnListAppointment } from "../../components/BtnListAppointment/BtnListAppointment"
 import { useState } from "react"
+
 import { ListComponent } from "../../components/List/List"
 import { CancelationModal } from "../../components/CancelationModal/CancelationModal"
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal"
-import { Octicons } from "@expo/vector-icons"
 
-import { userDecodeToken } from "../../utils/Auth";
 import { Header } from "../../components/Header/Header"
 
 const Consultas = [

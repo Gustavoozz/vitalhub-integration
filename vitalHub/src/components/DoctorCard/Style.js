@@ -21,16 +21,16 @@ export const ViewColumn = styled.View`
 export const ProfileName = styled(Title)`
   align-self: flex-start;
   font-size: 16px;
-  margin-top: 14px;
+  margin-top: 35px;
 `
 export const SimpleText = styled.Text`
-  font-size: 16px;
+  font-size: 14px;
   color: #8C8A97;
   font-family: 'Quicksand_600SemiBold';
 `
 export const ProfileDataCard= styled(ViewColumn)`
   gap: 0px;
-  margin-left: 10px;
+  margin-left: 0px;
 `
 export const ProfileImage = styled.Image`
   width: 77px;

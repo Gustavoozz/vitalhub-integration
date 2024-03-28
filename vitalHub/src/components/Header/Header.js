@@ -24,9 +24,9 @@ export const Header = ({}) => {
   return (
     <ContainerHeader>
       <BoxUser>
-        <ImageUser source={{ uri: "https://github.com/HookCreeping.png" }} />
+        <ImageUser source={{ uri: "https://jpimg.com.br/uploads/2017/06/761742473-cristiano-ronaldo-cortou-o-cabelo-apos-conquista-da-champions.jpg" }} />
         <DataUser>
-          <TextDefault>Bem vindo !</TextDefault>
+          <TextDefault>Bem vindo!</TextDefault>
           <NameUser>{nome}</NameUser>
         </DataUser>
       </BoxUser>

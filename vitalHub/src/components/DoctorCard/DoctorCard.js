@@ -5,7 +5,7 @@ const DoctorCard = ({selected = true, medico}) => {
   return (
     <InformationContainer>
         <MedicalCards selected={selected}>
-      <DoctorPicture source={require("../../assets/UserDoctor.png")} />
+      <DoctorPicture source={{ uri: 'https://miro.medium.com/v2/resize:fit:1200/1*U0SNnaTek7UmowyrDpjSaQ.jpeg'}} />
 
       <ProfileDataCard>
         <ProfileName>{medico.idNavigation.nome}</ProfileName>

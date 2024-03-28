@@ -3,6 +3,7 @@ import { ClinicCards, LocationClinic, Rating,
     ViewColumn, ViewRow  } from './Style'
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 // import { faCalendar } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesome } from '@expo/vector-icons';
 
 
 const ClinicCard = ({ clinica }) => {
@@ -17,9 +18,10 @@ return (
 <ViewColumn alignItems='flex-end'>
 
   <TimeView>
-    {/* <FontAwesomeIcon icon={faCalendar} size={14} color='#49B3BA'/> */}
+  <FontAwesome name="calendar" size={16} color="#49B3BA" />
+  
 
-    <TimeText>19:00</TimeText>
+    <TimeText>Seg-Sex</TimeText>
   </TimeView>
 
 </ViewColumn>
