@@ -1,27 +1,35 @@
+//import das fonts
+import {
+  useFonts,
+  MontserratAlternates_600SemiBold,
+  MontserratAlternates_500Medium,
+  MontserratAlternates_700Bold,
+} from "@expo-google-fonts/montserrat-alternates";
 
-import AppLoading from 'expo-app-loading';
+import {
+  Quicksand_500Medium,
+  Quicksand_400Regular,
+  Quicksand_600SemiBold,
+} from "@expo-google-fonts/quicksand";
 
-import { useFonts, MontserratAlternates_700Bold, MontserratAlternates_500Medium, MontserratAlternates_600SemiBold } from '@expo-google-fonts/montserrat-alternates';
-import { Quicksand_500Medium, Quicksand_600SemiBold, Quicksand_400Regular } from '@expo-google-fonts/quicksand';
-import { Route } from './src/routes/Routes';
+// import das routes
+import { Route } from "./src/routes/Routes";
 
 export default function App() {
-
-  let [fontsLoaded] = useFonts({
-    MontserratAlternates_700Bold,
-    MontserratAlternates_500Medium,
+  const [fontsLoaded, fontsError] = useFonts({
     MontserratAlternates_600SemiBold,
+    MontserratAlternates_500Medium,
+    MontserratAlternates_700Bold,
     Quicksand_500Medium,
+    Quicksand_400Regular,
     Quicksand_600SemiBold,
-    Quicksand_400Regular
   });
 
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else {
-    return (
-      <Route />
-    );
+  if (!fontsLoaded && !fontsError) {
+    return null;
   }
+
+  return (
+    <Route />
+  );
 }

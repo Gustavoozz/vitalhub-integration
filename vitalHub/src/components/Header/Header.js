@@ -2,17 +2,12 @@ import { useEffect, useState } from "react";
 import { userDecodeToken } from "../../utils/Auth";
 import { BoxUser, DataUser, ImageUser, NameUser, TextDefault, ContainerHeader } from "./Style";
 import { MaterialIcons } from "@expo/vector-icons";
-import { jwtDecode } from "jwt-decode";
 
 export const Header = ({}) => {
   const [nome,setNome] = useState();
 
   async function profileLoad() {
     const token = await userDecodeToken();
-
-    if (token) {
-      console.log(token);
-    }
 
     setNome(token.name);
   }

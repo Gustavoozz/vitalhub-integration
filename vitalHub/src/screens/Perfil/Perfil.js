@@ -9,16 +9,15 @@ import { Button, ButtonUser } from "../../components/Button/Style"
 import { userDecodeToken, userLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
 
+// API importada
+import api from "../../services/Service"
+
 export const Perfil = ({ navigation }) => {
     const [nome, setNome] = useState();
     const [email, setEmail] = useState();
 
     async function profileLoad() {
         const token = await userDecodeToken();
-
-        if (token) {
-            console.log(token);
-        }
 
         setNome(token.name);
 
@@ -80,11 +79,11 @@ export const Perfil = ({ navigation }) => {
                 <ButtonTitle>Salvar</ButtonTitle>
             </Button>
 
-            <Button onPress={() => navigation.navigate("Login")}>
+            <Button onPress={() => {}}>
                 <ButtonTitle>Editar</ButtonTitle>
             </Button>
 
-            <ButtonUser onPress={() => userLogout() && navigation.navigate("Login")}>
+            <ButtonUser onPress={() => userLogout() && navigation.replace("Login")}>
                 <ButtonTitle>Logout</ButtonTitle>
             </ButtonUser>
         </ContainerUser>

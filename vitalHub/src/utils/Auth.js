@@ -11,24 +11,25 @@ if (!global.btoa) {
 }
 
 export const userDecodeToken = async () => {
-    const token = await AsyncStorage.getItem("token")
+    // obtendo o token da async storage
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 
+    // se não existir token, retorne nulo
     if (token === null) {
         return null;
     }
 
-    // Decodifica o token recebido: 
+    // se existir, decoda o token
     const decoded = jwtDecode(token);
 
+    // retorno
     return {
-        name: decoded.name,
-        role: decoded.role,
-        email: decoded.email,
+        name: decoded.name, // nome
+        email: decoded.email,// email
+        role: decoded.role, // tipo do usuário
     }
 }
 
 export const userLogout = async () => {
-    const token = await AsyncStorage.removeItem("token")
-
-    console.log(token);
+    await AsyncStorage.removeItem("token")
 }
