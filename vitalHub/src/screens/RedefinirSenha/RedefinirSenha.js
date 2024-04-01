@@ -10,8 +10,12 @@ import { Feather } from "@expo/vector-icons";
 export const RedefinirSenha = ({ navigation }) => {
     return (
         <Container>
-            <Feather style={{ position: 'absolute', left: 20, top: 30 }} name="x-circle" size={30} color="#34898F" onPress={() => navigation.navigate("Login")} />
-            
+            <Feather
+                style={{ position: 'absolute', left: 20, top: 30 }}
+                name="x-circle" size={30} color="#34898F"
+                onPress={() => navigation.replace("Login")}
+            />
+
             <Logo source={require('../../assets/VitalHub_Logo.png')} />
 
             <Title>Redefinir Senha</Title>
@@ -22,7 +26,7 @@ export const RedefinirSenha = ({ navigation }) => {
 
             <Input placeholder="Confirmar nova senha" />
 
-            <Button>
+            <Button onPress={() => navigation.replace("Login")}>
                 <ButtonTitle>Confirmar nova senha</ButtonTitle>
             </Button>
         </Container>

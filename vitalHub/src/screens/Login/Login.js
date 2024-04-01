@@ -1,4 +1,3 @@
-// componentes
 import { Button, ButtonGoogle } from "../../components/Button/Style";
 import { Container } from "../../components/Container/Style";
 import { Input, InputError } from "../../components/Input/Style";
@@ -8,7 +7,6 @@ import { ButtonTitle, ButtonTitleGoogle, Title } from "../../components/Title/St
 import { ContentAccount } from "../../components/ContentAccount/Style";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
-// ferramentas
 import { useState } from "react";
 import { userDecodeToken } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,18 +14,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // API importada
 import api from "../../services/Service";
 
-// CONSTANTE PRINCIPAL
+
+
 export const Login = ({ navigation }) => {
     // STATES
-    const [email, setEmail] = useState("medico@medico.com"); // email
-    const [senha, setSenha] = useState("medico"); // senha
+    const [email, setEmail] = useState(""); // email
+    const [senha, setSenha] = useState(""); // senha
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
     const [paginaErro, setPaginaErro] = useState(false); // muda a cor do input caso haja erros
 
     // FUNCTIONS
     const TrocarVisibilidadeSenha = () => {
         setMostrarSenha(!mostrarSenha);
-    };
+    }; // troca a visibilidade da senha
 
     async function Login() {
         await api.post('/Login', {
@@ -53,16 +52,19 @@ export const Login = ({ navigation }) => {
 
             console.log(error);
         });
-    }
+    } // loga o usuário
 
-    // retorno geral
+
+
     return (
         <Container>
             <Logo source={require('../../assets/VitalHub_Logo.png')} />
 
             <Title>Entrar ou criar conta</Title>
 
+            {/* há erro no usuário ou senha? */}
             {paginaErro ?
+            // sim: faz com que os inputs fiquem vermelhos e dá um alerta
                 <>
                     <InputError
                         placeholder="Usuário ou E-mail"
@@ -98,6 +100,7 @@ export const Login = ({ navigation }) => {
                     >Usuário ou senha incorretos</TextAccount>
                 </>
                 :
+                // não: faz com que o usuário acesse o app normalmente
                 <>
                     <Input
                         placeholder="Usuário ou E-mail"

@@ -16,6 +16,14 @@ export const ImageUser = styled.Image`
 
 export const DataUser = styled.View``;
 
+export const DataUser2 = styled.View`
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+`;
+
+
 export const TextDefault = styled.Text`
   font-size: 14px;
   font-family: "Quicksand_500Medium";

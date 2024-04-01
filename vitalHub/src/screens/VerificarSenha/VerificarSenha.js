@@ -13,7 +13,12 @@ export const VerificarSenha = ({ navigation }) => {
     return (
 
         <Container>
-            <Feather style={{ position: 'absolute', left: 20, top: 30 }} name="x-circle" size={30} color="#34898F" onPress={() => navigation.navigate("Login")} />
+            <Feather
+                style={{ position: 'absolute', left: 20, top: 30 }}
+                name="x-circle" size={30} color="#34898F"
+                onPress={() => navigation.replace("Login")}
+            />
+            
             <Logo
                 source={require('../../assets/VitalHub_Logo.png')}
             />
@@ -23,30 +28,18 @@ export const VerificarSenha = ({ navigation }) => {
             <TextQuick>Digite o código de 4 dígitos enviado para <TextReenviar> username@email.com</TextReenviar></TextQuick>
 
             <ContentAccount>
-                <InputVerify style={{ fontFamily: 'Quicksand_600SemiBold', color: '#34898F' }}
-                    placeholder="0"
-                    maxLength={1}
-                />
+                <InputVerify />
 
-                <InputVerify style={{ fontFamily: 'Quicksand_600SemiBold', color: '#34898F' }}
-                    placeholder="0"
-                    maxLength={1}
-                />
+                <InputVerify />
 
-                <InputVerify style={{ fontFamily: 'Quicksand_600SemiBold', color: '#34898F' }}
-                    placeholder="0"
-                    maxLength={1}
-                />
+                <InputVerify />
 
-                <InputVerify style={{ fontFamily: 'Quicksand_600SemiBold', color: '#34898F' }}
-                    placeholder="0"
-                    maxLength={1}
-                />
+                <InputVerify />
             </ContentAccount>
 
 
-            <Button>
-                <ButtonTitle onPress={() => navigation.replace("RedefinirSenha")}>Entrar</ButtonTitle>
+            <Button onPress={() => navigation.replace("RedefinirSenha")}>
+                <ButtonTitle>Entrar</ButtonTitle>
             </Button>
 
             <TextReenviar>Reenviar Código</TextReenviar>

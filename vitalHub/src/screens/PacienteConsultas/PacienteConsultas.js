@@ -12,6 +12,7 @@ import { NotificationModal } from "../../components/NotificationModal/Notificati
 import { CancelationModal } from "../../components/CancelationModal/CancelationModal"
 import { ButtonPatient } from "../../components/ButtonPatient/ButtonPatient"
 import { Fontisto, Octicons } from "@expo/vector-icons"
+import { Header } from "../../components/Header/Header"
 
 
 const Consultas = [
@@ -30,18 +31,7 @@ export const PacienteConsultas = ({ navigation }) => {
 
     return (
         <Container>
-            <HeaderHome>
-                <UserDoctor
-                    source={require('../../assets/User.png')}
-                />
-
-                <InfoContainer>
-                    <UserText>Bem-vindo</UserText>
-                    <MontSerratWhite>Richard Kosta </MontSerratWhite>
-                </InfoContainer>
-
-                <Octicons name="bell-fill" size={24} color="white" />
-            </HeaderHome>
+            <Header />
 
             <DoctorContainer>
                 <CalendarHome />

@@ -68,7 +68,7 @@ export const Perfil = ({ navigation }) => {
 
                 <View>
                     <LabelUser>Cidade</LabelUser>
-                    
+
                     <InputCity
                         placeholder="Moema-SP"
                     />
@@ -79,13 +79,13 @@ export const Perfil = ({ navigation }) => {
                 <ButtonTitle>Salvar</ButtonTitle>
             </Button>
 
-            <Button onPress={() => {}}>
+            <Button onPress={() => { }}>
                 <ButtonTitle>Editar</ButtonTitle>
             </Button>
 
             <ButtonUser onPress={() => userLogout() && navigation.replace("Login")}>
-                <ButtonTitle>Logout</ButtonTitle>
-            </ButtonUser>
-        </ContainerUser>
+            <ButtonTitle>Logout</ButtonTitle>
+        </ButtonUser>
+        </ContainerUser >
     )
 }

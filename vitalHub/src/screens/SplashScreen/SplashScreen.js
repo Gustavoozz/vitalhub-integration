@@ -9,7 +9,6 @@ const SplashScreen = () => {
     const opacity = useRef(new Animated.Value(1)).current; // Referência para o valor da animação de opacidade
 
     useEffect(() => {
-
         // Animação para aumentar o tamanho do logo
         const scaleUpAnimation = Animated.timing(logoScale, {
             toValue: 1.3, // Aumentar para 1.5 vezes o tamanho original
@@ -47,6 +46,8 @@ const SplashScreen = () => {
         // Limpe o temporizador se o componente for desmontado antes do tempo limite
         return () => clearTimeout(timer);
     }, [navigation, logoScale, opacity]);
+
+
 
     return (
         <ContainSplash>

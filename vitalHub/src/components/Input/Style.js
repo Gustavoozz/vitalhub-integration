@@ -25,7 +25,10 @@ export const InputError = styled(Input).attrs({
     color: #DB2C15;
 `
 
-export const InputVerify = styled(Input)`
+export const InputVerify = styled(Input).attrs({
+    placeholder: "0", 
+    maxLength: 1
+})`
     width: 20%;
     height: 75px;
     
@@ -34,8 +37,9 @@ export const InputVerify = styled(Input)`
     justify-content: center;
 
     text-align: center;
-
     font-size: 40px;
+    font-family: 'Quicksand_600SemiBold';
+    color: #34898F;
 `
 
 export const InputUser = styled.TextInput.attrs({

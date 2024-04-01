@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { userDecodeToken } from "../../utils/Auth";
-import { BoxUser, DataUser, ImageUser, NameUser, TextDefault, ContainerHeader } from "./Style";
+import { BoxUser, DataUser, ImageUser, NameUser, TextDefault, ContainerHeader, DataUser2 } from "./Style";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome6 } from '@expo/vector-icons';
 
-export const Header = ({}) => {
-  const [nome,setNome] = useState();
+export const Header = ({ }) => {
+  const [nome, setNome] = useState();
+  const [role, setRole] = useState()
 
   async function profileLoad() {
     const token = await userDecodeToken();
 
     setNome(token.name);
+    setRole(token.role);
   }
 
   useEffect(() => {
@@ -26,9 +29,19 @@ export const Header = ({}) => {
         </DataUser>
       </BoxUser>
 
-      {/* material icons */}
-      <MaterialIcons name="notifications" size={25} color="#fbfbfb" />
+      <DataUser2>
+        {role === "Médico" ?
+          <>
+            <FontAwesome6 name="user-doctor" size={20} color="#fbfbfb" />
+          </>
+          :
+          <>
+            <FontAwesome6 name="user-large" size={20} color="#fbfbfb" />
+          </>
+        }
 
+        <MaterialIcons name="notifications" size={25} color="#fbfbfb" />
+      </DataUser2>
     </ContainerHeader>
   );
 };
