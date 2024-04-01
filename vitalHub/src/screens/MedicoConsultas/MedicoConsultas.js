@@ -4,25 +4,29 @@ import { CalendarHome } from "../../components/CalendarList/CalendarHome"
 
 import { ContainerButton } from "./Style"
 import { BtnListAppointment } from "../../components/BtnListAppointment/BtnListAppointment"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { ListComponent } from "../../components/List/List"
 import { CancelationModal } from "../../components/CancelationModal/CancelationModal"
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal"
 
 import { Header } from "../../components/Header/Header"
+import api from "../../services/Service"
 
-const Consultas = [
-    { id: 1, nome: "Gustavo", situacao: "pendente" },
-    { id: 2, nome: "Gustavo", situacao: "realizado" },
-    { id: 3, nome: "Gustavo", situacao: "pendente" },
-    { id: 4, nome: "Gustavo", situacao: "realizado" },
-    { id: 5, nome: "Gustavo", situacao: "pendente" },
+// const Consultas = [
+//     { id: 1, nome: "Gustavo", situacao: "pendente" },
+//     { id: 2, nome: "Gustavo", situacao: "realizado" },
+//     { id: 3, nome: "Gustavo", situacao: "pendente" },
+//     { id: 4, nome: "Gustavo", situacao: "realizado" },
+//     { id: 5, nome: "Gustavo", situacao: "pendente" },
 
-];
+// ];
+
+
 
 export const MedicoConsultas = () => {
 
+    const [consultaLista, setConsultaLista] = useState([]);
 
     // State para o estado da lista ( Cards ).
     const [statusLista, setStatusLista] = useState("pendente");
@@ -31,6 +35,21 @@ export const MedicoConsultas = () => {
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
 
+    async function GetAppointment() {
+        await api.get('/Consultas/ConsultasMedico')
+        .then( response => {
+           setConsultaLista(response.data)
+
+           console.log(profile);
+        }). catch( error => {
+           console.log(error)
+        })
+     }
+
+    useEffect(() => {
+        GetAppointment();
+    })
+         
     return (
         <Container>
             <Header />
@@ -61,11 +80,12 @@ export const MedicoConsultas = () => {
                 </ContainerButton>
 
                 <ListComponent
-                    data={Consultas}
+                    data={consultaLista}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) =>
                         statusLista == item.situacao && (
                             <CardPaciente
+                                paciente={item}
                                 situacao={item.situacao}
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}

@@ -3,16 +3,21 @@ import { ButtonTitle, TitleUser } from "../Title/Style"
 import { Age, CancelButton, CancelTitle, CardContainer, Hour, HourButton, InfoConsulta, InfoPaciente, PatientContainer, PatientPhoto, TitlePatient, Type } from "./Style"
 import { Clock } from "../Logo/Style"
 import { AntDesign } from "@expo/vector-icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { userDecodeToken } from "../../utils/Auth"
+import api from "../../services/Service"
 
 export const CardPaciente = ({ navigation,
     situacao = "pendente",
     onPressCancel,
     onPressAppointment,
-    onPressNotification
+    onPressNotification,
+    paciente
 }) => {
 
-    const [profile, setProfile] = useState("Paciente")
+    // const [profile, setProfile] = useState()
+    // const [nome, setNome] = useState();
+  
 
     return (
         <CardContainer>
@@ -20,11 +25,11 @@ export const CardPaciente = ({ navigation,
                 <PatientPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
 
                 <InfoConsulta>
-                    <TitlePatient>Gustavo Magalhães</TitlePatient>
+                    <TitlePatient>{paciente.idNavigation.nome}</TitlePatient>
 
                     <InfoPaciente>
                         <Age>19 anos</Age>
-                        <Type>Cardiologist</Type>
+                        <Type>{paciente.consulta.descricao}</Type>
                     </InfoPaciente>
 
                     <HourButton situacao={situacao}>

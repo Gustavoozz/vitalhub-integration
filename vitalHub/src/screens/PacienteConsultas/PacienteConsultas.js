@@ -63,6 +63,7 @@ export const PacienteConsultas = ({ navigation }) => {
                     renderItem={({ item }) =>
                         statusLista == item.situacao && (
                             <CardPaciente
+                                medico={item}
                                 navigation={navigation}
                                 situacao={item.situacao}
                                 onPressNotification={() => setShowModalNotification(true)}

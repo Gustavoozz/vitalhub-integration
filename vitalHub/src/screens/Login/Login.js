@@ -6,35 +6,48 @@ import { Logo } from "../../components/Logo/Style";
 import { ButtonTitle, ButtonTitleGoogle, Title } from "../../components/Title/Style";
 import { ContentAccount } from "../../components/ContentAccount/Style";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { userDecodeToken } from "../../utils/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // API importada
 import api from "../../services/Service";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export const Login = ({ navigation }) => {
-    const [email, setEmail] = useState("fernando@paciente.com"); // email
-    const [senha, setSenha] = useState("paciente123"); // senha
+    // STATES
+    const [email, setEmail] = useState(""); // email
+    const [senha, setSenha] = useState(""); // senha
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
-    const [paginaErro, setPaginaErro] = useState(false)
+    const [paginaErro, setPaginaErro] = useState(false); // muda a cor do input caso haja erros
 
+    // FUNCTIONS
     const TrocarVisibilidadeSenha = () => {
         setMostrarSenha(!mostrarSenha);
-    };
+    }; // troca a visibilidade da senha
 
     async function Login() {
         await api.post('/Login', {
             email: email,
-            senha: senha
+            senha: senha,
         }).then(async response => {
             setPaginaErro(false);
 
             await AsyncStorage.setItem("token", JSON.stringify(response.data))
 
-           
-            navigation.navigate("Main")
+            const token = await userDecodeToken()
+
+            if (token.role === "Medico") {
+                navigation.replace("MainDoctor")
+            } 
+            else if (token.role === "Paciente") {
+                navigation.replace("Main")
+            } else {
+                return console.log("Erro");
+                
+            }
             
         }
         ).catch(error => {
@@ -42,13 +55,9 @@ export const Login = ({ navigation }) => {
 
             console.log(error);
         });
-    }
+    } // loga o usuário
 
 
-
-    // async function LoginDoctor() {
-    //     navigation.navigate("MainDoctor");
-    // };
 
     return (
         <Container>
@@ -56,12 +65,15 @@ export const Login = ({ navigation }) => {
 
             <Title>Entrar ou criar conta</Title>
 
+            {/* há erro no usuário ou senha? */}
             {paginaErro ?
+            // sim: faz com que os inputs fiquem vermelhos e dá um alerta
                 <>
                     <InputError
                         placeholder="Usuário ou E-mail"
                         onChangeText={(txt) => setEmail(txt)}
                         value={email}
+                        autoCapitalize={"none"}
                     />
 
                     <InputError
@@ -69,6 +81,7 @@ export const Login = ({ navigation }) => {
                         secureTextEntry={!mostrarSenha}
                         value={senha}
                         onChangeText={(txt) => setSenha(txt)}
+                        autoCapitalize={"none"}
                     />
 
                     <MaterialCommunityIcons
@@ -83,7 +96,7 @@ export const Login = ({ navigation }) => {
                         onPress={TrocarVisibilidadeSenha}
                     />
 
-                    <TextAccount 
+                    <TextAccount
                         style={{
                             color: "#DB2C15",
                             position: 'relative',
@@ -92,6 +105,7 @@ export const Login = ({ navigation }) => {
                     >Usuário ou senha incorretos</TextAccount>
                 </>
                 :
+                // não: faz com que o usuário acesse o app normalmente
                 <>
                     <Input
                         placeholder="Usuário ou E-mail"
@@ -124,10 +138,6 @@ export const Login = ({ navigation }) => {
             <Button onPress={(e) => Login()}>
                 <ButtonTitle>Entrar</ButtonTitle>
             </Button>
-
-            {/* <Button onPress={(e) => LoginDoctor()}>
-                <ButtonTitle>Entrar como Doutor ( Teste )</ButtonTitle>
-            </Button> */}
 
             <ButtonGoogle>
                 <AntDesign name="google" size={20} color="#496BBA" />
