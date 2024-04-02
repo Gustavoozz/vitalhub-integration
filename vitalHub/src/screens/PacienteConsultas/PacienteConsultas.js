@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BtnListAppointment } from "../../components/BtnListAppointment/BtnListAppointment"
 import { CalendarHome } from "../../components/CalendarList/CalendarHome"
 import { AppointmentBox, Container, DoctorContainer, HeaderHome, InfoContainer } from "../../components/Container/Style"
@@ -13,6 +13,7 @@ import { CancelationModal } from "../../components/CancelationModal/CancelationM
 import { ButtonPatient } from "../../components/ButtonPatient/ButtonPatient"
 import { Fontisto, Octicons } from "@expo/vector-icons"
 import { Header } from "../../components/Header/Header"
+import { userDecodeToken } from "../../utils/Auth"
 
 
 
@@ -25,17 +26,61 @@ export const PacienteConsultas = ({ navigation }) => {
 
     const [statusLista, setStatusLista] = useState("pendente");
     const [statusType, setStatusType] = useState("Rotina");
+    const [consultas, setConsultas] = useState([]);
+    const [profile, setProfile] = useState([])
+    const [dataConsulta, setDataConsulta] = useState('');
 
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalSchedule, setShowModalSchedule] = useState(false);
     const [showModalNotification, setShowModalNotification] = useState(false);
+
+    async function profileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+            setProfile(token)
+            setDataConsulta(moment().format('YYYY-MM-DD') )
+        }
+    }
+
+    async function ListarConsultas() {
+        const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes")
+        console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
+
+        await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
+        .then(response => {
+            setConsultas(response.data)
+
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+
+    useEffect(() => {
+        profileLoad();
+    }, [])
+
+
+    useEffect(() => {
+        if( dataConsulta != ''){
+            ListarConsultas();  
+        }
+        
+    }, [dataConsulta])
+         
+
 
     return (
         <Container>
             <Header />
 
             <DoctorContainer>
-                <CalendarHome />
+                <CalendarHome 
+                 setDataConsulta={ setDataConsulta }
+                />
 
                 <ContainerButton style={{ marginBottom: 20 }}>
                     <BtnListAppointment
@@ -58,12 +103,16 @@ export const PacienteConsultas = ({ navigation }) => {
                 </ContainerButton>
 
                 <ListComponent
-                    data={Consultas}
+                    data={consultas}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) =>
-                        statusLista == item.situacao && (
+                        statusLista == item.situacao.situacao && (
                             <CardPaciente
-                                medico={item}
+                                roleUsuario={profile.role}
+                                dataConsulta={item.dataConsulta}
+                                usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
+                                prioridade={item.prioridade.prioridade}
+                          
                                 navigation={navigation}
                                 situacao={item.situacao}
                                 onPressNotification={() => setShowModalNotification(true)}

@@ -12,12 +12,13 @@ export const CardPaciente = ({ navigation,
     onPressCancel,
     onPressAppointment,
     onPressNotification,
-    paciente
+    roleUsuario,
+    dataConsulta,
+    prioridade,
+    usuarioConsulta
 }) => {
 
-    // const [profile, setProfile] = useState()
-    // const [nome, setNome] = useState();
-  
+    const [profile, setProfile] = useState("Paciente")
 
     return (
         <CardContainer>
@@ -25,11 +26,11 @@ export const CardPaciente = ({ navigation,
                 <PatientPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
 
                 <InfoConsulta>
-                    <TitlePatient>{paciente.idNavigation.nome}</TitlePatient>
+                    <TitlePatient>{usuarioConsulta.idNavigation.nome}</TitlePatient>
 
                     <InfoPaciente>
-                        <Age>19 anos</Age>
-                        <Type>{paciente.consulta.descricao}</Type>
+                        <Age>{roleUsuario == "Medico" ? '22 anos' : usuarioConsulta.especialidade }</Age>
+                        <Type>Rotina</Type>
                     </InfoPaciente>
 
                     <HourButton situacao={situacao}>

@@ -12,7 +12,9 @@ import { AppointmentModal } from "../../components/AppointmentModal/AppointmentM
 
 import { Header } from "../../components/Header/Header"
 import api from "../../services/Service"
+import { userDecodeToken } from "../../utils/Auth"
 
+// Mock de cards:
 // const Consultas = [
 //     { id: 1, nome: "Gustavo", situacao: "pendente" },
 //     { id: 2, nome: "Gustavo", situacao: "realizado" },
@@ -23,70 +25,118 @@ import api from "../../services/Service"
 // ];
 
 
-
 export const MedicoConsultas = () => {
-
-    const [consultaLista, setConsultaLista] = useState([]);
+    
+    const [consultas, setConsultas] = useState([]);
+    const [profile, setProfile] = useState([])
+    const [dataConsulta, setDataConsulta] = useState('');
 
     // State para o estado da lista ( Cards ).
-    const [statusLista, setStatusLista] = useState("pendente");
+    const [statusLista, setStatusLista] = useState("Pendente"); 
 
     // State para a exibição de modais.
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
 
-    async function GetAppointment() {
-        await api.get('/Consultas/ConsultasMedico')
-        .then( response => {
-           setConsultaLista(response.data)
+    // async function GetAppointment() {
+    //     await api.get('/Consultas/ConsultasMedico')
+    //     .then( response => {
+    //        setConsultaLista(response.data)
 
-           console.log(profile);
-        }). catch( error => {
-           console.log(error)
+    //        console.log(profile);
+    //     }). catch( error => {
+    //        console.log(error)
+    //     })
+    //  }
+
+    // useEffect(() => {
+    //     GetAppointment();
+    // })
+
+
+    async function profileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+            setProfile(token)
+            setDataConsulta(moment().format('YYYY-MM-DD') )
+        }
+    }
+
+    async function ListarConsultas() {
+        const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes")
+        console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
+
+        await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
+        .then(response => {
+            setConsultas(response.data)
+
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
         })
-     }
+    }
+
 
     useEffect(() => {
-        GetAppointment();
-    })
+        profileLoad();
+    }, [])
+
+
+    useEffect(() => {
+        if( dataConsulta != ''){
+            ListarConsultas();  
+        }
+        
+    }, [dataConsulta])
          
+
+
     return (
         <Container>
             <Header />
 
             <DoctorContainer>
                 {/* Calendar New */}
-                <CalendarHome />
+                <CalendarHome 
+                setDataConsulta={ setDataConsulta }
+                />
 
                 <ContainerButton style={{ marginBottom: 20 }}>
                     <BtnListAppointment
                         textButton={"Agendadas"}
-                        clickButton={statusLista === "pendente"}
-                        onPress={() => setStatusLista("pendente")}
-                    />
+                        clickButton={statusLista === "Pendente"}
+                        onPress={() => setStatusLista("Pendente")}
+                    /> 
 
                     <BtnListAppointment
                         textButton={"Realizadas"}
-                        clickButton={statusLista === "realizado"}
-                        onPress={() => setStatusLista("realizado")}
+                        clickButton={statusLista === "Realizada"}
+                        onPress={() => setStatusLista("Realizada")}
                     />
 
                     <BtnListAppointment
                         textButton={"Canceladas"}
-                        clickButton={statusLista === "cancelado"}
-                        onPress={() => setStatusLista("cancelado")}
+                        clickButton={statusLista === "Cancelada"}
+                        onPress={() => setStatusLista("Cancelada")}
                     />
 
                 </ContainerButton>
 
                 <ListComponent
-                    data={consultaLista}
+                    data={consultas}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) =>
-                        statusLista == item.situacao && (
+                        statusLista == item.situacao.situacao && (
                             <CardPaciente
-                                paciente={item}
+                                roleUsuario={profile.role}
+                                dataConsulta={item.dataConsulta}
+                                usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
+                                prioridade={item.prioridade.prioridade}
+
                                 situacao={item.situacao}
+                               
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}
                             />
@@ -94,6 +144,8 @@ export const MedicoConsultas = () => {
                     }
                     showsVerticalScrollIndicator={false}
                 />
+
+           
 
                 <CancelationModal
                     visible={showModalCancel}
