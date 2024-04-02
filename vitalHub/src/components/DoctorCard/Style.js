@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components/native"
 
 export const DoctorContainer = styled.View`
     width: 90%;
@@ -46,4 +46,15 @@ export const DoctorText = styled.Text`
     font-family: "Quicksand_500Medium";
     font-size: 14px;
     color: #8C8A97;
+`
+
+export const ExtraContainer = styled.ScrollView`
+    flex: 1;
+`
+
+export const ExtraContent = styled.View`
+    width: 100%;
+
+    justify-content: center;
+    align-items: center;
 `

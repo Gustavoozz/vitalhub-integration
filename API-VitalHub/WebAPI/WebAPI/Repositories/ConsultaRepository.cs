@@ -69,7 +69,10 @@ namespace WebAPI.Repositories
 
         public List<Consulta> ListarTodos()
         {
-            return ctx.Consultas.ToList();
+            List<Consulta> listaConsultas = ctx.Consultas
+                .ToList();
+
+            return listaConsultas;
         }
     }
 }

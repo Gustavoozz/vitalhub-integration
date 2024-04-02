@@ -1,12 +1,4 @@
-import { View } from "react-native"
-import { CardTest, Container, DoctorContainer, HeaderHome, InfoContainer } from "../../components/Container/Style"
-import { NotificationBell, UserDoctor } from "../../components/Logo/Style"
-
-import { MontSerratWhite, UserText } from "../../components/Text/Text"
-import { ButtonTitle, Title } from "../../components/Title/Style"
-import CalendarStrip from 'react-native-calendar-strip'
-
-import { SelectButton, WhiteSelectButton } from "../../components/Button/Style"
+import { Container, DoctorContainer, HeaderHome, InfoContainer } from "../../components/Container/Style"
 import { CardPaciente } from "../../components/CardPaciente/CardPaciente"
 import { CalendarHome } from "../../components/CalendarList/CalendarHome"
 
@@ -16,9 +8,7 @@ import { useState } from "react"
 import { ListComponent } from "../../components/List/List"
 import { CancelationModal } from "../../components/CancelationModal/CancelationModal"
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal"
-import { Octicons } from "@expo/vector-icons"
 
-import { userDecodeToken } from "../../utils/Auth";
 import { Header } from "../../components/Header/Header"
 
 const Consultas = [
@@ -27,7 +17,6 @@ const Consultas = [
     { id: 3, nome: "Gustavo", situacao: "pendente" },
     { id: 4, nome: "Gustavo", situacao: "realizado" },
     { id: 5, nome: "Gustavo", situacao: "pendente" },
-
 ];
 
 export const MedicoConsultas = () => {
@@ -48,7 +37,7 @@ export const MedicoConsultas = () => {
                 {/* Calendar New */}
                 <CalendarHome />
 
-                <ContainerButton style={{ marginBottom: 20 }}>
+                <ContainerButton>
                     <BtnListAppointment
                         textButton={"Agendadas"}
                         clickButton={statusLista === "pendente"}

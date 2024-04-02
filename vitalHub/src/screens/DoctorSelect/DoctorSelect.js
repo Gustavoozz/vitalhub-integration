@@ -34,10 +34,8 @@ export const DoctorSelect = ({
       ListarMedicos();
    }, []);
 
-   const [selected, setSelected] = useState(false);
-
    return (
-      <DoctorContainer>
+      <Container>
          <Title style={{ marginTop: 30, marginBottom: 50 }}>Selecionar médico</Title>
          
          <ListComponent
@@ -46,7 +44,6 @@ export const DoctorSelect = ({
             renderItem={({ item }) => (
                // card médico
                <DoctorCard
-                  selected={selected}
                   medico={item}
                />
             )}
@@ -57,7 +54,7 @@ export const DoctorSelect = ({
             <ButtonTitle>Continuar</ButtonTitle>
          </Button>
 
-         <CancelLink style={{ marginBottom: 0 }} onPress={() => navigation.replace("ClinicSelect")}>Cancelar</CancelLink>
-      </DoctorContainer>
+         <CancelLink onPress={() => navigation.replace("ClinicSelect")}>Cancelar</CancelLink>
+      </Container>
    )
 }

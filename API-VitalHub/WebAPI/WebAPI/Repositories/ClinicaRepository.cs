@@ -45,7 +45,8 @@ namespace WebAPI.Repositories
                 {
                     Id = c.Id,
                     NomeFantasia = c.NomeFantasia,
-                    Endereco = c.Endereco
+                    Endereco = c.Endereco,
+                    MedicosClinicas = c.MedicosClinicas
                 })
                 
                .Where(c => c.Endereco!.Cidade == cidade)

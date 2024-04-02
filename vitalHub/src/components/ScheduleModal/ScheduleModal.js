@@ -1,6 +1,6 @@
 import { Modal } from "react-native"
 import { ChooseAppointment, InfoSchedule, ScheduleContent } from "./Style"
-import { ButtonTitle, LabelUser, Title } from "../Title/Style"
+import { ButtonTitle, LabelBox, LabelUser, Title } from "../Title/Style"
 import { Input } from "../Input/Style"
 import { Button } from "../Button/Style"
 import { CancelText } from "../Link/Style"
@@ -13,7 +13,6 @@ export const ScheduleModal = ({
     setShowModalSchedule,
     ...rest
 }) => {
-
     const [statusType, setStatusType] = useState("Rotina")
     const navigation = useNavigation();
 
@@ -24,45 +23,47 @@ export const ScheduleModal = ({
 
                     <Title>Agendar consulta</Title>
 
-                    <LabelUser style={{ marginRight: 30 }}>Informe o nível da consulta:</LabelUser>
-                    <ChooseAppointment>
+                    <LabelBox>
+                        <LabelUser>Informe o nível da consulta:</LabelUser>
 
-                        <BtnAppointmentType style={{ width: '200', borderColor: '#60BFC5' }}
-                            textButton={"Rotina"}
-                            clickButton={statusType === "Rotina"}
-                            onPress={() => setStatusType("Rotina")}
+                        <ChooseAppointment>
+                            <BtnAppointmentType
+                                textButton={"Rotina"}
+                                clickButton={statusType === "Rotina"}
+                                onPress={() => setStatusType("Rotina")}
+                            />
+
+                            <BtnAppointmentType
+                                textButton={"Exame"}
+                                clickButton={statusType === "exame"}
+                                onPress={() => setStatusType("exame")}
+                            />
+
+                            <BtnAppointmentType
+                                textButton={"Urgência"}
+                                clickButton={statusType === "urgencia"}
+                                onPress={() => setStatusType("urgencia")}
+                            />
+                        </ChooseAppointment>
+                    </LabelBox>
+
+
+                    <LabelBox>
+                        <LabelUser style={{ marginRight: 30, marginBottom: 10 }}>Informe a localização desejada:</LabelUser>
+
+                        <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold', width: '100%' }}
+                            placeholder="Informe a localização"
                         />
 
-                        <BtnAppointmentType
-                            textButton={"Exame"}
-                            clickButton={statusType === "exame"}
-                            onPress={() => setStatusType("exame")}
-                        />
-
-                        <BtnAppointmentType
-                            textButton={"Urgência"}
-                            clickButton={statusType === "urgencia"}
-                            onPress={() => setStatusType("urgencia")}
-                        />
-
-                    </ChooseAppointment>
-
-
-                    <LabelUser style={{ marginRight: 30, marginBottom: 10 }}>Informe a localização desejada:</LabelUser>
-                    <Input style={{ fontFamily: 'MontserratAlternates_600SemiBold', width: '100%' }}
-                        placeholder="Informe a localização"
-                    />
-
-                    <Button
-                        onPress={() => navigation.replace("ClinicSelect")}
-                        style={{ width: '100%' }}
-                    >
-                        <ButtonTitle>Confirmar</ButtonTitle>
-                    </Button>
+                        <Button
+                            onPress={() => navigation.replace("ClinicSelect")}
+                            style={{ width: '100%' }}
+                        >
+                            <ButtonTitle>Confirmar</ButtonTitle>
+                        </Button>
+                    </LabelBox>
 
                     <CancelText onPress={() => setShowModalSchedule(false)}>Cancelar</CancelText>
-
-
                 </InfoSchedule>
             </ScheduleContent>
         </Modal>

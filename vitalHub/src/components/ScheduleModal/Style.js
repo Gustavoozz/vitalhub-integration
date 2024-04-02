@@ -19,8 +19,6 @@ export const InfoSchedule = styled.View`
 export const ChooseAppointment = styled.View`
     flex-direction: row;
     width: 100%;
-    justify-content: center;
-    gap: 20px;
-
+    justify-content: space-between;
 `
 

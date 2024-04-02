@@ -2,6 +2,7 @@ import { styled, css } from "styled-components/native";
 
 export const Input = styled.TextInput.attrs({
     placeholderTextColor: "#34898F",
+    autoCapitalize: "none"
 })`
     width: 90%;
     height: 60px;

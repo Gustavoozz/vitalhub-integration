@@ -45,7 +45,7 @@ export const CancelationModal = ({
                     <Title>Cancelar consulta</Title>
                     <ModalText>Ao cancelar essa consulta, abrirá uma possível disponibilidade no seu horário, deseja mesmo cancelar essa consulta?</ModalText>
 
-                    <ModalButton onPress={HandleCallNotifications}>
+                    <ModalButton onPress={() => HandleCallNotifications()}>
                         <ButtonTitle>Confirmar</ButtonTitle>
                     </ModalButton>
 
