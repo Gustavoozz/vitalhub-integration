@@ -13,35 +13,27 @@ namespace WebAPI.Repositories
 
         public Paciente AtualizarPerfil(Guid Id, PacienteViewModel paciente)
         {
-            //foto
-            //data nascimento
-            //cpf
-            //endereco logradouro numero cep
-
-            Paciente pacienteBuscado = ctx.Pacientes.FirstOrDefault(x => x.Id == Id)!;
-
-            if (paciente.Foto != null)
-                pacienteBuscado!.IdNavigation.Foto = paciente.Foto;
+            Paciente pacienteBuscado = ctx.Pacientes.FirstOrDefault(x => x.Id == Id);
 
             if (paciente.DataNascimento != null)
-                pacienteBuscado!.DataNascimento = paciente.DataNascimento;
+                pacienteBuscado.DataNascimento = paciente.DataNascimento;
 
-            if (paciente.Cpf != null)
-                pacienteBuscado!.Cpf = paciente.Cpf;
-
-            if (paciente.Logradouro != null)
-                pacienteBuscado!.Endereco!.Logradouro = paciente.Logradouro;
-
-            if (paciente.Numero != null)
-                pacienteBuscado!.Endereco!.Numero = paciente.Numero;
+            if (paciente.Senha != null)
+                pacienteBuscado.IdNavigation.Senha = paciente.Senha;
 
             if (paciente.Cep != null)
-                pacienteBuscado!.Endereco!.Cep = paciente.Cep;
+                pacienteBuscado.Endereco.Cep = paciente.Cep;
 
-            ctx.Pacientes.Update(pacienteBuscado!);
+            if (paciente.Logradouro != null)
+                pacienteBuscado.Endereco.Logradouro = paciente.Logradouro;
+
+            if (paciente.Numero != null)
+                pacienteBuscado.Endereco.Numero = paciente.Numero;
+
+            ctx.Pacientes.Update(pacienteBuscado);
             ctx.SaveChanges();
 
-            return pacienteBuscado!;
+            return pacienteBuscado;
         }
 
         public List<Consulta> BuscarAgendadas(Guid Id)
@@ -54,22 +46,9 @@ namespace WebAPI.Repositories
             return ctx.Consultas.Include(x => x.Situacao).Where(x => x.PacienteId == Id && x.Situacao.Situacao == "Cancelada").ToList();
         }
 
-        public List<Consulta> BuscarPorData(DateTime dataConsulta, Guid idPaciente)
-        {
-           return ctx.Consultas
-                .Include(x => x.Situacao)
-                .Include(x => x.Prioridade)
-                .Include(x => x.MedicoClinica!.Medico!.IdNavigation)
-                .Where(x  => x.PacienteId == idPaciente && EF.Functions.DateDiffDay(x.DataConsulta, dataConsulta) == 0)
-                .ToList();
-        }
-
         public Paciente BuscarPorId(Guid Id)
         {
-            return ctx.Pacientes
-                .Include(x => x.IdNavigation)
-                .Include(x => x.Endereco)
-                .FirstOrDefault(x => x.Id == Id)!;
+            return ctx.Pacientes.FirstOrDefault(x => x.Id == Id);
         }
 
         public List<Consulta> BuscarRealizadas(Guid Id)
