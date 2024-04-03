@@ -13,6 +13,7 @@ namespace WebAPI.Repositories
 
         public Paciente AtualizarPerfil(Guid Id, PacienteViewModel paciente)
         {
+<<<<<<< HEAD
             //foto
             //data nascimento
             //cpf
@@ -42,6 +43,29 @@ namespace WebAPI.Repositories
             ctx.SaveChanges();
 
             return pacienteBuscado!;
+=======
+            Paciente pacienteBuscado = ctx.Pacientes.FirstOrDefault(x => x.Id == Id);
+
+            if (paciente.DataNascimento != null)
+                pacienteBuscado.DataNascimento = paciente.DataNascimento;
+
+            if (paciente.Senha != null)
+                pacienteBuscado.IdNavigation.Senha = paciente.Senha;
+
+            if (paciente.Cep != null)
+                pacienteBuscado.Endereco.Cep = paciente.Cep;
+
+            if (paciente.Logradouro != null)
+                pacienteBuscado.Endereco.Logradouro = paciente.Logradouro;
+
+            if (paciente.Numero != null)
+                pacienteBuscado.Endereco.Numero = paciente.Numero;
+
+            ctx.Pacientes.Update(pacienteBuscado);
+            ctx.SaveChanges();
+
+            return pacienteBuscado;
+>>>>>>> gustavo
         }
 
         public List<Consulta> BuscarAgendadas(Guid Id)
@@ -54,6 +78,7 @@ namespace WebAPI.Repositories
             return ctx.Consultas.Include(x => x.Situacao).Where(x => x.PacienteId == Id && x.Situacao.Situacao == "Cancelada").ToList();
         }
 
+<<<<<<< HEAD
         public List<Consulta> BuscarPorData(DateTime dataConsulta, Guid idPaciente)
         {
            return ctx.Consultas
@@ -62,6 +87,8 @@ namespace WebAPI.Repositories
                 .ToList();
         }
 
+=======
+>>>>>>> gustavo
         public Paciente BuscarPorId(Guid Id)
         {
             return ctx.Pacientes.FirstOrDefault(x => x.Id == Id);

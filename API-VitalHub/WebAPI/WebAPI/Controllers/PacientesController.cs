@@ -55,11 +55,21 @@ namespace WebAPI.Controllers
             return Ok(pacienteRepository.BuscarPorId(idUsuario));
         }
 
+<<<<<<< HEAD
         //[Authorize]
         [HttpGet("BuscarPorId")]
         public IActionResult BuscarPorId(Guid id)
         {
             return Ok(pacienteRepository.BuscarPorId(id));
+=======
+        [Authorize]
+        [HttpGet("BuscarPorID")]
+        public IActionResult BuscarPorID(Usuario user)
+        {
+            Guid idUsuario = user.Id;
+
+            return Ok(pacienteRepository.BuscarPorId(idUsuario));
+>>>>>>> gustavo
         }
 
         [HttpPost]
@@ -84,17 +94,23 @@ namespace WebAPI.Controllers
             user.Paciente.Endereco.Logradouro = pacienteModel.Logradouro;
             user.Paciente.Endereco.Numero = pacienteModel.Numero;
             user.Paciente.Endereco.Cep = pacienteModel.Cep;
+<<<<<<< HEAD
             user.Paciente.Endereco.Cidade = pacienteModel.Cidade;
+=======
+>>>>>>> gustavo
 
             pacienteRepository.Cadastrar(user);
 
             return Ok();
         }
+<<<<<<< HEAD
 
         [HttpGet("BuscarPorData")]
         public IActionResult BuscarPorData(DateTime data, Guid id)
         {
             return Ok(pacienteRepository.BuscarPorData(data,id));
         }
+=======
+>>>>>>> gustavo
     }
 }

@@ -25,11 +25,34 @@ namespace WebAPI.Controllers
             return Ok(_medicoRepository.ListarTodos());
         }
 
+<<<<<<< HEAD
         [HttpGet("BuscarPorId")]
         public IActionResult GetById(Guid id)
         {
            
             return Ok(_medicoRepository.BuscarPorId(id)); ;
+=======
+        [HttpPost]
+        public IActionResult Post(MedicoViewModel medicoModel)
+        {
+            Usuario user = new Usuario();
+
+            user.Nome = medicoModel.Nome;
+            user.Email = medicoModel.Email;
+            user.TipoUsuarioId = medicoModel.IdTipoUsuario;
+            user.Foto = medicoModel.Foto;
+            user.Senha = medicoModel.Senha;
+
+            user.Medico = new Medico();
+
+            user.Medico.EspecialidadeId = medicoModel.EspecialidadeId;
+
+            user.Medico.Crm = medicoModel.Crm;
+
+            _medicoRepository.Cadastrar(user);
+
+            return Ok();
+>>>>>>> gustavo
         }
 
         [Authorize]
@@ -41,6 +64,7 @@ namespace WebAPI.Controllers
             return Ok(_medicoRepository.AtualizarPerfil(idUsuario, medico));
         }
 
+<<<<<<< HEAD
         [HttpPost]
         public IActionResult Post(MedicoViewModel medicoModel)
         {
@@ -74,3 +98,10 @@ namespace WebAPI.Controllers
         }
     }
 }
+=======
+       
+
+
+    }
+}
+>>>>>>> gustavo

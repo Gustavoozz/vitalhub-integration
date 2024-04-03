@@ -11,7 +11,10 @@ namespace WebAPI.Repositories
     {
 
         public VitalContext ctx = new VitalContext();
+<<<<<<< HEAD
 
+=======
+>>>>>>> gustavo
         public Consulta BuscarPorId(Guid id)
         {
             return ctx.Consultas.Find(id);

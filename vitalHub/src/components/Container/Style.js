@@ -15,6 +15,7 @@ export const ContainerUser = styled.ScrollView`
 export const InformationContent = styled.View`
     align-items: center;
     justify-content: center;
+    left: 40px;
     position: relative;
     bottom: 70px;
    
@@ -37,7 +38,6 @@ export const ContentProntuario = styled.View`
 
 export const PhotoContainer = styled.View`
     width: 100%;
-    align-items: center;
     height: 330px;
 `
 

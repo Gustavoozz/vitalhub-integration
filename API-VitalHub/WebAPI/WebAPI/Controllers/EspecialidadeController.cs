@@ -18,13 +18,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+<<<<<<< HEAD
         public IActionResult Get() 
+=======
+        public ActionResult Get() 
+>>>>>>> gustavo
         {
             return Ok(_repository.Listar());
         }
 
         [HttpPost] 
+<<<<<<< HEAD
         public IActionResult Post(Especialidade especialidade)
+=======
+        public ActionResult Post(Especialidade especialidade)
+>>>>>>> gustavo
         {
             _repository.Cadastrar(especialidade);
             

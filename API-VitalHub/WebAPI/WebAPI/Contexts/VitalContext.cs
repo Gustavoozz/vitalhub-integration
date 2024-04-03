@@ -36,7 +36,11 @@ public partial class VitalContext : DbContext
 
     public virtual DbSet<Receita> Receitas { get; set; }
 
+<<<<<<< HEAD
     public virtual DbSet<SituacaoConsulta> Situacoes { get; set; }
+=======
+    public virtual DbSet<Situaco> Situacoes { get; set; }
+>>>>>>> gustavo
 
     public virtual DbSet<TiposUsuario> TiposUsuarios { get; set; }
 
@@ -44,7 +48,11 @@ public partial class VitalContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+<<<<<<< HEAD
         => optionsBuilder.UseSqlServer("Data Source=NOTE05-SALA19; initial catalog=VitalHub_G8Tarde; user Id=sa; pwd=Senai@134; TrustServerCertificate=true;");
+=======
+        => optionsBuilder.UseSqlServer("Data Source=NOTE05-SALA19; initial catalog=VitalHub_G8_Tarde; user Id=sa; pwd=Senai@134; TrustServerCertificate=true");
+>>>>>>> gustavo
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,17 +68,25 @@ public partial class VitalContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(225)
                 .IsUnicode(false);
+<<<<<<< HEAD
             entity.Property(e => e.EnderecoId).HasColumnName("EnderecoID");
+=======
+            entity.Property(e => e.Latitude).HasColumnType("decimal(8, 6)");
+            entity.Property(e => e.Longitude).HasColumnType("decimal(9, 6)");
+>>>>>>> gustavo
             entity.Property(e => e.NomeFantasia)
                 .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.RazaoSocial)
                 .HasMaxLength(150)
                 .IsUnicode(false);
+<<<<<<< HEAD
 
             entity.HasOne(d => d.Endereco).WithMany(p => p.Clinicas)
                 .HasForeignKey(d => d.EnderecoId)
                 .HasConstraintName("FK_Clinicas_Enderecos");
+=======
+>>>>>>> gustavo
         });
 
         modelBuilder.Entity<Consulta>(entity =>
@@ -117,6 +133,7 @@ public partial class VitalContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("CEP");
+<<<<<<< HEAD
             entity.Property(e => e.Cidade)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -125,6 +142,11 @@ public partial class VitalContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Longitude).HasColumnType("decimal(9, 6)");
+=======
+            entity.Property(e => e.Logradouro)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+>>>>>>> gustavo
         });
 
         modelBuilder.Entity<Especialidade>(entity =>
@@ -163,6 +185,7 @@ public partial class VitalContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("CRM");
+<<<<<<< HEAD
             entity.Property(e => e.EnderecoId).HasColumnName("EnderecoID");
             entity.Property(e => e.EspecialidadeId).HasColumnName("EspecialidadeID");
 
@@ -170,6 +193,10 @@ public partial class VitalContext : DbContext
                 .HasForeignKey(d => d.EnderecoId)
                 .HasConstraintName("FK_Medicos_Enderecos");
 
+=======
+            entity.Property(e => e.EspecialidadeId).HasColumnName("EspecialidadeID");
+
+>>>>>>> gustavo
             entity.HasOne(d => d.Especialidade).WithMany(p => p.Medicos)
                 .HasForeignKey(d => d.EspecialidadeId)
                 .HasConstraintName("FK_Medicos_Especialidades");
@@ -247,7 +274,11 @@ public partial class VitalContext : DbContext
             entity.Property(e => e.Observacoes).HasColumnType("text");
         });
 
+<<<<<<< HEAD
         modelBuilder.Entity<SituacaoConsulta>(entity =>
+=======
+        modelBuilder.Entity<Situaco>(entity =>
+>>>>>>> gustavo
         {
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
@@ -265,8 +296,13 @@ public partial class VitalContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("ID");
             entity.Property(e => e.TipoUsuario)
+<<<<<<< HEAD
                 .HasMaxLength(50)
                 .IsUnicode(false);
+=======
+                .HasMaxLength(10)
+                .IsFixedLength();
+>>>>>>> gustavo
         });
 
         modelBuilder.Entity<Usuario>(entity =>

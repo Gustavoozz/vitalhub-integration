@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+<<<<<<< HEAD
 using System.Linq;
+=======
+>>>>>>> gustavo
 using WebAPI.Contexts;
 using WebAPI.Domains;
 using WebAPI.Interfaces;
@@ -15,6 +18,7 @@ namespace WebAPI.Repositories
 
         public Medico AtualizarPerfil(Guid Id, MedicoViewModel medico)
         {
+<<<<<<< HEAD
 
             Medico medicoBuscado = ctx.Medicos.FirstOrDefault(x => x.Id == Id)!;
 
@@ -26,10 +30,16 @@ namespace WebAPI.Repositories
 
             if (medico.EspecialidadeId != null)
                 medicoBuscado.EspecialidadeId = medico.EspecialidadeId;
+=======
+            Medico medicoBuscado = ctx.Medicos.FirstOrDefault(x => x.Id == Id);
+
+            if (medicoBuscado == null) return null;
+>>>>>>> gustavo
 
             if (medico.Crm != null)
                 medicoBuscado.Crm = medico.Crm;
 
+<<<<<<< HEAD
             if (medico.Logradouro != null)
                 medicoBuscado.Endereco!.Logradouro = medico.Logradouro;
 
@@ -38,6 +48,16 @@ namespace WebAPI.Repositories
 
             if (medico.Cep != null)
                 medicoBuscado.Endereco!.Cep = medico.Cep;
+=======
+            if (medico.EspecialidadeId != null)
+                medicoBuscado.EspecialidadeId = medico.EspecialidadeId;
+
+            if (medico.Senha != null)
+                medicoBuscado.IdNavigation.Senha = medico.Senha;
+
+            if (medico.Foto != null)
+                medicoBuscado.IdNavigation.Foto = medico.Foto;
+>>>>>>> gustavo
 
             ctx.Medicos.Update(medicoBuscado);
             ctx.SaveChanges();
@@ -48,6 +68,7 @@ namespace WebAPI.Repositories
 
         public Medico BuscarPorId(Guid Id)
         {
+<<<<<<< HEAD
             //fazer logica para trazer medico e dados de seu usuario
             Medico medicoBuscado = ctx.Medicos.
                 Include(m => m.IdNavigation).
@@ -55,10 +76,14 @@ namespace WebAPI.Repositories
 
             return medicoBuscado;
 
+=======
+            return ctx.Medicos.FirstOrDefault(x => x.Id == Id);
+>>>>>>> gustavo
         }
 
         public List<Medico> ListarTodos()
         {
+<<<<<<< HEAD
             return ctx.Medicos.
                 Include(m => m.IdNavigation)
                 .Select(m => new Medico
@@ -108,5 +133,16 @@ namespace WebAPI.Repositories
 
             return medicos;
         }
+=======
+            return ctx.Medicos.ToList();
+        }
+
+        public void Cadastrar(Usuario medico)
+        {
+            medico.Senha = Criptografia.GerarHash(medico.Senha!);
+            ctx.Usuarios.Add(medico);
+            ctx.SaveChanges();
+        }
+>>>>>>> gustavo
     }
 }

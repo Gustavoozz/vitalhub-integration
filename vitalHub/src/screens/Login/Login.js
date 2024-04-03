@@ -6,7 +6,15 @@ import { Logo } from "../../components/Logo/Style";
 import { ButtonTitle, ButtonTitleGoogle, Title } from "../../components/Title/Style";
 import { ContentAccount } from "../../components/ContentAccount/Style";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+
 import { useState } from "react";
+import { userDecodeToken } from "../../utils/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// API importada
+import api from "../../services/Service";
+
+
 
 // API importada
 import api from "../../services/Service";
@@ -14,6 +22,7 @@ import api from "../../services/Service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Login = ({ navigation }) => {
+<<<<<<< HEAD
     const [email, setEmail] = useState(""); // email
     const [senha, setSenha] = useState(""); // senha
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
@@ -22,10 +31,23 @@ export const Login = ({ navigation }) => {
     const TrocarVisibilidadeSenha = () => {
         setMostrarSenha(!mostrarSenha);
     };
+=======
+    // STATES
+    const [email, setEmail] = useState(""); // email
+    const [senha, setSenha] = useState(""); // senha
+    const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
+    const [paginaErro, setPaginaErro] = useState(false); // muda a cor do input caso haja erros
+
+    // FUNCTIONS
+    const TrocarVisibilidadeSenha = () => {
+        setMostrarSenha(!mostrarSenha);
+    }; // troca a visibilidade da senha
+>>>>>>> gustavo
 
     async function Login() {
         await api.post('/Login', {
             email: email,
+<<<<<<< HEAD
             senha: senha
         }).then(async response => {
             setPaginaErro(false);
@@ -47,18 +69,58 @@ export const Login = ({ navigation }) => {
         navigation.navigate("MainDoctor");
     };
 
+=======
+            senha: senha,
+        }).then(async response => {
+            setPaginaErro(false);
+
+            await AsyncStorage.setItem("token", JSON.stringify(response.data))
+
+            const token = await userDecodeToken()
+
+            if (token.role === "Medico") {
+                navigation.replace("MainDoctor")
+            } 
+            else if (token.role === "Paciente") {
+                navigation.replace("Main")
+            } else {
+                return console.log("Erro");
+                
+            }
+            
+        }
+        ).catch(error => {
+            setPaginaErro(true);
+
+            console.log(error);
+        });
+    } // loga o usuário
+
+
+
+>>>>>>> gustavo
     return (
         <Container>
             <Logo source={require('../../assets/VitalHub_Logo.png')} />
 
             <Title>Entrar ou criar conta</Title>
 
+<<<<<<< HEAD
             {paginaErro ?
+=======
+            {/* há erro no usuário ou senha? */}
+            {paginaErro ?
+            // sim: faz com que os inputs fiquem vermelhos e dá um alerta
+>>>>>>> gustavo
                 <>
                     <InputError
                         placeholder="Usuário ou E-mail"
                         onChangeText={(txt) => setEmail(txt)}
                         value={email}
+<<<<<<< HEAD
+=======
+                        autoCapitalize={"none"}
+>>>>>>> gustavo
                     />
 
                     <InputError
@@ -66,6 +128,10 @@ export const Login = ({ navigation }) => {
                         secureTextEntry={!mostrarSenha}
                         value={senha}
                         onChangeText={(txt) => setSenha(txt)}
+<<<<<<< HEAD
+=======
+                        autoCapitalize={"none"}
+>>>>>>> gustavo
                     />
 
                     <MaterialCommunityIcons
@@ -89,6 +155,10 @@ export const Login = ({ navigation }) => {
                     >Usuário ou senha incorretos</TextAccount>
                 </>
                 :
+<<<<<<< HEAD
+=======
+                // não: faz com que o usuário acesse o app normalmente
+>>>>>>> gustavo
                 <>
                     <Input
                         placeholder="Usuário ou E-mail"
@@ -120,10 +190,6 @@ export const Login = ({ navigation }) => {
 
             <Button onPress={(e) => Login()}>
                 <ButtonTitle>Entrar</ButtonTitle>
-            </Button>
-
-            <Button onPress={(e) => LoginDoctor()}>
-                <ButtonTitle>Entrar como Doutor ( Teste )</ButtonTitle>
             </Button>
 
             <ButtonGoogle>

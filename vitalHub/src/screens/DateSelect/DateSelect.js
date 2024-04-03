@@ -1,13 +1,12 @@
 import { useState } from "react"
-import { Button } from "../../components/Button/Style"
 import CalendarComponent from "../../components/CalendarComponent/CalendarComponent"
 import { Container } from "../../components/Container/Style"
 
 import { SelectInput } from "../../components/SelectInput/SelectInput"
 import { ButtonTitle, LabelUser, Title } from "../../components/Title/Style"
-import { CancelLink } from "../ClinicSelect/Style"
 import { SchedulingModal } from "../../components/SchedulingModal/SchedulingModal"
 import { ButtonDate } from "../../components/ButtonDate/ButtonDate"
+import { CancelText } from "../../components/Link/Style"
 
 export const DateSelect = ({ navigation }) => {
 
@@ -26,7 +25,7 @@ export const DateSelect = ({ navigation }) => {
             <ButtonTitle>Confirmar</ButtonTitle>
         </ButtonDate>
 
-        <CancelLink onPress={() => navigation.replace("DoctorSelect")} style={{ marginTop: 40 }}>Cancelar</CancelLink>
+        <CancelText onPress={() => navigation.replace("DoctorSelect")} style={{ marginTop: 40 }}>Cancelar</CancelText>
 
         <SchedulingModal
         visible={showModalScheduling}

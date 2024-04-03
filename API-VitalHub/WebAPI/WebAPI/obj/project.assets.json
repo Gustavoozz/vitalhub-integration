@@ -3347,11 +3347,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\54454818835\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\53844614893\\.nuget\\packages\\": {}
+>>>>>>> gustavo
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\54454818835\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
       "projectName": "WebAPI",
       "projectPath": "C:\\Users\\54454818835\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
@@ -3360,6 +3365,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\54454818835\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "projectName": "WebAPI",
+      "projectPath": "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "packagesPath": "C:\\Users\\53844614893\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\53844614893\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> gustavo
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3379,11 +3394,14 @@
         "warnAsError": [
           "NU1605"
         ]
+<<<<<<< HEAD
       },
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
+=======
+>>>>>>> gustavo
       }
     },
     "frameworks": {
@@ -3436,6 +3454,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+<<<<<<< HEAD
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
@@ -3454,6 +3473,8 @@
             "version": "[7.0.17, 7.0.17]"
           }
         ],
+=======
+>>>>>>> gustavo
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -3462,7 +3483,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+=======
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+>>>>>>> gustavo
       }
     }
   },

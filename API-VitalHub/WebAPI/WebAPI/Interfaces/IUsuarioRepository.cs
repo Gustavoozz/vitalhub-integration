@@ -10,8 +10,12 @@ namespace WebAPI.Interfaces
 
         Usuario BuscarPorEmailESenha(string email, string senha);
 
+<<<<<<< HEAD
         bool AlterarSenha(Guid Id, string senhaAntiga, string senhaNova);
 
    
+=======
+        bool AlterarSenha(Guid Id, string senhaAntiga, string senhaNova);   
+>>>>>>> gustavo
     }
 }
