@@ -14,25 +14,27 @@ import { ButtonPatient } from "../../components/ButtonPatient/ButtonPatient"
 import { Fontisto, Octicons } from "@expo/vector-icons"
 import { Header } from "../../components/Header/Header"
 import { userDecodeToken } from "../../utils/Auth"
+import api from "../../services/Service"
 
 
 
-const Consultas = [
-    { id: 1, nome: "Gustavo", situacao: "pendente" },
-    { id: 2, nome: "Gustavo", situacao: "realizado" },
-]
+// const Consultas = [
+//     { id: 1, nome: "Gustavo", situacao: "pendente" },
+//     { id: 2, nome: "Gustavo", situacao: "realizado" },
+// ]
 
 export const PacienteConsultas = ({ navigation }) => {
 
-    const [statusLista, setStatusLista] = useState("pendente");
-    const [statusType, setStatusType] = useState("Rotina");
+    const [statusLista, setStatusLista] = useState("Pendente");
     const [consultas, setConsultas] = useState([]);
     const [profile, setProfile] = useState([])
-    const [dataConsulta, setDataConsulta] = useState('');
 
+    const [dataConsulta, setDataConsulta] = useState('');
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalSchedule, setShowModalSchedule] = useState(false);
+
     const [showModalNotification, setShowModalNotification] = useState(false);
+    const [consultaSelecionada, setConsultaSelecionada] = useState(null)
 
     async function profileLoad() {
         const token = await userDecodeToken();
@@ -44,8 +46,21 @@ export const PacienteConsultas = ({ navigation }) => {
         }
     }
 
+    function MostrarModal(modal, consulta) {
+        setConsultaSelecionada(consulta)
+
+        if (modal == 'cancelar') {
+            setShowModalCancel(true)
+        } else if (modal == 'prontuario') {
+            setShowModalAppointment(true)
+        } else {
+            setShowModalSchedule(true)
+        }
+    }
+
+
     async function ListarConsultas() {
-        const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes")
+        const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
         console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
 
         await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
@@ -85,20 +100,20 @@ export const PacienteConsultas = ({ navigation }) => {
                 <ContainerButton style={{ marginBottom: 20 }}>
                     <BtnListAppointment
                         textButton={"Agendadas"}
-                        clickButton={statusLista === "pendente"}
-                        onPress={() => setStatusLista("pendente")}
+                        clickButton={statusLista === "Pendente"}
+                        onPress={() => setStatusLista("Pendente")}
                     />
 
                     <BtnListAppointment
                         textButton={"Realizadas"}
-                        clickButton={statusLista === "realizado"}
-                        onPress={() => setStatusLista("realizado")}
+                        clickButton={statusLista === "Realizado"}
+                        onPress={() => setStatusLista("Realizado")}
                     />
 
                     <BtnListAppointment
                         textButton={"Canceladas"}
-                        clickButton={statusLista === "cancelado"}
-                        onPress={() => setStatusLista("cancelado")}
+                        clickButton={statusLista === "Cancelado"}
+                        onPress={() => setStatusLista("Cancelado")}
                     />
                 </ContainerButton>
 
@@ -110,12 +125,12 @@ export const PacienteConsultas = ({ navigation }) => {
                             <CardPaciente
                                 roleUsuario={profile.role}
                                 dataConsulta={item.dataConsulta}
-                                usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
+                                usuarioConsulta={profile.role == 'Paciente' ? item.paciente : item.medicoClinica.medico}
                                 prioridade={item.prioridade.prioridade}
-                          
+                                
                                 navigation={navigation}
                                 situacao={item.situacao}
-                                onPressNotification={() => setShowModalNotification(true)}
+                                onPressNotification={() => MostrarModal(true)}
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}
                             />
@@ -139,6 +154,8 @@ export const PacienteConsultas = ({ navigation }) => {
                 />
 
                 <NotificationModal
+                    consulta={consultaSelecionada}
+                    roleUsuario={profile.role}
                     visible={showModalNotification}
                     setShowModalNotification={setShowModalNotification}
                 />

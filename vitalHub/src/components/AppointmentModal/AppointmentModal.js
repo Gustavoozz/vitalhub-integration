@@ -8,6 +8,8 @@ import { useState } from "react"
 
 
 export const AppointmentModal = ({
+    consulta,
+    roleUsuario,
     navigation,
     visible,
     setShowModalAppointment,

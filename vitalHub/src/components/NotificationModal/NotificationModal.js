@@ -6,10 +6,17 @@ import { CancelText } from "../Link/Style"
 import { useNavigation } from '@react-navigation/native'
 
 export const NotificationModal = ({
+    consulta,
+    roleUsuario,
     visible,
+    situacao,
     setShowModalNotification,
     ...rest
 }) => {
+
+    function handlePress(rota) {
+        navigation.replace(rota, {clinicaId : consulta.medicoClinica.clinicaId})
+    }
 
     const navigation = useNavigation();
 
@@ -23,9 +30,18 @@ export const NotificationModal = ({
                     <Title style={{ marginTop: 20 }}>Dr. Gustavo</Title>
                     <ModalText style={{ color: '#5F5C6B', fontSize: 14 }}>Cliníco geral    CRM-15286</ModalText>
 
-                    <ModalButton onPress={() => navigation.replace("Localization")}>
+            {situacao !== "pendente" ? (
+            <ButtonModal onPress={() => handlePress()}>
+              <ButtonTitle>Inserir prontuário </ButtonTitle>
+            </ButtonModal>
+            ) : (
+            <ModalButton onPress={() => handlePress()}>
                         <ButtonTitle>Ver Local da Consulta</ButtonTitle>
-                    </ModalButton>
+            </ModalButton>
+            )}
+                   
+
+                    
 
                     <CancelText onPress={() => setShowModalNotification(false)}>Cancelar</CancelText>
                 </ModalContent>

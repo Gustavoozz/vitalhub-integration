@@ -37,6 +37,7 @@ export const MedicoConsultas = () => {
     // State para a exibição de modais.
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
+    const [consultaSelecionada, setConsultaSelecionada] = useState(null)
 
     // async function GetAppointment() {
     //     await api.get('/Consultas/ConsultasMedico')
@@ -52,6 +53,16 @@ export const MedicoConsultas = () => {
     // useEffect(() => {
     //     GetAppointment();
     // })
+
+    function MostrarModal(modal, consulta) {
+        setConsultaSelecionada(consulta)
+
+        if (modal == 'cancelar') {
+            setShowModalCancel(true)
+        } else if (modal == 'prontuario') {
+            setShowModalAppointment(true)
+        } 
+    }
 
 
     async function profileLoad() {
@@ -133,12 +144,11 @@ export const MedicoConsultas = () => {
                                 roleUsuario={profile.role}
                                 dataConsulta={item.dataConsulta}
                                 usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
-                                prioridade={item.prioridade.prioridade}
+                                prioridadeUsuario={item.prioridade.prioridade}
 
-                                situacao={item.situacao}
-                               
-                                onPressCancel={() => setShowModalCancel(true)}
-                                onPressAppointment={() => setShowModalAppointment(true)}
+                                situacao={item.situacao}                      
+                                onPressCancel={() => MostrarModal('cancelar', item)}
+                                onPressAppointment={() => MostrarModal('prontuario', item)}
                             />
                         )
                     }
@@ -153,6 +163,8 @@ export const MedicoConsultas = () => {
                 />
 
                 <AppointmentModal
+                    consulta={consultaSelecionada}
+                    roleUsuario={profile.role}
                     visible={showModalAppointment}
                     setShowModalAppointment={setShowModalAppointment}
                 />

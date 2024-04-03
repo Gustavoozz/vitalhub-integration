@@ -14,7 +14,7 @@ export const CardPaciente = ({ navigation,
     onPressNotification,
     roleUsuario,
     dataConsulta,
-    prioridade,
+    prioridadeUsuario,
     usuarioConsulta
 }) => {
 
@@ -29,13 +29,13 @@ export const CardPaciente = ({ navigation,
                     <TitlePatient>{usuarioConsulta.idNavigation.nome}</TitlePatient>
 
                     <InfoPaciente>
-                        <Age>{roleUsuario == "Medico" ? '22 anos' : usuarioConsulta.especialidade }</Age>
-                        <Type>Rotina</Type>
+                        <Age>{roleUsuario == "Medico" ? usuarioConsulta.dataNascimento(moment().format('YYYY-MM-DD') ) : usuarioConsulta.especialidade }</Age>
+                        <Type>{prioridadeUsuario}</Type>
                     </InfoPaciente>
 
                     <HourButton situacao={situacao}>
                         <Clock situacao={situacao} />
-                        <AntDesign situacao={situacao} name="clockcircle" size={15} color={situacao === "pendente" ?
+                        <AntDesign situacao={situacao} name="clockcircle" size={15} color={situacao === "Pendente" ?
                             "#49B3BA"
                             :
                             "#8C8A97"}
@@ -45,10 +45,10 @@ export const CardPaciente = ({ navigation,
                 </InfoConsulta>
 
                 {
-                    situacao == "cancelado" ? (
+                    situacao == "Cancelado" ? (
                         <>
                         </>
-                    ) : situacao == "pendente" ? (
+                    ) : situacao == "Pendente" ? (
                         <CancelButton onPress={onPressCancel}>
                             <CancelTitle situacao={situacao}>Cancelar</CancelTitle>
                         </CancelButton>
