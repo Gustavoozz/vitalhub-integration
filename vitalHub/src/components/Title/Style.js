@@ -25,7 +25,7 @@ export const TitleUser = styled(Title)`
 `
 
 export const LabelUser = styled(Title)`
-    width: 100%;
+    width: 90%;
 
     margin-bottom: 10px;
     margin-top: 30px;

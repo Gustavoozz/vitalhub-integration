@@ -5,6 +5,7 @@ import { ButtonTitle, LabelUser, Title, TitleUser } from "../../components/Title
 import { SubTextQuick, TextQuick } from "../../components/Text/Text"
 import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
+import { Content } from "./Style"
 
 import { userDecodeToken, userLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
@@ -13,9 +14,11 @@ import { useEffect, useState } from "react"
 import api from "../../services/Service"
 
 export const Perfil = ({ navigation }) => {
+    // CONSTS
     const [nome, setNome] = useState();
     const [email, setEmail] = useState();
 
+    // FUNCTIONS
     async function profileLoad() {
         const token = await userDecodeToken();
 
@@ -24,6 +27,11 @@ export const Perfil = ({ navigation }) => {
         setEmail(token.email);
     }
 
+    // async function UserLoad() {
+    //     const userData = await api.
+    // }
+
+    // EFFECTS
     useEffect(() => {
         profileLoad();
     })
@@ -39,53 +47,56 @@ export const Perfil = ({ navigation }) => {
                 </InformationContent>
             </PhotoContainer>
 
-            <LabelUser>Data de Nascimento</LabelUser>
+            <Content>
 
-            <InputUser
-                placeholder="04/05/1999"
-            />
+                <LabelUser>Data de Nascimento</LabelUser>
 
-            <LabelUser>CPF</LabelUser>
+                <InputUser
+                    placeholder="04/05/1999"
+                />
 
-            <InputUser
-                placeholder="859********"
-            />
+                <LabelUser>CPF</LabelUser>
 
-            <LabelUser>Endereço</LabelUser>
+                <InputUser
+                    placeholder="859********"
+                />
 
-            <InputUser
-                placeholder="Rua Vicenso Silva, 987"
-            />
+                <LabelUser>Endereço</LabelUser>
 
-            <CityContainer>
-                <View>
-                    <LabelUser>CEP</LabelUser>
+                <InputUser
+                    placeholder="Rua Vicenso Silva, 987"
+                />
 
-                    <InputCity
-                        placeholder="06548-909"
-                    />
-                </View>
+                <CityContainer>
+                    <View>
+                        <LabelUser>CEP</LabelUser>
 
-                <View>
-                    <LabelUser>Cidade</LabelUser>
+                        <InputCity
+                            placeholder="06548-909"
+                        />
+                    </View>
 
-                    <InputCity
-                        placeholder="Moema-SP"
-                    />
-                </View>
-            </CityContainer>
+                    <View>
+                        <LabelUser>Cidade</LabelUser>
 
-            <Button>
-                <ButtonTitle>Salvar</ButtonTitle>
-            </Button>
+                        <InputCity
+                            placeholder="Moema-SP"
+                        />
+                    </View>
+                </CityContainer>
 
-            <Button onPress={() => { }}>
-                <ButtonTitle>Editar</ButtonTitle>
-            </Button>
+                <Button>
+                    <ButtonTitle>Salvar</ButtonTitle>
+                </Button>
 
-            <ButtonUser onPress={() => userLogout() && navigation.replace("Login")}>
-            <ButtonTitle>Logout</ButtonTitle>
-        </ButtonUser>
+                <Button onPress={() => { }}>
+                    <ButtonTitle>Editar</ButtonTitle>
+                </Button>
+
+                <ButtonUser onPress={() => userLogout() && navigation.replace("Login")}>
+                    <ButtonTitle>Logout</ButtonTitle>
+                </ButtonUser>
+            </Content>
         </ContainerUser >
     )
 }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient"
 
 export const Container = styled.SafeAreaView`
@@ -98,9 +98,3 @@ export const AppointmentBox = styled.TouchableOpacity`
    margin-left: 330px;
    margin-bottom: 20px;
 `
-
-
-
-
-
-
