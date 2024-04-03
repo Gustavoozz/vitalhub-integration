@@ -27,10 +27,6 @@ export const Perfil = ({ navigation }) => {
         setEmail(token.email);
     }
 
-    // async function UserLoad() {
-    //     const userData = await api.
-    // }
-
     // EFFECTS
     useEffect(() => {
         profileLoad();

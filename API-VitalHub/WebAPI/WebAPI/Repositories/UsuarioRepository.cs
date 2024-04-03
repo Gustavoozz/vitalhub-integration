@@ -58,7 +58,19 @@ namespace WebAPI.Repositories
 
         public Usuario BuscarPorId(Guid id)
         {
-            return ctx.Usuarios.FirstOrDefault(x => x.Id == id);
+            return ctx.Usuarios
+                .Select(u => new Usuario
+                {
+                    Email = u.Email,
+                    Senha = u.Senha,
+                    Nome = u.Nome,
+
+                    TipoUsuario = new TiposUsuario
+                    {
+
+                    }
+                })
+                .FirstOrDefault(x => x.Id == id)!;
         }
 
         public void Cadastrar(Usuario usuario)

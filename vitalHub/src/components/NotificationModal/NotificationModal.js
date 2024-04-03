@@ -6,24 +6,36 @@ import { CancelText } from "../Link/Style"
 import { useNavigation } from '@react-navigation/native'
 
 export const NotificationModal = ({
+    situacao,
+    consulta,
+
     visible,
     setShowModalNotification,
     ...rest
 }) => {
-
+    // STATES
     const navigation = useNavigation();
 
-    return(
+    // FUNCTIONS
+    const HandlePress = (rota) => {
+        // fecha a modal
+        setShowModalNotification(false);
+
+        // acessa a rota passando o id entre as navegações
+        navigation.replace(rota, { clinicaId: consulta.medicoClinica.clinicaId })
+    }
+
+    return (
         <Modal {...rest} visible={visible} transparent={true} animationType="slide">
             <PatientModal>
                 <ModalContent>
                     <ModalDoctorPhoto
-                    source={{ uri: 'https://github.com/Gustavoozz.png '}}
+                        source={{ uri: 'https://github.com/Gustavoozz.png ' }}
                     />
                     <Title style={{ marginTop: 20 }}>Dr. Gustavo</Title>
                     <ModalText style={{ color: '#5F5C6B', fontSize: 14 }}>Cliníco geral    CRM-15286</ModalText>
 
-                    <ModalButton onPress={() => navigation.replace("Localization")}>
+                    <ModalButton onPress={() => HandlePress("Localization")}>
                         <ButtonTitle>Ver Local da Consulta</ButtonTitle>
                     </ModalButton>
 

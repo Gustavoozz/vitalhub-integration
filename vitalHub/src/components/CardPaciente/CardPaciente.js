@@ -5,7 +5,8 @@ import { Clock } from "../Logo/Style"
 import { AntDesign } from "@expo/vector-icons"
 import { useState } from "react"
 
-export const CardPaciente = ({ navigation,
+export const CardPaciente = ({ 
+    navigation,
     situacao = "pendente",
     onPressCancel,
     onPressAppointment,

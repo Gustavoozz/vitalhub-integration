@@ -10,6 +10,8 @@ import { CancelationModal } from "../../components/CancelationModal/CancelationM
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal"
 
 import { Header } from "../../components/Header/Header"
+import { ScheduleModal } from "../../components/ScheduleModal/ScheduleModal"
+import { NotificationModal } from "../../components/NotificationModal/NotificationModal"
 
 const Consultas = [
     { id: 1, nome: "Gustavo", situacao: "pendente" },
@@ -19,15 +21,25 @@ const Consultas = [
     { id: 5, nome: "Gustavo", situacao: "pendente" },
 ];
 
-export const MedicoConsultas = () => {
-
-
-    // State para o estado da lista ( Cards ).
+export const MedicoConsultas = ({ navigation }) => {
+    // STATES
     const [statusLista, setStatusLista] = useState("pendente");
-
-    // State para a exibição de modais.
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
+    const [showModalAgendamento, setShowModalAgendamento] = useState(false);
+    const [consultaSelecionada, setConsultaSelecionada] = useState(null);
+
+    // FUNCTIONS
+
+    const MostrarModal = (modal, consulta) => {
+        if (modal == 'cancelar') {
+            setShowModalCancel(true);
+        } else if (modal == 'prontuario') {
+            setShowModalAppointment(true);
+        } else {
+            setShowModalAgendamento(true);
+        }
+    }
 
     return (
         <Container>
@@ -64,9 +76,10 @@ export const MedicoConsultas = () => {
                     renderItem={({ item }) =>
                         statusLista == item.situacao && (
                             <CardPaciente
+                                navigation={navigation}
                                 situacao={item.situacao}
-                                onPressCancel={() => setShowModalCancel(true)}
-                                onPressAppointment={() => setShowModalAppointment(true)}
+                                onPressCancel={() => MostrarModal("cancelar", item)}
+                                onPressAppointment={() => MostrarModal("prontuario", item)}
                             />
                         )
                     }
@@ -81,6 +94,11 @@ export const MedicoConsultas = () => {
                 <AppointmentModal
                     visible={showModalAppointment}
                     setShowModalAppointment={setShowModalAppointment}
+                />
+
+                <ScheduleModal
+                    visible={showModalAgendamento}
+                    setShowModalSchedule={setShowModalAgendamento}
                 />
 
             </DoctorContainer>
