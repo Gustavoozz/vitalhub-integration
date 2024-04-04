@@ -19,7 +19,7 @@ import MapViewDirections from 'react-native-maps-directions'
 import { mapskey } from '../../utils/mapsKey';
 import { useEffect, useState, useRef } from 'react';
 
-export const Localization = ({ navigation, route }) => {
+export const Localization = ({ navigation, route, nome }) => {
 
   useEffect(() => {
     console.log(route);

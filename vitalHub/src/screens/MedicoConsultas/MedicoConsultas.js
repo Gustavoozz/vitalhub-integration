@@ -123,6 +123,7 @@ export const MedicoConsultas = () => {
                         onPress={() => setStatusLista("Cancelada")}
                     />
 
+
                 </ContainerButton>
 
                 <ListComponent
@@ -137,7 +138,6 @@ export const MedicoConsultas = () => {
                                 prioridadeUsuario={item.prioridade.prioridade}
                                 
                                 situacao={item.situacao}
-                               
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}
                             />

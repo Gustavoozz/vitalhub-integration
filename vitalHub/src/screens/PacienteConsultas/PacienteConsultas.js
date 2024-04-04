@@ -130,8 +130,8 @@ export const PacienteConsultas = ({ navigation }) => {
                                 prioridade={item.prioridade.prioridade}
                                 crmDoctor={item.medicoClinica.medico.crm}
                                 especialidade={item.medicoClinica.medico.especialidade.especialidade1}
-      
-                                situacao={item.situacao}
+
+                                situacaoConsulta={item.situacao}
                                 onPressNotification={() => MostrarModal(true)}
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}

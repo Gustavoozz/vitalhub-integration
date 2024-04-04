@@ -9,15 +9,15 @@ import { ButtonTitle, Title } from "../../components/Title/Style";
 
 
 export const Cadastro = ({ navigation }) => {
-    const [showSpinner, setShowSpinner] = useState(false);
+    // const [showSpinner, setShowSpinner] = useState(false);
 
-    function Timing() {
-        setShowSpinner(true)
+    // function Timing() {
+    //     setShowSpinner(true)
 
-        setTimeout(() => {
-            setShowSpinner(false)
-        }, 3000)
-    }
+    //     setTimeout(() => {
+    //         setShowSpinner(false)
+    //     }, 3000)
+    // }
 
     return (
         <Container>
@@ -47,9 +47,9 @@ export const Cadastro = ({ navigation }) => {
 
             <TextReenviar onPress={() => navigation.navigate("Login")}>Cancelar</TextReenviar>
 
-            <Spinner
+            {/* <Spinner
                 visible={showSpinner}
-            />
+            /> */}
         </Container>
     );
 }

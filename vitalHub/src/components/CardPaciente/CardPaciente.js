@@ -1,15 +1,11 @@
-import { Image } from "react-native"
-import { ButtonTitle, TitleUser } from "../Title/Style"
 import { Age, CancelButton, CancelTitle, CardContainer, Hour, HourButton, InfoConsulta, InfoPaciente, PatientContainer, PatientPhoto, TitlePatient, Type } from "./Style"
 import { Clock } from "../Logo/Style"
 import { AntDesign } from "@expo/vector-icons"
-import { useEffect, useState } from "react"
-import { userDecodeToken } from "../../utils/Auth"
-import api from "../../services/Service"
+import { useState } from "react"
 import moment from "moment"
 
 export const CardPaciente = ({ navigation,
-    situacao = "pendente",
+    situacao = "Pendente",
     onPressCancel,
     onPressAppointment,
     onPressNotification,
@@ -20,10 +16,9 @@ export const CardPaciente = ({ navigation,
     crmDoctor
 }) => {
 
-    const formatDate = moment(usuarioConsulta.dataNascimento).format('DD/MM/YYYY')
-
-
-    const [profile, setProfile] = useState("Paciente")
+    const formatDate = moment(usuarioConsulta.dataNascimento).format('DD-MM-YYYY');
+    const formatDay = moment(dataConsulta).format('DD-MM');
+    const [profile, setProfile] = useState("Paciente");
 
     return (
         <CardContainer>
@@ -35,17 +30,17 @@ export const CardPaciente = ({ navigation,
 
                     <InfoPaciente>
                         <Age>{roleUsuario == "Medico" ? formatDate : crmDoctor }</Age>
-                        <Type>{roleUsuario == "Medico" ? prioridadeUsuario : usuarioConsulta.especialidade.especialidade1 }</Type>
+                        <Type>{roleUsuario == "Medico" ? prioridadeUsuario : "" }</Type>
                     </InfoPaciente>
 
                     <HourButton situacao={situacao}>
-                        <Clock situacao={situacao} />
+                        <Clock situacao={situacao}/>
                         <AntDesign situacao={situacao} name="clockcircle" size={15} color={situacao === "Pendente" ?
                             "#49B3BA"
                             :
                             "#8C8A97"}
                         />
-                        <Hour situacao={situacao}>17:00</Hour>
+                        <Hour situacao={situacao}>{formatDay}</Hour>
                     </HourButton>
                 </InfoConsulta>
 
