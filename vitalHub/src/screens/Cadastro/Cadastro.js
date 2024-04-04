@@ -6,7 +6,7 @@ import { TextReenviar } from "../../components/Link/Style";
 import { Logo } from "../../components/Logo/Style";
 import { TextQuick } from "../../components/Text/Text";
 import { ButtonTitle, Title } from "../../components/Title/Style";
-import Spinner from "../../components/Spinner/Spinner";
+
 
 export const Cadastro = ({ navigation }) => {
     const [showSpinner, setShowSpinner] = useState(false);

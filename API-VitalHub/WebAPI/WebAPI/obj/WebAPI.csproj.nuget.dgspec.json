@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dell\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj": {}
+    "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dell\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj": {
+    "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dell\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "C:\\Users\\Dell\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
-        "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dell\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\obj\\",
+        "projectPath": "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+        "packagesPath": "C:\\Users\\53844614893\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\53844614893\\Desktop\\vitalhub-integration\\API-VitalHub\\WebAPI\\WebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\53844614893\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
