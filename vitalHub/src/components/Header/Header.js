@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { userDecodeToken } from "../../utils/Auth";
+import { UserDecodeToken } from "../../utils/Auth";
 import { BoxUser, DataUser, ImageUser, NameUser, TextDefault, ContainerHeader, DataUser2 } from "./Style";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome6 } from '@expo/vector-icons';
@@ -9,7 +9,7 @@ export const Header = ({ }) => {
   const [role, setRole] = useState()
 
   async function profileLoad() {
-    const token = await userDecodeToken();
+    const token = await UserDecodeToken();
 
     setNome(token.name);
     setRole(token.role);

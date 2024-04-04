@@ -1,7 +1,7 @@
 import { Modal } from "react-native"
 import { ModalDoctorPhoto } from "../Logo/Style"
 import { ButtonTitle, Title } from "../Title/Style"
-import { ModalButton, ModalContent, ModalText, PatientModal } from "./Style"
+import { DoctorModal, ModalButton, ModalContent, ModalText, PatientModal } from "./Style"
 import { CancelText } from "../Link/Style"
 import { useNavigation } from '@react-navigation/native'
 
@@ -27,13 +27,13 @@ export const NotificationModal = ({
 
     return (
         <Modal {...rest} visible={visible} transparent={true} animationType="slide">
-            <PatientModal>
+            {/* <DoctorModal>
                 <ModalContent>
                     <ModalDoctorPhoto
                         source={{ uri: 'https://github.com/Gustavoozz.png ' }}
                     />
-                    <Title style={{ marginTop: 20 }}>Dr. Gustavo</Title>
-                    <ModalText style={{ color: '#5F5C6B', fontSize: 14 }}>Cliníco geral    CRM-15286</ModalText>
+                    <Title>Dr. Gustavo</Title>
+                    <ModalText>Cliníco geral    CRM-15286</ModalText>
 
                     <ModalButton onPress={() => HandlePress("Localization")}>
                         <ButtonTitle>Ver Local da Consulta</ButtonTitle>
@@ -41,7 +41,7 @@ export const NotificationModal = ({
 
                     <CancelText onPress={() => setShowModalNotification(false)}>Cancelar</CancelText>
                 </ModalContent>
-            </PatientModal>
+            </DoctorModal> */}
         </Modal>
     )
 }

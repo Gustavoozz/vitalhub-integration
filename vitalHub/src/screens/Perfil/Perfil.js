@@ -7,7 +7,7 @@ import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
 import { Content } from "./Style"
 
-import { userDecodeToken, userLogout } from "../../utils/Auth"
+import { UserDecodeToken, userLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
 
 // API importada
@@ -20,7 +20,7 @@ export const Perfil = ({ navigation }) => {
 
     // FUNCTIONS
     async function profileLoad() {
-        const token = await userDecodeToken();
+        const token = await UserDecodeToken();
 
         setNome(token.name);
 

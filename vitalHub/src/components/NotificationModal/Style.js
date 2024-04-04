@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button } from "../Button/Style";
 
-export const PatientModal = styled.View`
+export const DoctorModal = styled.View`
     flex: 1;
     align-items: center;
     justify-content: center;

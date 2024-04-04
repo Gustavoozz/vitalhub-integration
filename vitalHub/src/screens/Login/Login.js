@@ -8,7 +8,7 @@ import { ContentAccount } from "../../components/ContentAccount/Style";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { useState } from "react";
-import { userDecodeToken } from "../../utils/Auth";
+import { UserDecodeToken } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // API importada
@@ -35,17 +35,9 @@ export const Login = ({ navigation }) => {
         }).then(async response => {
             setPaginaErro(false);
 
-            await AsyncStorage.setItem("token", JSON.stringify(response.data))
+            await AsyncStorage.setItem("token", JSON.stringify(response.data));
 
-            const token = await userDecodeToken()
-
-            if (token.role === "Médico") {
-                navigation.replace("MainDoctor")
-            } else if (token.role === "Paciente") {
-                navigation.replace("Main")
-            } else {
-                return null;
-            }
+            navigation.replace("Main");
         }
         ).catch(error => {
             setPaginaErro(true);

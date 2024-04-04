@@ -30,13 +30,13 @@ export const AppointmentModal = ({
 
                     <PatientModalPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
 
-                    <Title style={{ marginTop: 20 }}>Gustavo Magalhães</Title>
+                    <Title>Gustavo Magalhães</Title>
 
                     <InfoModalContainer>
-                        <ModalQuick style={{ color: '#4E4B59', marginTop: 0 }}>22 anos   gustavonascimento928@gmail.com</ModalQuick>
+                        <ModalQuick>22 anos   gustavonascimento928@gmail.com</ModalQuick>
                     </InfoModalContainer>
 
-                    <ModalButton onPress={() => navigation.navigate("Prontuario")} style={{ marginTop: 15 }}>
+                    <ModalButton onPress={() => navigation.navigate("Prontuario")}>
                         <ButtonTitle>Inserir Prontuário</ButtonTitle>
                     </ModalButton>
 

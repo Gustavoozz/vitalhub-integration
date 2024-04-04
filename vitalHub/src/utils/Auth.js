@@ -10,7 +10,7 @@ if (!global.btoa) {
     global.btoa = encode
 }
 
-export const userDecodeToken = async () => {
+export const UserDecodeToken = async () => {
     // obtendo o token da async storage
     const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 

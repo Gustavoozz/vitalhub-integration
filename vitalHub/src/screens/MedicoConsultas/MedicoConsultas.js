@@ -11,7 +11,6 @@ import { AppointmentModal } from "../../components/AppointmentModal/AppointmentM
 
 import { Header } from "../../components/Header/Header"
 import { ScheduleModal } from "../../components/ScheduleModal/ScheduleModal"
-import { NotificationModal } from "../../components/NotificationModal/NotificationModal"
 
 const Consultas = [
     { id: 1, nome: "Gustavo", situacao: "pendente" },

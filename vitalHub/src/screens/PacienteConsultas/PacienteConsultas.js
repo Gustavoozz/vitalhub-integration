@@ -92,6 +92,5 @@ export const PacienteConsultas = ({ navigation }) => {
 
             </DoctorContainer>
         </Container>
-
     )
 }
