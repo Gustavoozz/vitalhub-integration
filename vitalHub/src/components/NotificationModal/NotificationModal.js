@@ -31,9 +31,9 @@ export const NotificationModal = ({
                     <ModalText style={{ color: '#5F5C6B', fontSize: 14 }}>Cliníco geral    CRM-15286</ModalText>
 
             {situacao !== "pendente" ? (
-            <ButtonModal onPress={() => handlePress()}>
+            <ModalButton onPress={() => handlePress()}>
               <ButtonTitle>Inserir prontuário </ButtonTitle>
-            </ButtonModal>
+            </ModalButton>
             ) : (
             <ModalButton onPress={() => handlePress()}>
                         <ButtonTitle>Ver Local da Consulta</ButtonTitle>

@@ -6,6 +6,7 @@ import { AntDesign } from "@expo/vector-icons"
 import { useEffect, useState } from "react"
 import { userDecodeToken } from "../../utils/Auth"
 import api from "../../services/Service"
+import moment from "moment"
 
 export const CardPaciente = ({ navigation,
     situacao = "pendente",
@@ -15,8 +16,12 @@ export const CardPaciente = ({ navigation,
     roleUsuario,
     dataConsulta,
     prioridadeUsuario,
-    usuarioConsulta
+    usuarioConsulta,
+    crmDoctor
 }) => {
+
+    const formatDate = moment(usuarioConsulta.dataNascimento).format('DD/MM/YYYY')
+
 
     const [profile, setProfile] = useState("Paciente")
 
@@ -29,8 +34,8 @@ export const CardPaciente = ({ navigation,
                     <TitlePatient>{usuarioConsulta.idNavigation.nome}</TitlePatient>
 
                     <InfoPaciente>
-                        <Age>{roleUsuario == "Medico" ? usuarioConsulta.dataNascimento(moment().format('YYYY-MM-DD') ) : usuarioConsulta.especialidade }</Age>
-                        <Type>{prioridadeUsuario}</Type>
+                        <Age>{roleUsuario == "Medico" ? formatDate : crmDoctor }</Age>
+                        <Type>{roleUsuario == "Medico" ? prioridadeUsuario : usuarioConsulta.especialidade.especialidade1 }</Type>
                     </InfoPaciente>
 
                     <HourButton situacao={situacao}>
@@ -58,9 +63,7 @@ export const CardPaciente = ({ navigation,
                         </CancelButton>
                     )
                 }
-
             </PatientContainer>
-
         </CardContainer>
     )
 }

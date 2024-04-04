@@ -24,7 +24,7 @@ export const Header = ({ }) => {
       <BoxUser>
         <ImageUser source={{ uri: "https://github.com/HookCreeping.png" }} />
         <DataUser>
-          <TextDefault>Bem vindo !</TextDefault>
+          <TextDefault>Bem vindo!</TextDefault>
           <NameUser>{nome}</NameUser>
         </DataUser>
       </BoxUser>

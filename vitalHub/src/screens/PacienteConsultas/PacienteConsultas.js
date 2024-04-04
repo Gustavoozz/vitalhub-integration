@@ -15,6 +15,7 @@ import { Fontisto, Octicons } from "@expo/vector-icons"
 import { Header } from "../../components/Header/Header"
 import { userDecodeToken } from "../../utils/Auth"
 import api from "../../services/Service"
+import moment from "moment"
 
 
 
@@ -127,8 +128,9 @@ export const PacienteConsultas = ({ navigation }) => {
                                 dataConsulta={item.dataConsulta}
                                 usuarioConsulta={profile.role == 'Paciente' ? item.paciente : item.medicoClinica.medico}
                                 prioridade={item.prioridade.prioridade}
-                                
-                                navigation={navigation}
+                                crmDoctor={item.medicoClinica.medico.crm}
+                                especialidade={item.medicoClinica.medico.especialidade.especialidade1}
+      
                                 situacao={item.situacao}
                                 onPressNotification={() => MostrarModal(true)}
                                 onPressCancel={() => setShowModalCancel(true)}
@@ -159,9 +161,6 @@ export const PacienteConsultas = ({ navigation }) => {
                     visible={showModalNotification}
                     setShowModalNotification={setShowModalNotification}
                 />
-
-
-
             </DoctorContainer>
         </Container>
 

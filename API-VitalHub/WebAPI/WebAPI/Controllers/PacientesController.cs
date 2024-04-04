@@ -38,13 +38,13 @@ namespace WebAPI.Controllers
             return Ok(pacienteRepository.BuscarRealizadas(idUsuario));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("ConsultasCanceladas")]
-        public IActionResult BuscarCanceladas()
+        public IActionResult BuscarCanceladas(Guid idUsuario)
         {
-            Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
-
-            return Ok(pacienteRepository.BuscarRealizadas(idUsuario));
+            //Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+           
+            return Ok(pacienteRepository.BuscarCanceladas(idUsuario));
         }
 
         [HttpGet("PerfilLogado")]
@@ -94,7 +94,7 @@ namespace WebAPI.Controllers
         [HttpGet("BuscarPorData")]
         public IActionResult BuscarPorData(DateTime data, Guid id)
         {
-            return Ok(pacienteRepository.BuscarPorData(data, id));
+            return Ok(pacienteRepository.BuscarPorData(data,id));
         }
     }
 }

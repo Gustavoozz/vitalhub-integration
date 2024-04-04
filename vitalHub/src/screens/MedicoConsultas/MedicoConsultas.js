@@ -13,6 +13,7 @@ import { AppointmentModal } from "../../components/AppointmentModal/AppointmentM
 import { Header } from "../../components/Header/Header"
 import api from "../../services/Service"
 import { userDecodeToken } from "../../utils/Auth"
+import moment from "moment"
 
 // Mock de cards:
 // const Consultas = [
@@ -37,7 +38,6 @@ export const MedicoConsultas = () => {
     // State para a exibição de modais.
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
-    const [consultaSelecionada, setConsultaSelecionada] = useState(null)
 
     // async function GetAppointment() {
     //     await api.get('/Consultas/ConsultasMedico')
@@ -54,16 +54,6 @@ export const MedicoConsultas = () => {
     //     GetAppointment();
     // })
 
-    function MostrarModal(modal, consulta) {
-        setConsultaSelecionada(consulta)
-
-        if (modal == 'cancelar') {
-            setShowModalCancel(true)
-        } else if (modal == 'prontuario') {
-            setShowModalAppointment(true)
-        } 
-    }
-
 
     async function profileLoad() {
         const token = await userDecodeToken();
@@ -71,7 +61,7 @@ export const MedicoConsultas = () => {
         if (token) {
             console.log(token);
             setProfile(token)
-            setDataConsulta(moment().format('YYYY-MM-DD') )
+            setDataConsulta(moment().format('YYYY-MM-DD'))
         }
     }
 
@@ -111,7 +101,7 @@ export const MedicoConsultas = () => {
             <DoctorContainer>
                 {/* Calendar New */}
                 <CalendarHome 
-                setDataConsulta={ setDataConsulta }
+                setDataConsulta={setDataConsulta}
                 />
 
                 <ContainerButton style={{ marginBottom: 20 }}>
@@ -145,10 +135,11 @@ export const MedicoConsultas = () => {
                                 dataConsulta={item.dataConsulta}
                                 usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
                                 prioridadeUsuario={item.prioridade.prioridade}
-
-                                situacao={item.situacao}                      
-                                onPressCancel={() => MostrarModal('cancelar', item)}
-                                onPressAppointment={() => MostrarModal('prontuario', item)}
+                                
+                                situacao={item.situacao}
+                               
+                                onPressCancel={() => setShowModalCancel(true)}
+                                onPressAppointment={() => setShowModalAppointment(true)}
                             />
                         )
                     }
@@ -163,8 +154,6 @@ export const MedicoConsultas = () => {
                 />
 
                 <AppointmentModal
-                    consulta={consultaSelecionada}
-                    roleUsuario={profile.role}
                     visible={showModalAppointment}
                     setShowModalAppointment={setShowModalAppointment}
                 />
