@@ -3,17 +3,23 @@ import { ButtonTitle, TitleUser } from "../Title/Style"
 import { Age, CancelButton, CancelTitle, CardContainer, Hour, HourButton, InfoConsulta, InfoPaciente, PatientContainer, PatientPhoto, TitlePatient, Type } from "./Style"
 import { Clock } from "../Logo/Style"
 import { AntDesign } from "@expo/vector-icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { userDecodeToken } from "../../utils/Auth"
+import api from "../../services/Service"
+import moment from "moment"
 
-export const CardPaciente = ({ 
+export const CardPaciente = ({
     navigation,
-    situacao = "pendente",
+
+    consulta,
+    profile,
+
     onPressCancel,
     onPressAppointment,
-    onPressNotification
+    onPressNotification,
 }) => {
 
-    const [profile, setProfile] = useState("Paciente")
+    const formatDate = moment(consulta.dataNascimento).format('DD/MM/YYYY')
 
     return (
         <CardContainer>
@@ -21,41 +27,66 @@ export const CardPaciente = ({
                 <PatientPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
 
                 <InfoConsulta>
-                    <TitlePatient>Gustavo Magalhães</TitlePatient>
+                    <TitlePatient>{profile === "Medico" ?
+                    consulta.paciente.idNavigation.nome
+                    :
+                    consulta.medicoClinica.medico.idNavigation.nome                
+                }</TitlePatient>
 
                     <InfoPaciente>
-                        <Age>19 anos</Age>
-                        <Type>Cardiologist</Type>
+                        <Age>
+                            {profile === "Medico" ?
+                                formatDate
+                                :
+                                consulta.medicoClinica.medico.crm
+                            }
+                        </Age>
+
+                        <Type>{profile == "Medico" ?
+                            consulta.prioridade.prioridade
+                            :
+                            consulta.medicoClinica.medico.especialidade.especialidade1
+                        }
+                        </Type>
                     </InfoPaciente>
 
-                    <HourButton situacao={situacao}>
-                        <Clock situacao={situacao} />
-                        <AntDesign situacao={situacao} name="clockcircle" size={15} color={situacao === "pendente" ?
-                            "#49B3BA"
-                            :
-                            "#8C8A97"}
+                    <HourButton situacao={consulta.situacao.situacao}>
+                        <Clock situacao={consulta.situacao.situacao} />
+
+                        <AntDesign
+                            situacao={consulta.situacao.situacao}
+                            name="clockcircle"
+                            size={15}
+                            color={consulta.situacao.situacao === "Pendente" ?
+                                "#49B3BA"
+                                :
+                                "#8C8A97"}
                         />
-                        <Hour situacao={situacao}>17:00</Hour>
+                        <Hour situacao={consulta.situacao.situacao}>17:00</Hour>
                     </HourButton>
                 </InfoConsulta>
 
                 {
-                    situacao == "cancelado" ? (
-                        <>
-                        </>
-                    ) : situacao == "pendente" ? (
-                        <CancelButton onPress={onPressCancel}>
-                            <CancelTitle situacao={situacao}>Cancelar</CancelTitle>
-                        </CancelButton>
-                    ) : (
-                        <CancelButton onPress={profile !== "Paciente" ? onPressAppointment : () => navigation.replace("ViewPrescription")}>
-                            <CancelTitle situacao={situacao}>Ver prontuário</CancelTitle>
-                        </CancelButton>
-                    )
+                    consulta.situacao.situacao == "Cancelado" ?
+                        (
+                            <>
+                            </>
+                        )
+                        :
+                        consulta.situacao.situacao == "Pendente" ?
+                            <CancelButton onPress={onPressCancel}>
+                                <CancelTitle situacao={consulta.situacao.situacao}>Cancelar</CancelTitle>
+                            </CancelButton>
+                            :
+                            <CancelButton onPress={profile !== "Paciente" ?
+                                onPressAppointment
+                                :
+                                () => navigation.replace("ViewPrescription")
+                            }>
+                                <CancelTitle situacao={situacao}>Ver prontuário</CancelTitle>
+                            </CancelButton>
                 }
-
             </PatientContainer>
-
         </CardContainer>
     )
 }

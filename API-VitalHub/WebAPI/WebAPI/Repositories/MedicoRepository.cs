@@ -8,7 +8,7 @@ using WebAPI.ViewModels;
 
 namespace WebAPI.Repositories
 {
-    
+
     public class MedicoRepository : IMedicoRepository
     {
         VitalContext ctx = new VitalContext();
@@ -42,7 +42,7 @@ namespace WebAPI.Repositories
             ctx.Medicos.Update(medicoBuscado);
             ctx.SaveChanges();
 
-            return medicoBuscado;   
+            return medicoBuscado;
 
         }
 
@@ -67,7 +67,7 @@ namespace WebAPI.Repositories
                     Crm = m.Crm,
                     Especialidade = m.Especialidade,
 
-                    
+
                     IdNavigation = new Usuario
                     {
                         Nome = m.IdNavigation.Nome,
@@ -84,15 +84,28 @@ namespace WebAPI.Repositories
             ctx.SaveChanges();
         }
 
+        public List<Consulta> BuscarPorData(DateTime dataConsulta, Guid idMedico)
+        {
+            return ctx.Consultas
+                 .Include(x => x.Situacao)
+                 .Include(x => x.Prioridade)
+                 .Include(x => x.Paciente!.IdNavigation)
+                 .Include(x => x.MedicoClinica!.Medico!.IdNavigation)
+                 .Include(x => x.MedicoClinica!.Medico!.Especialidade)
+                 // diferença em dias entre a Data da Consulta e a dataConsulta é igual a 0.
+                 .Where(x => x.MedicoClinica!.MedicoId == idMedico && EF.Functions.DateDiffDay(x.DataConsulta, dataConsulta) == 0)
+                 .ToList();
+        }
+
         public List<Medico> ListarPorClinica(Guid id)
         {
-            List<Medico> medicos = ctx.MedicosClinicas  
-                
+            List<Medico> medicos = ctx.MedicosClinicas
+
                 .Where(mc => mc.ClinicaId == id)
 
                 .Select(mc => new Medico
                 {
-                    Id=mc.Id,
+                    Id = mc.Id,
                     Crm = mc.Medico!.Crm,
                     Especialidade = mc.Medico.Especialidade,
 

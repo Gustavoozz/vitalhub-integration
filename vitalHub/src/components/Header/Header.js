@@ -30,7 +30,7 @@ export const Header = ({ }) => {
       </BoxUser>
 
       <DataUser2>
-        {role === "Médico" ?
+        {role === "Medico" ?
           <>
             <FontAwesome6 name="user-doctor" size={20} color="#fbfbfb" />
           </>

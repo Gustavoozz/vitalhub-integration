@@ -36,7 +36,7 @@ export const Main = () => {
     return (
         <>
             {/* o usuário é médico? */}
-            {tipoUsuario === "Médico" ?
+            {tipoUsuario === "Medico" ?
                 // sim: mostrar a main de configuração de médico
                 <>
                     <BottomTab.Navigator

@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SplashScreen from "../screens/SplashScreen/SplashScreen";
 import { Login } from "../screens/Login/Login";
 import { Main } from "../screens/Main/Main";
-import { MainDoctor } from "../screens/MainDoctor/MainDoctor";
 import { RecuperarSenha } from "../screens/RecuperarSenha/RecuperarSenha";
 import { VerificarSenha } from "../screens/VerificarSenha/VerificarSenha";
 import { RedefinirSenha } from "../screens/RedefinirSenha/RedefinirSenha";
@@ -50,11 +49,6 @@ export const Route = () => {
                 <Stack.Screen
                     name="Main"
                     component={Main}
-                />
-
-                <Stack.Screen
-                    name="MainDoctor"
-                    component={MainDoctor}
                 />
 
                 <Stack.Screen

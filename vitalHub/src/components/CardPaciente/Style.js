@@ -63,7 +63,7 @@ export const Type = styled.Text`
 `
 
 export const HourButton = styled.TouchableOpacity`
-    background-color: ${(props) => props.situacao == "pendente" ? "#E8FCFD" : "#F1F0F5"};
+    background-color: ${(props) => props.situacao == "Pendente" ? "#E8FCFD" : "#F1F0F5"};
     width: 70%;
     height: 30px;
 
@@ -76,7 +76,7 @@ export const HourButton = styled.TouchableOpacity`
 `
 
 export const Hour = styled.Text`
-    color: ${(props) => props.situacao == "pendente" ? "#49B3BA" : "#4E4B59"};
+    color: ${(props) => props.situacao == "Pendente" ? "#49B3BA" : "#4E4B59"};
     text-align: center;
     font-family: 'Quicksand_600SemiBold';
     padding-bottom: 3px;
@@ -90,5 +90,5 @@ export const CancelButton = styled.TouchableOpacity`
 export const CancelTitle = styled.Text`
     font-family: 'MontserratAlternates_500Medium';
     font-size: 12px;
-    color: ${(props) => props.situacao == "pendente" ? "#C81D25" : "#344F8F"};
-`
+    color: ${(props) => props.situacao == "Pendente" ? "#C81D25" : "#344F8F"};
+    `

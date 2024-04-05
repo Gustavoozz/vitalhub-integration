@@ -15,7 +15,7 @@ namespace WebAPI.Repositories
 
             if (user == null) return false;
 
-            if (!Criptografia.CompararHash(user.Senha, senhaAntiga)) return false;
+            if (!Criptografia.CompararHash(user.Senha!, senhaAntiga)) return false;
             user.Senha = Criptografia.GerarHash(senhaNova);
             ctx.Update(user);
             ctx.SaveChanges();
@@ -38,17 +38,17 @@ namespace WebAPI.Repositories
                 Nome =  u.Nome,
                 TipoUsuario = new TiposUsuario
                 {
-                    Id = u.TipoUsuario.Id,
+                    Id = u.TipoUsuario!.Id,
                     TipoUsuario = u.TipoUsuario.TipoUsuario
                 }
             }).FirstOrDefault
                 (x => x.Email == email);
 
-            if (user == null) return null;
+            if (user == null) return null!;
 
             // var senhaInformada = Criptografia.GerarHash(senha);
 
-             if (!Criptografia.CompararHash(senha, user.Senha)) return null;
+             if (!Criptografia.CompararHash(senha, user.Senha!)) return null!;
 
             // if (!Criptografia.CompararHash(user.Senha, senhaInformada)) return null;
 
@@ -75,7 +75,7 @@ namespace WebAPI.Repositories
 
         public void Cadastrar(Usuario usuario)
         {
-            usuario.Senha = Criptografia.GerarHash(usuario.Senha);
+            usuario.Senha = Criptografia.GerarHash(usuario.Senha!);
             ctx.Add(usuario);
             ctx.SaveChanges();
 
