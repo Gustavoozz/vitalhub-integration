@@ -160,7 +160,7 @@ export const Localization = ({ navigation, route, nome }) => {
 
             </CityContainer>
 
-            <CancelText onPress={() => navigation.replace("PacienteConsultas")} style={{ marginBottom: 40 }}>Voltar</CancelText>
+            <CancelText onPress={() => navigation.replace("MainDoctor")} style={{ marginBottom: 40 }}>Voltar</CancelText>
         </Container>
     )
 }

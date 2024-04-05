@@ -16,8 +16,6 @@ export const AppointmentModal = ({
     ...rest
 }) => {
 
-
-
     return(
         <Modal {...rest} visible={visible} transparent={true} animationType="slide">
             <PatientModal>
@@ -27,11 +25,6 @@ export const AppointmentModal = ({
 
             <Title style={{ marginTop: 20 }}>Gustavo Magalhães</Title>
 
-            {/* { situacao == 'cancelado' ? (
-                <></>
-            )
-            
-            } */}
             <InfoModalContainer>
             <ModalQuick style={{ color: '#4E4B59', marginTop: 0 }}>22 anos   gustavonascimento928@gmail.com</ModalQuick>
             </InfoModalContainer>

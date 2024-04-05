@@ -126,12 +126,13 @@ export const PacienteConsultas = ({ navigation }) => {
                             <CardPaciente
                                 roleUsuario={profile.role}
                                 dataConsulta={item.dataConsulta}
-                                usuarioConsulta={profile.role == 'Paciente' ? item.paciente : item.medicoClinica.medico}
+                                usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
                                 prioridade={item.prioridade.prioridade}
                                 crmDoctor={item.medicoClinica.medico.crm}
+                            
                                 especialidade={item.medicoClinica.medico.especialidade.especialidade1}
-
-                                situacaoConsulta={item.situacao}
+                                navigation={navigation}
+                                situacaoConsulta={item.situacao.situacao}
                                 onPressNotification={() => MostrarModal(true)}
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}

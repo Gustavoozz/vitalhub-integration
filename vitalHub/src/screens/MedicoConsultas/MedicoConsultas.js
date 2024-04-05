@@ -14,6 +14,7 @@ import { Header } from "../../components/Header/Header"
 import api from "../../services/Service"
 import { userDecodeToken } from "../../utils/Auth"
 import moment from "moment"
+import { NotificationModal } from "../../components/NotificationModal/NotificationModal"
 
 // Mock de cards:
 // const Consultas = [
@@ -26,7 +27,7 @@ import moment from "moment"
 // ];
 
 
-export const MedicoConsultas = () => {
+export const MedicoConsultas = ({ navigation }) => {
     
     const [consultas, setConsultas] = useState([]);
     const [profile, setProfile] = useState([])
@@ -38,6 +39,7 @@ export const MedicoConsultas = () => {
     // State para a exibição de modais.
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
+    const [showModalNotification, setShowModalNotification] = useState(false);
 
     // async function GetAppointment() {
     //     await api.get('/Consultas/ConsultasMedico')
@@ -136,8 +138,8 @@ export const MedicoConsultas = () => {
                                 dataConsulta={item.dataConsulta}
                                 usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
                                 prioridadeUsuario={item.prioridade.prioridade}
-                                
-                                situacao={item.situacao}
+                                navigation={navigation}
+                                situacao={item.situacao.situacao}
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}
                             />
@@ -156,6 +158,11 @@ export const MedicoConsultas = () => {
                 <AppointmentModal
                     visible={showModalAppointment}
                     setShowModalAppointment={setShowModalAppointment}
+                />
+
+                <NotificationModal
+                    visible={showModalNotification}
+                    setShowModalAppointment={setShowModalNotification}
                 />
 
             </DoctorContainer>

@@ -84,7 +84,11 @@ export const Hour = styled.Text`
 
 export const CancelButton = styled.TouchableOpacity`
     margin-top: 60px;
-    margin-left: 20px;
+    margin-left: 40px;
+`
+
+export const CancelButtonProntuary = styled(CancelButton)`
+    margin-left: 10px;
 `
 
 export const CancelTitle = styled.Text`

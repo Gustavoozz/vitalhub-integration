@@ -30,18 +30,10 @@ export const NotificationModal = ({
                     <Title style={{ marginTop: 20 }}>Dr. Gustavo</Title>
                     <ModalText style={{ color: '#5F5C6B', fontSize: 14 }}>Cliníco geral    CRM-15286</ModalText>
 
-            {situacao !== "pendente" ? (
             <ModalButton onPress={() => handlePress()}>
-              <ButtonTitle>Inserir prontuário </ButtonTitle>
+                 <ButtonTitle>Ver Local da Consulta</ButtonTitle>
             </ModalButton>
-            ) : (
-            <ModalButton onPress={() => handlePress()}>
-                        <ButtonTitle>Ver Local da Consulta</ButtonTitle>
-            </ModalButton>
-            )}
-                   
-
-                    
+    
 
                     <CancelText onPress={() => setShowModalNotification(false)}>Cancelar</CancelText>
                 </ModalContent>

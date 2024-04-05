@@ -71,3 +71,10 @@ export const SendPhotoButton = styled.TouchableOpacity`
     align-items: center;
     margin-top: 20px;
 `
+
+export const ButtonBack = styled.TouchableOpacity`
+    background-color: transparent;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+`

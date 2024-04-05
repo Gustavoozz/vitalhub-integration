@@ -85,7 +85,7 @@ export const ViewPrescription = ({ navigation }) => {
                     placeholderTextColor="#4E4B59"
                 />
 
-                <CancelText onPress={() => navigation.replace("Main")}>Voltar</CancelText>
+                <CancelText onPress={() => navigation.replace("MainDoctor")}>Voltar</CancelText>
 
                 <CameraModal
                     visible={showCamera}
