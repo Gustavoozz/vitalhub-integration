@@ -4,17 +4,19 @@ import { InfoModalContainer, PatientModalPhoto } from "./Style"
 import { ButtonTitle, Title } from "../Title/Style"
 import { ModalQuick, SubTextQuick } from "../Text/Text"
 import { CancelText } from "../Link/Style"
-import { useState } from "react"
+import { useNavigation } from "@react-navigation/native"
 
 
-export const AppointmentModal = ({
+export const AppointmentModal = ({ 
     consulta,
     roleUsuario,
-    navigation,
     visible,
     setShowModalAppointment,
     ...rest
 }) => {
+
+    const navigation = useNavigation();
+
 
     return(
         <Modal {...rest} visible={visible} transparent={true} animationType="slide">
@@ -29,7 +31,7 @@ export const AppointmentModal = ({
             <ModalQuick style={{ color: '#4E4B59', marginTop: 0 }}>22 anos   gustavonascimento928@gmail.com</ModalQuick>
             </InfoModalContainer>
            
-            <ModalButton onPress={() => navigation.navigate("Prontuario")} style={{ marginTop: 15 }}>
+            <ModalButton onPress={() => navigation.replace("Prontuario")} style={{ marginTop: 15 }}>
             <ButtonTitle>Inserir Prontuário</ButtonTitle>
             </ModalButton>
 

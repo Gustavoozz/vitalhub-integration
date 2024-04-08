@@ -47,28 +47,28 @@ export const PacienteConsultas = ({ navigation }) => {
         }
     }
 
-    function MostrarModal(modal, consulta) {
-        setConsultaSelecionada(consulta)
+    // function MostrarModal(modal, consulta) {
+    //     setConsultaSelecionada(consulta)
 
-        if (modal == 'cancelar') {
-            setShowModalCancel(true)
-        } else if (modal == 'prontuario') {
-            setShowModalAppointment(true)
-        } else {
-            setShowModalSchedule(true)
-        }
-    }
+    //     if (modal == 'cancelar') {
+    //         setShowModalCancel(true)
+    //     } else if (modal == 'prontuario') {
+    //         setShowModalAppointment(true)
+    //     } else {
+    //         setShowModalSchedule(true)
+    //     }
+    // }
 
 
     async function ListarConsultas() {
         const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
-        console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
+        // console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
 
         await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
         .then(response => {
             setConsultas(response.data)
 
-            console.log(response.data);
+            // console.log(response.data);
         }).catch(error => {
             console.log(error);
         })
@@ -133,7 +133,7 @@ export const PacienteConsultas = ({ navigation }) => {
                                 especialidade={item.medicoClinica.medico.especialidade.especialidade1}
                                 navigation={navigation}
                                 situacaoConsulta={item.situacao.situacao}
-                                onPressNotification={() => MostrarModal(true)}
+                                onPressNotification={() => setShowModalNotification(true)}
                                 onPressCancel={() => setShowModalCancel(true)}
                                 onPressAppointment={() => setShowModalAppointment(true)}
                             />
@@ -157,8 +157,6 @@ export const PacienteConsultas = ({ navigation }) => {
                 />
 
                 <NotificationModal
-                    consulta={consultaSelecionada}
-                    roleUsuario={profile.role}
                     visible={showModalNotification}
                     setShowModalNotification={setShowModalNotification}
                 />

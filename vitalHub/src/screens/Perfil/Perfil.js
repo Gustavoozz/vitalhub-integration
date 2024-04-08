@@ -12,6 +12,11 @@ import { useEffect, useState } from "react"
 export const Perfil = ({ navigation }) => {
     const [nome, setNome] = useState();
     const [email, setEmail] = useState();
+    const [dataNascimento, setDataNascimento] = useState();
+    const [cpf, setCpf] = useState();
+    const [endereco, setEndereco] = useState();
+
+
 
     async function profileLoad() {
         const token = await userDecodeToken();
@@ -21,7 +26,6 @@ export const Perfil = ({ navigation }) => {
         }
 
         setNome(token.name);
-
         setEmail(token.email);
     }
 
@@ -29,6 +33,24 @@ export const Perfil = ({ navigation }) => {
         profileLoad();
     })
 
+    async function GetUser() {
+        const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
+        console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
+
+        await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
+        .then(response => {
+            setUserInfo(response.data)
+
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        GetUser();
+    })
+  
     return (
         <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <PhotoContainer>
@@ -40,22 +62,22 @@ export const Perfil = ({ navigation }) => {
                 </InformationContent>
             </PhotoContainer>
 
-            <LabelUser>Data de Nascimento</LabelUser>
+            <LabelUser></LabelUser>
 
             <InputUser
-                placeholder="04/05/1999"
+            placeholder="04/05/1999"
             />
 
             <LabelUser>CPF</LabelUser>
 
             <InputUser
-                placeholder="859********"
+            placeholder="859********"
             />
 
             <LabelUser>Endereço</LabelUser>
 
             <InputUser
-                placeholder="Rua Vicenso Silva, 987"
+            placeholder="Rua Vicenso Silva, 987"
             />
 
             <CityContainer>
@@ -63,7 +85,7 @@ export const Perfil = ({ navigation }) => {
                     <LabelUser>CEP</LabelUser>
 
                     <InputCity
-                        placeholder="06548-909"
+                    placeholder="06548-909"
                     />
                 </View>
 
@@ -71,7 +93,7 @@ export const Perfil = ({ navigation }) => {
                     <LabelUser>Cidade</LabelUser>
                     
                     <InputCity
-                        placeholder="Moema-SP"
+                    placeholder="Moema-SP"
                     />
                 </View>
             </CityContainer>

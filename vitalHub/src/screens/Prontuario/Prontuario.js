@@ -8,11 +8,17 @@ import { SubTextQuick } from "../../components/Text/Text"
 import { ButtonTitle, LabelProntuario, LabelUser, TitleUser } from "../../components/Title/Style"
 import { UserContainer } from "../../components/UserContainer/Style"
 import { userDecodeToken } from "../../utils/Auth"
+import api from "../../services/Service"
 
 export const Prontuario = ({ navigation }) => {
     const [nome, setNome] = useState();
-    const [age, setAge] = useState();
     const [email, setEmail] = useState();
+    const [user, setUser] = useState();
+    const [profile, setProfile] = useState([]);
+
+    const [description, setDescription] = useState("");
+    const [prontuarioInfo, setProntuarioInfo] = useState([]);
+    const [editable, setEditable] = useState(false);
 
     async function profileLoad() {
         const token = await userDecodeToken();
@@ -22,14 +28,34 @@ export const Prontuario = ({ navigation }) => {
         }
 
         setNome(token.name);
-        setAge(token.dataNascimento);
         setEmail(token.email);
+        setUser(token.user);
 
     }
 
     useEffect(() => {
         profileLoad();
     })
+
+   
+
+    async function GetInfo() {
+      await api.get('/Consultas/ConsultasMedico')
+      .then( response => {
+         setProntuarioInfo(response.data)
+      }). catch( error => {
+         console.log(error)
+      })
+
+      setProntuarioInfo(response.data);
+   }
+
+   useEffect(() => {
+    GetInfo();
+ }, []) 
+ 
+
+
     return (
         <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <PhotoContainer>
@@ -38,23 +64,66 @@ export const Prontuario = ({ navigation }) => {
 
             <ContentProntuario>
                 <TitleUser>{nome}</TitleUser>
-                <SubTextQuick>{age}    {email}</SubTextQuick>
+                <SubTextQuick>   {email}</SubTextQuick>
             </ContentProntuario>
 
-            <LabelProntuario>Descrição da Consulta</LabelProntuario>
-            <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-                placeholder="Descrição..."
-            />
-
+            {
+                editable == true ? (
+                    <>
+                    <LabelProntuario>Descrição da Consulta</LabelProntuario>
+                    <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
+                    placeholder={description.descricao}
+                    />
+                    </>
+                      
+                ) : editable == false ? (
+                    <>
+                   <LabelUser>Descrição da consulta</LabelUser>
+                    <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 60 }}
+                    placeholder={`Descrição`}
+                    placeholderTextColor="#4E4B59"
+                    />
+                    </>
+                ) : null
+            }
+          
+          {
+            editable == true ? (
+            <>
             <LabelProntuario>Diagnóstico do paciente</LabelProntuario>
             <Input style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-                placeholder="Diagnóstico..."
+            placeholder="Diagnóstico..."
             />
-
+            </>
+            ) :  editable == false ? (
+            <>
+            <LabelUser>Diagnóstico do paciente</LabelUser>
+            <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 60 }}
+            placeholder="Diagnóstico do paciente..."
+            placeholderTextColor="#4E4B59"
+            />
+            </>
+            ) : null        
+          }
+        
+        {
+            editable == true ? (
+            <>
             <LabelProntuario>Prescrição médica</LabelProntuario>
             <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-                placeholder="Prescrição medica..."
+            placeholder="Prescrição medica..."
             />
+            </>
+            ) : editable == false ? (
+                <>
+            <LabelUser>Prescrição médica</LabelUser>
+            <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 60 }}
+            placeholder="Prescrição médica..."
+            placeholderTextColor="#4E4B59"
+            />
+            </>
+            ) : null
+            }
 
             <Button>
                 <ButtonTitle>Salvar</ButtonTitle>

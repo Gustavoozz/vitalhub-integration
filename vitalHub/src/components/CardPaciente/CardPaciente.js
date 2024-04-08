@@ -21,17 +21,16 @@ export const CardPaciente = ({ navigation,
     const ageInYears = moment().diff(formatDate, 'Year');   
     const [profile, setProfile] = useState("Paciente");
     
-
     return (
         <CardContainer>
-            <PatientContainer onPress={onPressNotification}>
+            <PatientContainer onPress={roleUsuario == "Paciente" ? onPressNotification : onPressAppointment}>
                 <PatientPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
 
                 <InfoConsulta>
                     <TitlePatient>{usuarioConsulta.idNavigation.nome}</TitlePatient>
 
                     <InfoPaciente>
-                        <Age>{roleUsuario == "Medico" ? `${ageInYears} anos` : crmDoctor }</Age>
+                        <Age>{roleUsuario == "Medico" ? `${ageInYears} anos` : ` CRM: ${crmDoctor}`}</Age>
                         <Type>{roleUsuario == "Medico" ? prioridadeUsuario == 1 ? "Rotina" : prioridadeUsuario == 2 ? "Exame" : "Emergência" : usuarioConsulta.especialidade.especialidade1 }</Type>
                     </InfoPaciente>
 
@@ -48,7 +47,7 @@ export const CardPaciente = ({ navigation,
 
                 {
                     situacao == "Realizada" ? (                      
-                        <CancelButtonProntuary onPress={profile !== "Paciente" ? onPressAppointment : () => navigation.replace("Prontuario")}>
+                        <CancelButtonProntuary onPress={roleUsuario == "Paciente" ? () => navigation.navigate("ViewPrescription") : null}>
                             <CancelTitle situacao={situacao}>Ver prontuário</CancelTitle>
                         </CancelButtonProntuary>
     

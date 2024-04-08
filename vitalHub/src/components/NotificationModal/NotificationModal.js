@@ -30,7 +30,7 @@ export const NotificationModal = ({
                     <Title style={{ marginTop: 20 }}>Dr. Gustavo</Title>
                     <ModalText style={{ color: '#5F5C6B', fontSize: 14 }}>Cliníco geral    CRM-15286</ModalText>
 
-            <ModalButton onPress={() => handlePress()}>
+            <ModalButton onPress={() => navigation.replace("Localization")}>
                  <ButtonTitle>Ver Local da Consulta</ButtonTitle>
             </ModalButton>
     

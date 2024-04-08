@@ -138,6 +138,7 @@ export const MedicoConsultas = ({ navigation }) => {
                                 dataConsulta={item.dataConsulta}
                                 usuarioConsulta={profile.role == 'Medico' ? item.paciente : item.medicoClinica.medico}
                                 prioridadeUsuario={item.prioridade.prioridade}
+                                // crmDoctor={item.medicoClinica.medico.crm}
                                 navigation={navigation}
                                 situacao={item.situacao.situacao}
                                 onPressCancel={() => setShowModalCancel(true)}
