@@ -10,9 +10,10 @@ import { UserContainer } from "../../components/UserContainer/Style"
 import { userDecodeToken } from "../../utils/Auth"
 import api from "../../services/Service"
 
-export const Prontuario = ({ navigation }) => {
+export const Prontuario = ({ navigation, route }) => {
     // const [nome, setNome] = useState("");
     // const [email, setEmail] = useState("");
+    const [consultas, setConsultas] = useState(null);
 
     // const [user, setUser] = useState([]);
     // const [description, setDescription] = useState("");
@@ -31,36 +32,25 @@ export const Prontuario = ({ navigation }) => {
         }
     }
 
-   
+
+
     async function GetInfo() {
-        if (token.role == 'Medico') {
-            await api.get('/Consultas/ConsultasMedico')
-      .then( response => {
-         setProntuarioInfo(response.data)
-
-         console.log(setProntuarioInfo);
-
-      }). catch( error => {
-         console.log(error)
-      })
-
-   }
-//    console.log(response.data);
-//    setProntuarioInfo(response.data)
-}
-      
- 
-useEffect(() => {
-    profileLoad();
-
-
-}, [])
-
-useEffect(() => {
-    GetInfo();
-    console.log(setProntuarioInfo);
-}, [])
-
+      await api
+        .get(`/Consultas/BuscaPorId?id=${route.params.consultaId}`)
+        .then((response) => {
+          setConsultas(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  
+    useEffect(() => {
+    
+        GetInfo();
+    
+    }, []);
 
     return (
         <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
@@ -69,7 +59,7 @@ useEffect(() => {
             </PhotoContainer>
 
             <ContentProntuario>
-                <TitleUser></TitleUser>
+                <TitleUser>{consultas.paciente.idNavigation.nome}</TitleUser>
                 <SubTextQuick></SubTextQuick>
             </ContentProntuario>
 

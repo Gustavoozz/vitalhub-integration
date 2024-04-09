@@ -12,6 +12,8 @@ namespace WebAPI.Interfaces
         public void EditarStatus(Consulta consulta);
         public void EditarProntuario(Consulta consulta);
 
+        public List<Consulta> BuscarPorData(DateTime dataConsulta, Guid id);
+
         public List<Consulta> ListarTodos();
         public List<Consulta> ListarPorMedico(Guid IdMedico);
         public List<Consulta> ListarPorPaciente(Guid IdPaciente);
