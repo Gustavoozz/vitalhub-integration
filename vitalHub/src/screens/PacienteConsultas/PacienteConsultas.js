@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
 import { BtnListAppointment } from "../../components/BtnListAppointment/BtnListAppointment"
 import { CalendarHome } from "../../components/CalendarList/CalendarHome"
-import { AppointmentBox, Container, DoctorContainer, HeaderHome, InfoContainer } from "../../components/Container/Style"
-import { AppointmentIcon, NotificationBell, UserDoctor } from "../../components/Logo/Style"
-import { MontSerratWhite, UserText } from "../../components/Text/Text"
+import { Container, DoctorContainer } from "../../components/Container/Style"
 import { ContainerButton } from "../MedicoConsultas/Style"
 import { ListComponent } from "../../components/List/List"
 import { CardPaciente } from "../../components/CardPaciente/CardPaciente"
@@ -11,7 +9,6 @@ import { ScheduleModal } from "../../components/ScheduleModal/ScheduleModal"
 import { NotificationModal } from "../../components/NotificationModal/NotificationModal"
 import { CancelationModal } from "../../components/CancelationModal/CancelationModal"
 import { ButtonPatient } from "../../components/ButtonPatient/ButtonPatient"
-import { Fontisto, Octicons } from "@expo/vector-icons"
 import { Header } from "../../components/Header/Header"
 import { UserDecodeToken } from "../../utils/Auth"
 import api from "../../services/Service"
@@ -36,10 +33,6 @@ export const PacienteConsultas = ({ navigation }) => {
         if (token) {
             setProfile(token)
 
-            console.log(profile);
-
-            console.log(profile.role);
-
             setDataConsulta(moment().format('YYYY-MM-DD'))
         }
     }
@@ -59,13 +52,12 @@ export const PacienteConsultas = ({ navigation }) => {
 
     async function ListarConsultas() {
         const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
+        
         console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
 
         await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
             .then(response => {
                 setConsultas(response.data)
-
-                console.log(consultas);
             }).catch(error => {
                 console.log(error);
             })

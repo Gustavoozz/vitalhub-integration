@@ -32,6 +32,6 @@ export const UserDecodeToken = async () => {
     }
 }
 
-export const userLogout = async () => {
+export const UserLogout = async () => {
     await AsyncStorage.removeItem("token")
 }

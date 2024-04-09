@@ -33,11 +33,6 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [Authorize]
-        [HttpGet("BuscarPorId")]
-        public IActionResult BuscarPorEmailESenha(string email, string senha) 
-        {
-                return Ok(usuarioRepository.BuscarPorEmailESenha(email, senha));
-        }
+
     }
 }

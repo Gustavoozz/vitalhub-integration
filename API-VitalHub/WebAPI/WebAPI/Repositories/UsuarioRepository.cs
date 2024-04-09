@@ -1,4 +1,5 @@
-﻿using WebAPI.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPI.Contexts;
 using WebAPI.Domains;
 using WebAPI.Interfaces;
 using WebAPI.Utils;
@@ -59,17 +60,11 @@ namespace WebAPI.Repositories
         public Usuario BuscarPorId(Guid id)
         {
             return ctx.Usuarios
-                .Select(u => new Usuario
-                {
-                    Email = u.Email,
-                    Senha = u.Senha,
-                    Nome = u.Nome,
-
-                    TipoUsuario = new TiposUsuario
-                    {
-
-                    }
-                })
+                .Include(x => x.TipoUsuario)
+                .Include(x => x.Paciente)
+                .Include(x => x.Medico)
+                .Include (x => x.Paciente!.Endereco)
+                .Include(x => x.Medico!.Endereco)
                 .FirstOrDefault(x => x.Id == id)!;
         }
 

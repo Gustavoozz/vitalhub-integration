@@ -24,14 +24,14 @@ export const CardPaciente = ({
     return (
         <CardContainer>
             <PatientContainer onPress={onPressNotification}>
-                <PatientPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
+                <PatientPhoto source={{ uri: 'https://imgb.ifunny.co/images/bfc9bc11c482d1bc9f53bb14458fd0f848c34aed77d84390a234c890d70e7c7f_1.jpg' }} />
 
                 <InfoConsulta>
                     <TitlePatient>{profile === "Medico" ?
-                    consulta.paciente.idNavigation.nome
-                    :
-                    consulta.medicoClinica.medico.idNavigation.nome                
-                }</TitlePatient>
+                        consulta.paciente.idNavigation.nome
+                        :
+                        consulta.medicoClinica.medico.idNavigation.nome
+                    }</TitlePatient>
 
                     <InfoPaciente>
                         <Age>
@@ -43,7 +43,13 @@ export const CardPaciente = ({
                         </Age>
 
                         <Type>{profile == "Medico" ?
-                            consulta.prioridade.prioridade
+                            consulta.prioridade.prioridade == "1" ?
+                                "Rotina"
+                                :
+                                consulta.prioridade.prioridade == "2" ?
+                                    "Exame"
+                                    :
+                                    "Urgência"
                             :
                             consulta.medicoClinica.medico.especialidade.especialidade1
                         }
@@ -83,7 +89,7 @@ export const CardPaciente = ({
                                 :
                                 () => navigation.replace("ViewPrescription")
                             }>
-                                <CancelTitle situacao={situacao}>Ver prontuário</CancelTitle>
+                                <CancelTitle situacao={consulta.situacao.situacao}>Ver prontuário</CancelTitle>
                             </CancelButton>
                 }
             </PatientContainer>

@@ -7,79 +7,138 @@ import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
 import { Content } from "./Style"
 
-import { UserDecodeToken, userLogout } from "../../utils/Auth"
+import { UserDecodeToken, UserLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
+
+import moment from "moment";
 
 // API importada
 import api from "../../services/Service"
 
 export const Perfil = ({ navigation }) => {
     // CONSTS
-    const [nome, setNome] = useState();
-    const [email, setEmail] = useState();
+    const [tipoUsuario, setTipoUsuario] = useState();
+    const [user, setUser] = useState([]);
+    const [editar, setEditar] = useState(false);
 
     // FUNCTIONS
-    async function profileLoad() {
+    async function ProfileLoad() {
         const token = await UserDecodeToken();
 
-        setNome(token.name);
+        if (token !== null) {
+            setTipoUsuario(token.role);
 
-        setEmail(token.email);
+            await UserLoad(token);
+        }
+    }
+
+    async function UserLoad(token) {
+        const url = (token.role == 'Medico' ?
+            "Medicos"
+            :
+            "Pacientes"
+        )
+
+        console.log(`/${url}/BuscarPorId?id=${token.user}`);
+
+        await api.get(`/${url}/BuscarPorId?id=${token.user}`)
+            .then(response => {
+                setUser(response.data)
+
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     // EFFECTS
     useEffect(() => {
-        profileLoad();
-    })
+        ProfileLoad();
+    }, [])
 
     return (
-        <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+        <ContainerUser>
             <PhotoContainer>
                 <UserContainer source={require('../../assets/User.png')} />
+                {user.idNavigation != undefined ?
+                    <InformationContent>
+                        <TitleUser>{user.idNavigation.nome}</TitleUser>
 
-                <InformationContent>
-                    <TitleUser>{nome}</TitleUser>
-                    <SubTextQuick>{email}</SubTextQuick>
-                </InformationContent>
+                        <SubTextQuick>{user.idNavigation.email}</SubTextQuick>
+                    </InformationContent>
+                    :
+                    null
+                }
+
             </PhotoContainer>
 
             <Content>
+                {
+                    user.idNavigation != undefined ?
+                        <>
+                            {tipoUsuario !== "Medico" ?
+                                <>
+                                    <LabelUser>Data de Nascimento</LabelUser>
 
-                <LabelUser>Data de Nascimento</LabelUser>
+                                    <InputUser
+                                        placeholder={moment(user.dataNascimento).format("DD/MM/YYYY")}
+                                    />
+                                </>
+                                :
+                                null
 
-                <InputUser
-                    placeholder="04/05/1999"
-                />
+                            }
 
-                <LabelUser>CPF</LabelUser>
 
-                <InputUser
-                    placeholder="859********"
-                />
+                            <LabelUser>
+                                {tipoUsuario === "Medico" ?
+                                    "CRM"
+                                    :
+                                    "CPF"
+                                }
+                            </LabelUser>
 
-                <LabelUser>Endereço</LabelUser>
+                            <InputUser
+                                placeholder={tipoUsuario === "Medico" ?
+                                    user.crm
+                                    :
+                                    user.cpf
+                                }
+                            />
 
-                <InputUser
-                    placeholder="Rua Vicenso Silva, 987"
-                />
+                            <LabelUser>Endereço</LabelUser>
 
-                <CityContainer>
-                    <View>
-                        <LabelUser>CEP</LabelUser>
+                            <InputUser
+                                placeholder={`${user.endereco.logradouro}, ${user.endereco.numero}`}
+                            />
 
-                        <InputCity
-                            placeholder="06548-909"
-                        />
-                    </View>
+                            <CityContainer>
+                                <View>
+                                    <LabelUser>CEP</LabelUser>
 
-                    <View>
-                        <LabelUser>Cidade</LabelUser>
+                                    <InputCity
+                                        placeholder={user.endereco.cep}
+                                    />
+                                </View>
+                                {
+                                    tipoUsuario !== "Medico" ?
+                                        <View>
+                                            <LabelUser>Cidade</LabelUser>
 
-                        <InputCity
-                            placeholder="Moema-SP"
-                        />
-                    </View>
-                </CityContainer>
+                                            <InputCity
+                                                placeholder={user.endereco.cidade}
+                                            />
+                                        </View>
+                                        :
+                                        null
+                                }
+
+                            </CityContainer>
+                        </>
+                        :
+                        null
+                }
 
                 <Button>
                     <ButtonTitle>Salvar</ButtonTitle>
@@ -89,7 +148,7 @@ export const Perfil = ({ navigation }) => {
                     <ButtonTitle>Editar</ButtonTitle>
                 </Button>
 
-                <ButtonUser onPress={() => userLogout() && navigation.replace("Login")}>
+                <ButtonUser onPress={() => UserLogout() && navigation.replace("Login")}>
                     <ButtonTitle>Logout</ButtonTitle>
                 </ButtonUser>
             </Content>

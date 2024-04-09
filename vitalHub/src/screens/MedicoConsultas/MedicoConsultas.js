@@ -33,8 +33,6 @@ export const MedicoConsultas = () => {
         const token = await UserDecodeToken();
 
         if (token) {
-            console.log(token);
-
             setProfile(token)
 
             setDataConsulta(moment().format('YYYY-MM-DD'))
@@ -52,8 +50,6 @@ export const MedicoConsultas = () => {
         await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
             .then(response => {
                 setConsultas(response.data)
-
-                console.log(consultas);
             }).catch(error => {
                 console.log(error);
             })

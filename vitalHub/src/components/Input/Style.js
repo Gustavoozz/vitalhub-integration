@@ -46,6 +46,7 @@ export const InputVerify = styled(Input).attrs({
 export const InputUser = styled.TextInput.attrs({
     placeholderTextColor: '#33303E',
     multiline: true,
+    editable: false,
 })`
     height: 54px;
     width: 90%;
