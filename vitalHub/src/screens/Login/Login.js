@@ -18,8 +18,8 @@ import api from "../../services/Service";
 
 export const Login = ({ navigation }) => {
     // STATES
-    const [email, setEmail] = useState(""); // email
-    const [senha, setSenha] = useState(""); // senha
+    const [email, setEmail] = useState("cristiano@medico.com"); // email
+    const [senha, setSenha] = useState("medico123"); // senha
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
     const [paginaErro, setPaginaErro] = useState(false); // muda a cor do input caso haja erros
 

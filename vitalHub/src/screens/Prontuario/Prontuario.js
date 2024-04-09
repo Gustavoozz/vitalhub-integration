@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { Button, ButtonBack, ButtonEdit } from "../../components/Button/Style"
-import { Container, ContainerUser, ContentProntuario, InformationContent, PhotoContainer } from "../../components/Container/Style"
+import { ContainerUser, ContentProntuario, PhotoContainer } from "../../components/Container/Style"
 import { Input, InputProntuario, InputUser } from "../../components/Input/Style"
-import { CancelText, TextReenviar } from "../../components/Link/Style"
-import { Logo } from "../../components/Logo/Style"
+import { CancelText } from "../../components/Link/Style"
+
 import { SubTextQuick } from "../../components/Text/Text"
 import { ButtonTitle, LabelProntuario, LabelUser, TitleUser } from "../../components/Title/Style"
 import { UserContainer } from "../../components/UserContainer/Style"
@@ -11,49 +11,55 @@ import { userDecodeToken } from "../../utils/Auth"
 import api from "../../services/Service"
 
 export const Prontuario = ({ navigation }) => {
-    const [nome, setNome] = useState();
-    const [email, setEmail] = useState();
-    const [user, setUser] = useState();
-    const [profile, setProfile] = useState([]);
+    // const [nome, setNome] = useState("");
+    // const [email, setEmail] = useState("");
 
-    const [description, setDescription] = useState("");
+    // const [user, setUser] = useState([]);
+    // const [description, setDescription] = useState("");
+    // const [prescription, setPrescription] = useState("");
     const [prontuarioInfo, setProntuarioInfo] = useState([]);
     const [editable, setEditable] = useState(false);
+    const [profile, setProfile] = useState([])
 
     async function profileLoad() {
         const token = await userDecodeToken();
 
         if (token) {
+            setProfile(token)
             console.log(token);
+            
         }
-
-        setNome(token.name);
-        setEmail(token.email);
-        setUser(token.user);
-
     }
 
-    useEffect(() => {
-        profileLoad();
-    })
-
    
-
     async function GetInfo() {
-      await api.get('/Consultas/ConsultasMedico')
+        if (token.role == 'Medico') {
+            await api.get('/Consultas/ConsultasMedico')
       .then( response => {
          setProntuarioInfo(response.data)
+
+         console.log(setProntuarioInfo);
+
       }). catch( error => {
          console.log(error)
       })
 
-      setProntuarioInfo(response.data);
    }
-
-   useEffect(() => {
-    GetInfo();
- }, []) 
+//    console.log(response.data);
+//    setProntuarioInfo(response.data)
+}
+      
  
+useEffect(() => {
+    profileLoad();
+
+
+}, [])
+
+useEffect(() => {
+    GetInfo();
+    console.log(setProntuarioInfo);
+}, [])
 
 
     return (
@@ -63,8 +69,8 @@ export const Prontuario = ({ navigation }) => {
             </PhotoContainer>
 
             <ContentProntuario>
-                <TitleUser>{nome}</TitleUser>
-                <SubTextQuick>   {email}</SubTextQuick>
+                <TitleUser></TitleUser>
+                <SubTextQuick></SubTextQuick>
             </ContentProntuario>
 
             {
@@ -72,7 +78,7 @@ export const Prontuario = ({ navigation }) => {
                     <>
                     <LabelProntuario>Descrição da Consulta</LabelProntuario>
                     <InputProntuario style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-                    placeholder={description.descricao}
+                    placeholder="..."
                     />
                     </>
                       
@@ -80,7 +86,8 @@ export const Prontuario = ({ navigation }) => {
                     <>
                    <LabelUser>Descrição da consulta</LabelUser>
                     <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 60 }}
-                    placeholder={`Descrição`}
+                    placeholder={prontuarioInfo.descricao}
+                    value={prontuarioInfo.descricao}
                     placeholderTextColor="#4E4B59"
                     />
                     </>
@@ -129,10 +136,21 @@ export const Prontuario = ({ navigation }) => {
                 <ButtonTitle>Salvar</ButtonTitle>
             </Button>
 
-            <ButtonEdit>
+          {
+            editable == false ? (
+                <ButtonEdit onPress={() => setEditable(true)} style={{ backgroundColor: "#496BBA"}}>
                 <ButtonTitle>Editar</ButtonTitle>
-            </ButtonEdit>
-
+                </ButtonEdit>
+            ) : editable == true ? (
+                <ButtonEdit onPress={() => setEditable(false)}>
+                <ButtonTitle>Editar</ButtonTitle>
+                </ButtonEdit>
+            ) : null
+          }
+               
+ 
+               
+            
             <ButtonBack onPress={() => navigation.replace("MainDoctor")}>
                 <CancelText>Cancelar</CancelText>
             </ButtonBack>

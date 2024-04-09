@@ -5,110 +5,153 @@ import { ButtonTitle, LabelUser, Title, TitleUser } from "../../components/Title
 import { SubTextQuick, TextQuick } from "../../components/Text/Text"
 import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
+import { Content } from "./Style"
 
-import { userDecodeToken, userLogout } from "../../utils/Auth"
+import { UserDecodeToken, UserLogout, userDecodeToken, userLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
 
+import moment from "moment";
+
+// API importada
+import api from "../../services/Service"
+
 export const Perfil = ({ navigation }) => {
-    const [nome, setNome] = useState();
-    const [email, setEmail] = useState();
-    const [dataNascimento, setDataNascimento] = useState();
-    const [cpf, setCpf] = useState();
-    const [endereco, setEndereco] = useState();
+    // CONSTS
+    const [tipoUsuario, setTipoUsuario] = useState();
+    const [user, setUser] = useState([]);
+    const [editar, setEditar] = useState(false);
 
-
-
-    async function profileLoad() {
+    // FUNCTIONS
+    async function ProfileLoad() {
         const token = await userDecodeToken();
 
-        if (token) {
-            console.log(token);
+        if (token !== null) {
+            setTipoUsuario(token.role);
+
+            await UserLoad(token);
         }
-
-        setNome(token.name);
-        setEmail(token.email);
     }
 
-    useEffect(() => {
-        profileLoad();
-    })
+    async function UserLoad(token) {
+        const url = (token.role == 'Medico' ?
+            "Medicos"
+            :
+            "Pacientes"
+        )
 
-    async function GetUser() {
-        const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
-        console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
+        console.log(`/${url}/BuscarPorId?id=${token.user}`);
 
-        await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
-        .then(response => {
-            setUserInfo(response.data)
+        await api.get(`/${url}/BuscarPorId?id=${token.user}`)
+            .then(response => {
+                setUser(response.data)
 
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
+    // EFFECTS
     useEffect(() => {
-        GetUser();
-    })
-  
+        ProfileLoad();
+    }, [])
+
     return (
-        <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+        <ContainerUser>
             <PhotoContainer>
                 <UserContainer source={require('../../assets/User.png')} />
+                {user.idNavigation != undefined ?
+                    <InformationContent>
+                        <TitleUser>{user.idNavigation.nome}</TitleUser>
 
-                <InformationContent>
-                    <TitleUser>{nome}</TitleUser>
-                    <SubTextQuick>{email}</SubTextQuick>
-                </InformationContent>
+                        <SubTextQuick>{user.idNavigation.email}</SubTextQuick>
+                    </InformationContent>
+                    :
+                    null
+                }
+
             </PhotoContainer>
 
-            <LabelUser></LabelUser>
+            <Content>
+                {
+                    user.idNavigation != undefined ?
+                        <>
+                            {tipoUsuario !== "Medico" ?
+                                <>
+                                    <LabelUser>Data de Nascimento</LabelUser>
 
-            <InputUser
-            placeholder="04/05/1999"
-            />
+                                    <InputUser
+                                        placeholder={moment(user.dataNascimento).format("DD/MM/YYYY")}
+                                    />
+                                </>
+                                :
+                                null
 
-            <LabelUser>CPF</LabelUser>
+                            }
 
-            <InputUser
-            placeholder="859********"
-            />
 
-            <LabelUser>Endereço</LabelUser>
+                            <LabelUser>
+                                {tipoUsuario === "Medico" ?
+                                    "CRM"
+                                    :
+                                    "CPF"
+                                }
+                            </LabelUser>
 
-            <InputUser
-            placeholder="Rua Vicenso Silva, 987"
-            />
+                            <InputUser
+                                placeholder={tipoUsuario === "Medico" ?
+                                    user.crm
+                                    :
+                                    user.cpf
+                                }
+                            />
 
-            <CityContainer>
-                <View>
-                    <LabelUser>CEP</LabelUser>
+                            <LabelUser>Endereço</LabelUser>
 
-                    <InputCity
-                    placeholder="06548-909"
-                    />
-                </View>
+                            <InputUser
+                                placeholder={`${user.endereco.logradouro}, ${user.endereco.numero}`}
+                            />
 
-                <View>
-                    <LabelUser>Cidade</LabelUser>
-                    
-                    <InputCity
-                    placeholder="Moema-SP"
-                    />
-                </View>
-            </CityContainer>
+                            <CityContainer>
+                                <View>
+                                    <LabelUser>CEP</LabelUser>
 
-            <Button>
-                <ButtonTitle>Salvar</ButtonTitle>
-            </Button>
+                                    <InputCity
+                                        placeholder={user.endereco.cep}
+                                    />
+                                </View>
+                                {
+                                    tipoUsuario !== "Medico" ?
+                                        <View>
+                                            <LabelUser>Cidade</LabelUser>
 
-            <Button onPress={() => navigation.navigate("Login")}>
-                <ButtonTitle>Editar</ButtonTitle>
-            </Button>
+                                            <InputCity
+                                                placeholder={user.endereco.cidade}
+                                            />
+                                        </View>
+                                        :
+                                        null
+                                }
 
-            <ButtonUser onPress={() => userLogout() && navigation.navigate("Login")}>
-                <ButtonTitle>Logout</ButtonTitle>
-            </ButtonUser>
-        </ContainerUser>
+                            </CityContainer>
+                        </>
+                        :
+                        null
+                }
+
+                <Button>
+                    <ButtonTitle>Salvar</ButtonTitle>
+                </Button>
+
+                <Button onPress={() => { }}>
+                    <ButtonTitle>Editar</ButtonTitle>
+                </Button>
+
+                <ButtonUser onPress={() => userLogout() && navigation.replace("Login")}>
+                    <ButtonTitle>Logout</ButtonTitle>
+                </ButtonUser>
+            </Content>
+        </ContainerUser >
     )
 }
