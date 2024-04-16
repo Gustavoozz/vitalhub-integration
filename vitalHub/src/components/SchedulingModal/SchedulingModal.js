@@ -12,35 +12,35 @@ export const SchedulingModal = ({
 }) => {
 
     const navigation = useNavigation();
-    
-    return(
+
+    return (
         <Modal {...rest} visible={visible} transparent={true} animationType="fade">
-        <PatientModal   >
-            <ModalContent>
+            <PatientModal>
+                <ModalContent>
 
-                <Title>Agendar consulta</Title>
-                <ModalText>Consulte os dados selecionados para a sua consulta</ModalText>
-                
-                <ModalTextBig style={{ marginTop: 30 }}>Data da consulta</ModalTextBig>
-                <ModalTextMini>1 de Novembro de 2023</ModalTextMini>
+                    <Title>Agendar consulta</Title>
+                    <ModalText>Consulte os dados selecionados para a sua consulta</ModalText>
 
-                <ModalTextBig>Médico(a) da consulta</ModalTextBig>
-                <ModalTextMini>Dra Alessandra</ModalTextMini>
-                <ModalTextMini>Demartologa, Esteticista</ModalTextMini>
+                    <ModalTextBig>Data da consulta</ModalTextBig>
+                    <ModalTextMini>1 de Novembro de 2023</ModalTextMini>
 
-                <ModalTextBig>Local da consulta</ModalTextBig>
-                <ModalTextMini>São Paulo, SP</ModalTextMini>
+                    <ModalTextBig>Médic@ da consulta</ModalTextBig>
+                    <ModalTextMini></ModalTextMini>
+                    <ModalTextMini></ModalTextMini>
 
-                <ModalTextBig>Tipo da consulta</ModalTextBig>
-                <ModalTextMini>Rotina</ModalTextMini>
+                    <ModalTextBig>Local da consulta</ModalTextBig>
+                    <ModalTextMini>São Paulo, SP</ModalTextMini>
 
-                <ModalButton onPress={() => navigation.replace("Main")}>
-                    <ButtonTitle>Confirmar</ButtonTitle>
-                </ModalButton>
+                    <ModalTextBig>Tipo da consulta</ModalTextBig>
+                    <ModalTextMini>Rotina</ModalTextMini>
 
-                <CancelText onPress={() => setShowModalScheduling(false)}>Cancelar</CancelText>
-            </ModalContent>
-        </PatientModal>
-    </Modal> 
+                    <ModalButton onPress={() => navigation.replace("Main")}>
+                        <ButtonTitle>Confirmar</ButtonTitle>
+                    </ModalButton>
+
+                    <CancelText onPress={() => setShowModalScheduling(false)}>Cancelar</CancelText>
+                </ModalContent>
+            </PatientModal>
+        </Modal>
     )
 }

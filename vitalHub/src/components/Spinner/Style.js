@@ -10,7 +10,4 @@ export const BackgroundSpinner = styled.View`
 export const SpinnerIcon = styled.Image`
     width: 35px;
     height: 35px;
-    z-index: 50000;
-
-    position: fixed;
 `

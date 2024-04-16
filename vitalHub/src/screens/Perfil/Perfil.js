@@ -110,7 +110,15 @@ export const Perfil = ({ navigation }) => {
                             <LabelUser>Endereço</LabelUser>
 
                             <InputUser
-                                placeholder={`${user.endereco.logradouro}, ${user.endereco.numero}`}
+                                placeholder={`${user.endereco.logradouro == undefined ?
+                                    ""
+                                    :
+                                    user.endereco.logradouro
+                                    }, ${user.endereco.numero == undefined ?
+                                        ""
+                                        :
+                                        user.endereco.numero
+                                    }`}
                             />
 
                             <CityContainer>

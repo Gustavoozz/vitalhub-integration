@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@aurodesignsystem/auro-loader": "^2.0.6",
     "@expo-google-fonts/montserrat": "^0.2.3",
     "@expo-google-fonts/montserrat-alternates": "^0.2.3",
     "@expo-google-fonts/quicksand": "^0.2.3",
