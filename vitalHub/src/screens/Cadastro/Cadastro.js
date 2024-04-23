@@ -8,9 +8,18 @@ import { TextQuick } from "../../components/Text/Text";
 import { ButtonTitle, Title } from "../../components/Title/Style";
 
 
-export const Cadastro = ({ navigation }) => {
-    // const [showSpinner, setShowSpinner] = useState(false);
 
+// API importada
+import api from "../../services/Service";
+
+export const Cadastro = ({ navigation }) => {
+    // CONSTS
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [confirmarSenha, setConfirmarSenha] = useState("");
+    const tipoUsuario = "978C712B-09CF-433C-8153-8DDE8DE41E15";
+
+    // FUNCTIONS
     // function Timing() {
     //     setShowSpinner(true)
 
@@ -18,6 +27,27 @@ export const Cadastro = ({ navigation }) => {
     //         setShowSpinner(false)
     //     }, 3000)
     // }
+
+    const Cadastrar = async () => {
+     
+        if ((email != "" && senha != "") && senha === confirmarSenha) {
+            await api.post("/Pacientes", {
+                nome: "",
+                email: email,
+                senha: senha,
+                idTipoUsuario: tipoUsuario
+            }).then(() => {
+                navigation.replace("Login");
+            }).catch(error => {
+                console.log(error);
+            })
+        } else {
+            console.log("Falha no cadastro. Verifique se não há campos vazios e que as senhas sejam iguais!");
+        }
+    }
+
+
+    // EFFECTS
 
     return (
         <Container>
@@ -31,25 +61,26 @@ export const Cadastro = ({ navigation }) => {
 
             <Input
                 placeholder="Usuário ou E-mail"
+                onChangeText={txt => setEmail(txt)}
             />
 
             <Input
                 placeholder="Senha"
+                onChangeText={txt => setSenha(txt)}
             />
 
             <Input
                 placeholder="Confirmar Senha"
+                onChangeText={txt => setConfirmarSenha(txt)}
             />
 
-            <Button onPress={() => Timing()}>
+            <Button onPress={() => Cadastrar()}>
                 <ButtonTitle>Cadastrar</ButtonTitle>
             </Button>
 
-            <TextReenviar onPress={() => navigation.navigate("Login")}>Cancelar</TextReenviar>
+            <TextReenviar onPress={() => navigation.replace("Login")}>Cancelar</TextReenviar>
 
-            {/* <Spinner
-                visible={showSpinner}
-            /> */}
+          
         </Container>
     );
 }

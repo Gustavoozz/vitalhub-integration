@@ -6,7 +6,7 @@ import moment from "moment"
 
 export const CardPaciente = ({ navigation,
     situacao = "pendente",
-    onPressCancel,
+    onPressCancel = "Cancelada",
     onPressAppointment,
     onPressNotification,
     roleUsuario,

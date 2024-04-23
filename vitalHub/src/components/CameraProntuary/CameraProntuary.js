@@ -12,6 +12,7 @@ export default function CameraModal({
   visible,
   setShowCamera,
   setPhotoUpload,
+  getMediaLibrary = false,
   ...rest
 }) {
   // 
@@ -19,14 +20,17 @@ export default function CameraModal({
   const [photo, setPhoto] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [tipoCamera, setTipoCamera] = useState(CameraType.front);
+  const [lastPhoto, setLastPhoto] = useState(null)
 
-  /*
-  DESAFIOS
-  1 - Quando salvar a foto e clicar na lixeira - remover a galeria.
-  2 - Permitir a foto com flash.
-  3 - Botão para recarregar o autofocus.
-  4 - Capturar e salvar vídeos.
-  */
+  async function GetLatestPhoto() {
+    const assets = await MediaLibrary.getAssetsAsync({ sortBy : [[MediaLibrary.SortBy.creationTime, false]], first : 1})
+    console.log(assets);
+
+    if (assets.lenght > 0) {
+      setLastPhoto(assets[0].uri)
+    }
+  }
+
 
   useEffect(() => {
     (async () => {
@@ -34,6 +38,11 @@ export default function CameraModal({
 
       const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync();
     })()
+
+     if (getMediaLibrary) {
+      GetLatestPhoto()
+     }
+
   }, []);
 
   async function CapturePhoto() {

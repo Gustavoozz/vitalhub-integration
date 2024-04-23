@@ -6,8 +6,34 @@ import { ArrowIcon, Logo } from "../../components/Logo/Style"
 import { TextQuick } from "../../components/Text/Text"
 import { ButtonTitle, Title } from "../../components/Title/Style"
 import { Feather } from "@expo/vector-icons"
+import { useEffect, useState } from "react"
+import api from "../../services/Service"
 
 export const RecuperarSenha = ({ navigation }) => {
+
+    const [email, setEmail] = useState("gustavonascimento928@gmail.com");
+
+    async function profileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+            setProfile(token)
+        }
+    }
+
+    async function SendEmail() {
+        await api.post(`/RecuperarSenha?email=${email}`).then(() => {
+            navigation.replace("VerificarSenha", { emailRecuperacao : email })
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+    
+    useEffect(() => {
+        profileLoad();
+    }, [])
+
     return (
 
         <Container>
@@ -23,9 +49,11 @@ export const RecuperarSenha = ({ navigation }) => {
 
             <Input
                 placeholder="Usuário ou E-mail"
+                value={email}
+                onChangeText={(txt) => setEmail(txt)}
             />
 
-            <Button onPress={() => navigation.replace("VerificarSenha")}>
+            <Button onPress={() => SendEmail()}>
                 <ButtonTitle>Continuar</ButtonTitle>
             </Button>
         </Container>

@@ -10,33 +10,28 @@ import { UserContainer } from "../../components/UserContainer/Style"
 import { userDecodeToken } from "../../utils/Auth"
 import api from "../../services/Service"
 
-export const Prontuario = ({ navigation, route }) => {
-    // const [nome, setNome] = useState("");
-    // const [email, setEmail] = useState("");
-    const [consultas, setConsultas] = useState(null);
+export const Prontuario = ({ navigation,
+    usuarioConsulta }) => {
 
-    // const [user, setUser] = useState([]);
-    // const [description, setDescription] = useState("");
-    // const [prescription, setPrescription] = useState("");
-    const [prontuarioInfo, setProntuarioInfo] = useState([]);
+    const [consultas, setConsultas] = useState();
     const [editable, setEditable] = useState(false);
-    const [profile, setProfile] = useState([])
 
-    async function profileLoad() {
+    async function ProfileLoad() {
         const token = await userDecodeToken();
 
-        if (token) {
-            setProfile(token)
-            console.log(token);
-            
+        if (token !== null) {
+            setTipoUsuario(token.role);
+
+            await GetInfo(token);
+            await UpdateForm(token);
         }
     }
 
 
 
-    async function GetInfo() {
-      await api
-        .get(`/Consultas/BuscaPorId?id=${route.params.consultaId}`)
+    async function GetInfo(token) {
+
+      await api.get(`/Consultas/BuscaPorId?id=${usuarioConsulta.consultas}`)
         .then((response) => {
           setConsultas(response.data);
           console.log(response.data);
@@ -45,11 +40,21 @@ export const Prontuario = ({ navigation, route }) => {
           console.log(error);
         });
     }
-  
+
+    // async function UpdateForm() {
+
+    //     await api.put(`/Consultas/Status`)
+    //       .then((response) => {
+    //         setConsultas(response.data);
+    //         console.log(response.data);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //   }
+   
     useEffect(() => {
-    
-        GetInfo();
-    
+        ProfileLoad();
     }, []);
 
     return (
@@ -76,8 +81,7 @@ export const Prontuario = ({ navigation, route }) => {
                     <>
                    <LabelUser>Descrição da consulta</LabelUser>
                     <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 60 }}
-                    placeholder={prontuarioInfo.descricao}
-                    value={prontuarioInfo.descricao}
+                    
                     placeholderTextColor="#4E4B59"
                     />
                     </>
@@ -139,8 +143,6 @@ export const Prontuario = ({ navigation, route }) => {
           }
                
  
-               
-            
             <ButtonBack onPress={() => navigation.replace("MainDoctor")}>
                 <CancelText>Cancelar</CancelText>
             </ButtonBack>

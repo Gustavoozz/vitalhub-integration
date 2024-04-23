@@ -29,7 +29,7 @@ export const InputVerify = styled(Input)`
     width: 20%;
     height: 75px;
     
-    padding: 0px;
+    padding-bottom: 10px;
     align-items: center;
     justify-content: center;
 

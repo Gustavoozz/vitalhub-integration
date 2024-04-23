@@ -5,13 +5,14 @@ import { ButtonTitle, LabelUser, Title, TitleUser } from "../../components/Title
 import { SubTextQuick, TextQuick } from "../../components/Text/Text"
 import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
-import { Content } from "./Style"
-
+import { ButtonCamera, Content } from "./Style"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { UserDecodeToken, UserLogout, userDecodeToken, userLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
-
+import CameraModal from "../../components/CameraProntuary/CameraProntuary"
 import moment from "moment";
-
+import * as MediaLibrary from "expo-media-library"
+import * as ImagePicker from "expo-image-picker"
 // API importada
 import api from "../../services/Service"
 
@@ -20,6 +21,8 @@ export const Perfil = ({ navigation }) => {
     const [tipoUsuario, setTipoUsuario] = useState();
     const [user, setUser] = useState([]);
     const [editar, setEditar] = useState(false);
+    const [showCamera, setShowCamera] = useState(false);
+    const [photo, setPhoto] = useState(null);
 
     // FUNCTIONS
     async function ProfileLoad() {
@@ -32,6 +35,13 @@ export const Perfil = ({ navigation }) => {
         }
     }
 
+
+    async function requestGalery() {
+        await MediaLibrary.requestPermissionsAsync();
+    
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      }
+    
     async function UserLoad(token) {
         const url = (token.role == 'Medico' ?
             "Medicos"
@@ -54,13 +64,24 @@ export const Perfil = ({ navigation }) => {
 
     // EFFECTS
     useEffect(() => {
+        requestGalery();
         ProfileLoad();
+
+      
     }, [])
 
     return (
         <ContainerUser>
             <PhotoContainer>
+                <View>
                 <UserContainer source={require('../../assets/User.png')} />
+                <ButtonCamera onPress={() => setShowCamera(true)}>
+                     <MaterialCommunityIcons name="camera-plus" size={20} color="#FBFBFB"/>
+                </ButtonCamera>
+               
+                
+                </View>
+                
                 {user.idNavigation != undefined ?
                     <InformationContent>
                         <TitleUser>{user.idNavigation.nome}</TitleUser>
@@ -117,7 +138,7 @@ export const Perfil = ({ navigation }) => {
                                 <View>
                                     <LabelUser>CEP</LabelUser>
 
-                                    <InputCity
+                                    <InputCity 
                                         placeholder={user.endereco.cep}
                                     />
                                 </View>
@@ -144,13 +165,37 @@ export const Perfil = ({ navigation }) => {
                     <ButtonTitle>Salvar</ButtonTitle>
                 </Button>
 
-                <Button onPress={() => { }}>
+
+              {
+                 tipoUsuario == 'Medico' && editar == false ? (
+                    <>
+                   <Button onPress={() => { }}>
+                    <ButtonTitle>Editar</ButtonTitle>
+                </Button> 
+                    </>
+                
+                ) : editar == true ? (
+                    <>
+                    <Button style={{ backgroundColor: 'gray' }}onPress={() => { }}>
                     <ButtonTitle>Editar</ButtonTitle>
                 </Button>
+                    </>
+                
+                ) : null
+                
+              }
+                
 
                 <ButtonUser onPress={() => userLogout() && navigation.replace("Login")}>
                     <ButtonTitle>Logout</ButtonTitle>
                 </ButtonUser>
+
+                <CameraModal
+                    getMediaLibrary={true}
+                    visible={showCamera}
+                    setShowCamera={setShowCamera}
+                    setPhotoUpload={setPhoto}
+                />
             </Content>
         </ContainerUser >
     )
