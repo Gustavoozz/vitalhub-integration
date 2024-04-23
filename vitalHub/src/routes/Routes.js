@@ -11,9 +11,8 @@ import { VerificarSenha } from "../screens/VerificarSenha/VerificarSenha";
 import { RedefinirSenha } from "../screens/RedefinirSenha/RedefinirSenha";
 import { Cadastro } from "../screens/Cadastro/Cadastro";
 import { Perfil } from "../screens/Perfil/Perfil";
-import { MedicoConsultas } from "../screens/MedicoConsultas/MedicoConsultas";
+import { Home } from "../screens/Home/Home";
 import { Prontuario } from "../screens/Prontuario/Prontuario";
-import { PacienteConsultas } from "../screens/PacienteConsultas/PacienteConsultas";
 import { ClinicSelect } from "../screens/ClinicSelect/ClinicSelect";
 import { DoctorSelect } from "../screens/DoctorSelect/DoctorSelect";
 import { Localization } from "../screens/Localization/Localization";
@@ -43,7 +42,6 @@ export const Route = () => {
                 <Stack.Screen
                     name="Login"
                     component={Login}
-                    options={{ title: "Login" }}
                 />
 
                 <Stack.Screen
@@ -82,21 +80,15 @@ export const Route = () => {
                 />
 
                 <Stack.Screen
-                    name="MedicoConsultas"
-                    component={MedicoConsultas}
-                    options={{ title: "MedicoConsultas" }}
+                    name="Home"
+                    component={Home}
+                    options={{ title: "Home" }}
                 />
 
                 <Stack.Screen
                     name="Prontuario"
                     component={Prontuario}
                     options={{ title: "Prontuario" }}
-                />
-
-                <Stack.Screen
-                    name="PacienteConsultas"
-                    component={PacienteConsultas}
-                    options={{ title: "PacienteConsultas" }}
                 />
 
                 <Stack.Screen

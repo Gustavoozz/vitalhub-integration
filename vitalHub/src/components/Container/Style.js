@@ -79,7 +79,7 @@ export const ImageContainer = styled.View`
     border: 1px solid red;
 `
 
-export const DoctorContainer = styled.View`
+export const UserContent = styled.View`
    flex: 1;
    width: 100%;
 `

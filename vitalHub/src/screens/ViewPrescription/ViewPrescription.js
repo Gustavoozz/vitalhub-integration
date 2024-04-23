@@ -4,7 +4,6 @@ import { InputUser, PhotoButton } from '../../components/Input/Style'
 
 import { SubTextQuick } from '../../components/Text/Text'
 import { ButtonTitle, LabelUser, TitleUser } from '../../components/Title/Style'
-import { UserContainer } from '../../components/UserContainer/Style'
 
 import { View } from 'react-native'
 import { SendPhotoButton } from '../../components/Button/Style'
@@ -20,17 +19,9 @@ import {
     ButtonTakePhoto,
     ButtonTakePhotoText,
     FlexibleBox,
-    ImageDoctor,
-    ImagePhoto,
-    InputBox,
-    Line,
-    PhotoBox,
-    PhotoBoxNull,
-    RecordContainer,
-    RecordContent,
-    TextPhotoBox
 } from "./Style";
 import CameraModal from '../../components/CameraProntuary/CameraProntuary'
+import { UserImage } from '../../components/UserImage/Style'
 // import * as MediaLibrary xfrom 'expo-media-library'
 
 export const ViewPrescription = ({ navigation }) => {
@@ -41,7 +32,7 @@ export const ViewPrescription = ({ navigation }) => {
         <Container>
             <ContainerUser>
                 <PhotoContainer>
-                    <UserContainer source={require('../../assets/UserDoctorBig.png')} />
+                    <UserImage source={require('../../assets/UserDoctorBig.png')} />
                 </PhotoContainer>
 
                 <ContentProntuario>

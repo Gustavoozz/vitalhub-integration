@@ -1,8 +1,8 @@
-import { Image, View } from "react-native"
-import { CityContainer, Container, ContainerUser, InformationContent, PhotoContainer } from "../../components/Container/Style"
-import { UserContainer } from "../../components/UserContainer/Style"
-import { ButtonTitle, LabelUser, Title, TitleUser } from "../../components/Title/Style"
-import { SubTextQuick, TextQuick } from "../../components/Text/Text"
+import { View } from "react-native"
+import { CityContainer, ContainerUser, InformationContent, PhotoContainer } from "../../components/Container/Style"
+import { UserImage } from "../../components/UserImage/Style"
+import { ButtonTitle, LabelUser, TitleUser } from "../../components/Title/Style"
+import { SubTextQuick } from "../../components/Text/Text"
 import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
 import { Content } from "./Style"
@@ -60,15 +60,17 @@ export const Perfil = ({ navigation }) => {
     return (
         <ContainerUser>
             <PhotoContainer>
-                <UserContainer source={require('../../assets/User.png')} />
-                {user.idNavigation != undefined ?
-                    <InformationContent>
-                        <TitleUser>{user.idNavigation.nome}</TitleUser>
+                <UserImage source={require('../../assets/User.png')} />
 
-                        <SubTextQuick>{user.idNavigation.email}</SubTextQuick>
-                    </InformationContent>
-                    :
-                    null
+                {
+                    user.idNavigation != undefined ?
+                        <InformationContent>
+                            <TitleUser>{user.idNavigation.nome}</TitleUser>
+
+                            <SubTextQuick>{user.idNavigation.email}</SubTextQuick>
+                        </InformationContent>
+                        :
+                        null
                 }
 
             </PhotoContainer>

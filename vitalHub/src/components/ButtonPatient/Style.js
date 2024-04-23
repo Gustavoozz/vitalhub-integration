@@ -14,8 +14,3 @@ export const AppointmentBox = styled.TouchableOpacity`
    margin-left: 330px;
    margin-bottom: 20px;
 `
-
-export const AppointmentIcon = styled.Image`
-    width: 32px;
-    height: 32px;
-`

@@ -29,7 +29,7 @@ export const PatientPhoto = styled.Image`
     border-radius: 5px;
 `
 
-export const TitlePatient = styled.Text`
+export const TitleCard = styled.Text`
     width: 300px;
     font-family: "MontserratAlternates_600SemiBold";
     font-size: 16px;

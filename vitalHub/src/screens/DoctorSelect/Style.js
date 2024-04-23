@@ -6,7 +6,7 @@ export const InformationContainer = styled.View`
     gap: 10px;
 `
 
-export const DoctorContainer = styled.ScrollView`
+export const UserContainer = styled.ScrollView`
    flex: 1;
    width: 100%;
 `

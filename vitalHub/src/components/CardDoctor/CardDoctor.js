@@ -9,7 +9,7 @@ import {
     ExtraContent
 } from "./Style"
 
-export const DoctorCard = ({
+export const CardDoctor = ({
     onPress,
     medico,
 }) => {

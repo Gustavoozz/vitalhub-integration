@@ -2,9 +2,10 @@ import { Container } from "../../components/Container/Style";
 import { ButtonTitle, LabelUser, Title } from "../../components/Title/Style";
 import { CalendarComponent } from "../../components/CalendarComponent/CalendarComponent";
 import { SelectInput } from "../../components/SelectInput/SelectInput";
-import { ButtonDate } from "../../components/ButtonDate/ButtonDate";
 import { CancelLink } from "../ClinicSelect/Style";
 import { SchedulingModal } from "../../components/SchedulingModal/SchedulingModal";
+import { useState } from "react";
+import { Button } from "../../components/Button/Style";
 
 export const DateSelect = ({ navigation }) => {
 
@@ -19,15 +20,16 @@ export const DateSelect = ({ navigation }) => {
             <LabelUser>Selecione um horário disponível</LabelUser>
             <SelectInput />
 
-            <ButtonDate onPressScheduling={() => setShowModalScheduling(true)}>
+            <Button onPress={() => setShowModalScheduling(true)}>
                 <ButtonTitle>Confirmar</ButtonTitle>
-            </ButtonDate>
+            </Button>
 
             <CancelLink onPress={() => navigation.replace("DoctorSelect")}>Cancelar</CancelLink>
 
             <SchedulingModal
-                visible={showModalScheduling}
                 setShowModalScheduling={setShowModalScheduling}
+                visible={showModalScheduling}
+                navigation={navigation}
             />
         </Container>
     )

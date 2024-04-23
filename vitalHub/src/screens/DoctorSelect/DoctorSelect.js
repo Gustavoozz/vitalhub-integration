@@ -3,12 +3,11 @@ import { Container } from "../../components/Container/Style"
 import { ListComponent } from "../../components/List/List"
 import { ButtonTitle, Title } from "../../components/Title/Style"
 import { CancelLink } from "../ClinicSelect/Style"
-import { DoctorCard } from "../../components/DoctorCard/DoctorCard"
 import { useEffect, useState } from "react"
 
 // API importada
 import api from "../../services/Service"
-import { DoctorContainer } from "./Style"
+import { CardDoctor } from "../../components/CardDoctor/CardDoctor"
 
 export const DoctorSelect = ({
    navigation,
@@ -37,13 +36,13 @@ export const DoctorSelect = ({
    return (
       <Container>
          <Title style={{ marginTop: 30, marginBottom: 50 }}>Selecionar médico</Title>
-         
+
          <ListComponent
             data={medicoLista}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
                // card médico
-               <DoctorCard
+               <CardDoctor
                   medico={item}
                />
             )}

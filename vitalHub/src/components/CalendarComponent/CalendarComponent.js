@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
-const CalendarComponent = () => {
+export const CalendarComponent = () => {
   const [selected, setSelected] = useState("");
 
   const currentDate = new Date();
@@ -28,16 +28,15 @@ const CalendarComponent = () => {
   LocaleConfig.defaultLocale = "pt-br";
 
   return (
-
     <Calendar
-    hideArrows={true}
+      hideArrows={true}
       style={{
-        width : 420,
-        alignSelf : 'center',
-        backgroundColor : '#FAFAFA'
-        
+        width: 420,
+        alignSelf: 'center',
+        backgroundColor: '#FAFAFA'
+
       }}
-    
+
       onDayPress={(day) => {
         setSelected(day.dateString);
       }}
@@ -48,22 +47,22 @@ const CalendarComponent = () => {
         },
       }}
 
-      minDate={startingDate}
+      minDate={startingDate.toDateString()}
 
       theme={{
-        calendarBackground : '#FAFAFA',
-        
-        arrowColor : '#49B3BA',
-        textDisabledColor : '#C6C5CE',     
-        todayTextColor : '#5F5C6B',   
+        calendarBackground: '#FAFAFA',
+
+        arrowColor: '#49B3BA',
+        textDisabledColor: '#C6C5CE',
+        todayTextColor: '#5F5C6B',
         selectedDayTextColor: '#FAFAFA',
         selectedDayBackgroundColor: '#60BFC5',
-        
-        textDayFontSize : 16,
-        textMonthFontSize : 25,
-        textDayHeaderFontSize : 12,
 
-        textDayStyle : { "color" : '#5F5C6B'},
+        textDayFontSize: 16,
+        textMonthFontSize: 25,
+        textDayHeaderFontSize: 12,
+
+        textDayStyle: { "color": '#5F5C6B' },
 
         textDayFontFamily: "Quicksand_600SemiBold",
         textDayHeaderFontFamily: "Quicksand_600SemiBold",
@@ -72,5 +71,3 @@ const CalendarComponent = () => {
     />
   );
 };
-
-export default CalendarComponent;
