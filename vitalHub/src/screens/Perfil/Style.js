@@ -19,3 +19,4 @@ export const ButtonCamera = styled.TouchableOpacity.attrs({
     right: 10px;
     bottom: 210px;
 `
+

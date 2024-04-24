@@ -3,7 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState, useRef } from 'react';
 import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
-
+import * as ImagePicker from 'expo-image-picker'
+import { LastPhoto } from './Style';
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
 
@@ -23,10 +24,10 @@ export default function CameraModal({
   const [lastPhoto, setLastPhoto] = useState(null)
 
   async function GetLatestPhoto() {
-    const assets = await MediaLibrary.getAssetsAsync({ sortBy : [[MediaLibrary.SortBy.creationTime, false]], first : 1})
+    const {assets} = await MediaLibrary.getAssetsAsync({ sortBy : [[MediaLibrary.SortBy.creationTime, false]], first : 1})
     console.log(assets);
 
-    if (assets.lenght > 0) {
+    if (assets.length > 0) {
       setLastPhoto(assets[0].uri)
     }
   }
@@ -40,6 +41,7 @@ export default function CameraModal({
     })()
 
      if (getMediaLibrary) {
+      
       GetLatestPhoto()
      }
 
@@ -55,6 +57,20 @@ export default function CameraModal({
 
       console.log(photo);
     }
+  }
+
+  async function SelectImageGallery() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1
+    });
+    console.log(result);
+
+    if (!result.canceled) {
+      setPhoto(result.assets[0].uri)
+
+      setOpenModal(true)
+    } 
   }
 
   function UploadPhoto() {
@@ -95,6 +111,20 @@ export default function CameraModal({
             <MaterialCommunityIcons name="keyboard-return" size={24} color="#FFF" />
           </TouchableOpacity>
 
+          <TouchableOpacity onPress={() => SelectImageGallery()}>
+            {
+              lastPhoto != null 
+              ? (
+            <LastPhoto
+            source={{ uri : lastPhoto }}
+            />
+            ) : (
+            null
+            )
+            }
+           
+          </TouchableOpacity>
+          
           {/* tirar foto */}
           <TouchableOpacity
             style={styles.btnCapture}
@@ -158,7 +188,7 @@ export default function CameraModal({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -196,7 +226,7 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 20,
     borderRadius: 20,
-    backgroundColor: '#121212',
+    backgroundColor: 'black',
     justifyContent: 'center',
     alignContent: 'center',
   },

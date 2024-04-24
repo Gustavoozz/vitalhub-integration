@@ -8,8 +8,9 @@ import { ArrowIcon, Logo } from "../../components/Logo/Style";
 import { TextQuick } from "../../components/Text/Text";
 import { ButtonTitle, Title } from "../../components/Title/Style";
 import { Feather } from "@expo/vector-icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../../services/Service";
+import userDecodeToken from "../../utils/Auth"
 
 export const VerificarSenha = ({ navigation, route }) => {
     const inputs = [useRef(null), useRef(null), useRef(null), useRef(null)]
@@ -28,6 +29,15 @@ export const VerificarSenha = ({ navigation, route }) => {
         }
     }
 
+    async function profileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+            setProfile(token)
+        }
+    }
+
     async function codeValidate() {
         console.log(code);
         await api.post(`/RecuperarSenha/PostValidacao?email=${route.params.emailRecuperacao}&codigo=${code}`)
@@ -37,6 +47,10 @@ export const VerificarSenha = ({ navigation, route }) => {
             console.log(error);
         })
     }
+
+    useEffect(() => {
+        profileLoad();
+    }, [])
     
     return (
         

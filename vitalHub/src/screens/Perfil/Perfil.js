@@ -7,7 +7,7 @@ import { InputCity, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
 import { ButtonCamera, Content } from "./Style"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import { UserDecodeToken, UserLogout, userDecodeToken, userLogout } from "../../utils/Auth"
+import { userDecodeToken, userLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
 import CameraModal from "../../components/CameraProntuary/CameraProntuary"
 import moment from "moment";
@@ -48,9 +48,6 @@ export const Perfil = ({ navigation }) => {
             :
             "Pacientes"
         )
-
-        console.log(`/${url}/BuscarPorId?id=${token.user}`);
-
         await api.get(`/${url}/BuscarPorId?id=${token.user}`)
             .then(response => {
                 setUser(response.data)
@@ -62,19 +59,50 @@ export const Perfil = ({ navigation }) => {
             })
     }
 
+    async function ChangeProfilePhoto() {
+        const formData = new FormData();
+        formData.append("Arquivo", {
+            uri : photo,
+            name : `image.${photo.split(".")[1]}`,
+            type : `image/${photo.split(".")[1]}`,
+        })
+        console.log(`/Usuario/AlterarFotoDePerfil?id=${token.user}`);
+
+        await api.put(`/Usuario/AlterarFotoDePerfil?id=${token.user}`, formData, {
+            headers : {
+                "Content-Type" : "multipart/form-data"
+            }
+        }).then( async response => {
+           console.log(response);
+         
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    // setUser({
+    //     ...user,
+    //     foto : photo
+    // })
+
     // EFFECTS
     useEffect(() => {
-        requestGalery();
+        // requestGalery();
         ProfileLoad();
-
-      
     }, [])
+
+    useEffect(() => {
+        if (photo != null) {
+            console.log(photo);
+            ChangeProfilePhoto();
+        }
+    }, [photo])
 
     return (
         <ContainerUser>
             <PhotoContainer>
                 <View>
-                <UserContainer source={require('../../assets/User.png')} />
+                <UserContainer source={{uri : photo}} />
                 <ButtonCamera onPress={() => setShowCamera(true)}>
                      <MaterialCommunityIcons name="camera-plus" size={20} color="#FBFBFB"/>
                 </ButtonCamera>
