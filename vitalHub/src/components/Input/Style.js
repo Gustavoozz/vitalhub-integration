@@ -27,7 +27,7 @@ export const InputError = styled(Input).attrs({
 `
 
 export const InputVerify = styled(Input).attrs({
-    placeholder: "0", 
+    placeholder: "0",
     maxLength: 1
 })`
     width: 20%;
@@ -80,4 +80,15 @@ export const InputProntuario = styled(Input)`
     height: 121px;
 
     padding-bottom: 90px;
+
+    font-family: 'MontserratAlternates_500Medium';
+`
+
+export const InputProntuarioNonEditable = styled(InputProntuario).attrs(({ 
+    editable: false,
+    placeholderTextColor: "#33303E"
+     }))`
+    background-color: #F5F3F3;
+    color: #33303E;
+    border: none;
 `

@@ -163,16 +163,19 @@ export const Home = ({
                         null
                 }
 
-                <ScheduleModal
-                    visible={showModalSchedule}
-                    setShowModalSchedule={setShowModalSchedule}
-                />
-
                 {
                     profile.role === "Paciente" ?
-                        <ButtonPatient
-                            onPressSchedule={() => setShowModalSchedule(true)}
-                        />
+                        <>
+                            <ScheduleModal
+                                visible={showModalSchedule}
+                                setShowModalSchedule={setShowModalSchedule}
+                            />
+
+                            <ButtonPatient
+                                onPressSchedule={() => setShowModalSchedule(true)}
+                            />
+                        </>
+
                         :
                         null
                 }

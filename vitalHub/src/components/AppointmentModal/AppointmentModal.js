@@ -21,7 +21,11 @@ export const AppointmentModal = ({
     const HandlePress = (rota) => {
         setShowModalAppointment(false);
 
-        navigation.replace(rota, { clinicaId: consulta.medicoClinica.clinicaId })
+        if (profile === "Medico") {
+            navigation.replace(rota, { consultaId: consulta.id })
+        } else {
+            navigation.replace(rota, { clinicaId: consulta.medicoClinica.clinicaId });
+        }
     }
 
     return (
@@ -37,7 +41,7 @@ export const AppointmentModal = ({
 
                                 <ModalText> {consulta.paciente.idNavigation.email}</ModalText>
 
-                                <ModalButton onPress={() => navigation.replace("Prontuario")}>
+                                <ModalButton onPress={() => HandlePress("Prontuario")}>
                                     <ButtonTitle>Inserir Prontuário</ButtonTitle>
                                 </ModalButton>
 

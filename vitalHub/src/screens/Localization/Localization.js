@@ -25,11 +25,10 @@ import { useEffect, useState, useRef } from 'react';
 import api from "../../services/Service"
 
 export const Localization = ({
-  
   navigation,
   route
 }) => {
-  const [clinica, setClinica] = useState();
+  const [clinica, setClinica] = useState(null);
 
   const mapReference = useRef(null);
   const [initialPosition, setInitialPosition] = useState(null);
@@ -67,8 +66,8 @@ export const Localization = ({
 
   const BuscarClinica = async () => {
     await api.get(`/Clinica/BuscarPorId?id=${route.params.clinicaId}`)
-      .then( response => {
-        setClinica(response.data)
+      .then(response => {
+        setClinica(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -98,89 +97,100 @@ export const Localization = ({
   useEffect(() => {
     RecarregarVisualizacaoMapa();
   }, [initialPosition])
-  return (
-    <Container>
-      {
-        initialPosition != null
-          ? (
-            <MapView
-              ref={mapReference}
-              initialRegion={{
-                latitude: initialPosition.coords.latitude,
-                longitude: initialPosition.coords.longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005
-              }}
-              provider={PROVIDER_GOOGLE}
-              style={styles.map}
-            >
 
-              <Marker
-                coordinate={{
+  useEffect(() => {
+    BuscarClinica();
+  }, [])
+
+
+  if (clinica != null) {
+    return (
+      <Container>
+        {
+          initialPosition != null
+            ? (
+              <MapView
+                ref={mapReference}
+                initialRegion={{
                   latitude: initialPosition.coords.latitude,
                   longitude: initialPosition.coords.longitude,
-                }}
-                title="Local"
-                description="Descrição do local."
-              />
-
-              <Marker
-                coordinate={{
-                  latitude: -23.7141,
-                  longitude: -46.4137,
-                }}
-                title="Local"
-                description="Descrição do local."
-              />
-
-              <MapViewDirections
-                origin={initialPosition.coords}
-                destination={{
-                  latitude: -23.7141,
-                  longitude: -46.4137,
                   latitudeDelta: 0.005,
                   longitudeDelta: 0.005
                 }}
-                apikey={mapskey}
-                strokeWidth={5}
-                strokeColor='red'
-              />
-            </MapView>
-          ) : (
-            <>
-              <Text>Locaização não encontrada!</Text>
-              <ActivityIndicator />
-            </>
-          )
-      }
-      <Title style={{ marginTop: 30, marginBottom: 10 }}>Clínica Natureh</Title>
-      <SubTextQuick>São Paulo, SP</SubTextQuick>
+                provider={PROVIDER_GOOGLE}
+                style={styles.map}
+              >
 
-      <LabelUser>Endereço</LabelUser>
-      <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-        placeholder="Rua Vicenso Silva, 987"
-        placeholderTextColor="#33303E" />
+                <Marker
+                  coordinate={{
+                    latitude: initialPosition.coords.latitude,
+                    longitude: initialPosition.coords.longitude,
+                  }}
+                  title="Local"
+                  description="Descrição do local."
+                />
 
-      <CityContainer>
-        <View>
-          <LabelUser>Número</LabelUser>
-          <InputCity style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-            placeholder="578"
-            placeholderTextColor="#33303E" />
-        </View>
+                <Marker
+                  coordinate={{
+                    latitude: -23.7141,
+                    longitude: -46.4137,
+                  }}
+                  title="Local"
+                  description="Descrição do local."
+                />
 
-        <View>
-          <LabelUser>Bairro</LabelUser>
-          <InputCity style={{ fontFamily: 'MontserratAlternates_500Medium' }}
-            placeholder="Moema-SP"
-            placeholderTextColor="#33303E" />
-        </View>
+                <MapViewDirections
+                  origin={initialPosition.coords}
+                  destination={{
+                    latitude: -23.7141,
+                    longitude: -46.4137,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005
+                  }}
+                  apikey={mapskey}
+                  strokeWidth={5}
+                  strokeColor='red'
+                />
+              </MapView>
+            ) : (
+              <>
+                <Text>Locaização não encontrada!</Text>
+                <ActivityIndicator />
+              </>
+            )
+        }
+        <Title style={{ marginTop: 30, marginBottom: 10 }}>{clinica.nomeFantasia}</Title>
+        <SubTextQuick>São Paulo, SP</SubTextQuick>
 
-      </CityContainer>
+        <LabelUser>Endereço</LabelUser>
+        <InputUser
+          placeholder={clinica.endereco.logradouro}
+          placeholderTextColor="#33303E" />
 
-      <CancelText onPress={() => navigation.replace("Main")} style={{ marginBottom: 40 }}>Voltar</CancelText>
-    </Container>
-  )
+        <CityContainer>
+          <View>
+            <LabelUser>Número</LabelUser>
+            <InputCity
+              placeholder={clinica.endereco.numero.toString()}
+              placeholderTextColor="#33303E" />
+          </View>
+
+          <View>
+            <LabelUser>Cidade</LabelUser>
+            <InputCity
+              placeholder={clinica.endereco.cidade}
+              placeholderTextColor="#33303E" />
+          </View>
+
+        </CityContainer>
+
+        <CancelText
+          onPress={() => navigation.replace("Main")}
+          style={{ marginBottom: 40 }}
+        >Voltar</CancelText>
+      </Container>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
