@@ -47,7 +47,7 @@ export const CardPaciente = ({ navigation,
 
                 {
                     situacao == "Realizada" ? (                      
-                        <CancelButtonProntuary onPress={roleUsuario == "Paciente" ? () => navigation.navigate("ViewPrescription") : () => navigation.navigate("Prontuario")}>
+                        <CancelButtonProntuary onPress={roleUsuario == "Paciente" ? () => navigation.navigate("ViewPrescription") : () => navigation.navigate("ViewPrescription")}>
                             <CancelTitle situacao={situacao}>Ver prontuário</CancelTitle>
                         </CancelButtonProntuary>
     

@@ -1,17 +1,17 @@
 import { FontAwesome6, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { Container, ContainerUser, ContentProntuario, PhotoContainer } from '../../components/Container/Style'
-import { InputUser, PhotoButton } from '../../components/Input/Style'
+import { InputUser, OcrView, PhotoButton } from '../../components/Input/Style'
 
 import { SubTextQuick } from '../../components/Text/Text'
 import { ButtonTitle, LabelUser, TitleUser } from '../../components/Title/Style'
 import { UserContainer } from '../../components/UserContainer/Style'
 
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import { SendPhotoButton } from '../../components/Button/Style'
 import { CancelText } from '../../components/Link/Style'
 
 import CameraProntuary from "../../components/CameraProntuary/CameraProntuary"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FontAwesome } from '@expo/vector-icons'
 
 import {
@@ -24,9 +24,81 @@ import {
 import CameraModal from '../../components/CameraProntuary/CameraProntuary'
 // import * as MediaLibrary xfrom 'expo-media-library'
 
+import api from "../../services/Service"
+
 export const ViewPrescription = ({ navigation }) => {
     const [showCamera, setShowCamera] = useState(false);
     const [photo, setPhoto] = useState(null);
+    const [descricaoExame, setDescricaoExame] = useState("");
+
+
+    async function ProfileLoad() {
+        const token = await userDecodeToken();
+
+        if (token !== null) {
+            setTipoUsuario(token.role);
+
+            await UserLoad(token);
+        }
+    }
+
+
+ 
+    async function UserLoad(token) {
+        const url = (token.role == 'Medico' ?
+            "Medicos"
+            :
+            "Pacientes"
+        )
+        await api.get(`/${url}/BuscarPorId?id=${token.user}`)
+            .then(response => {
+                setUser(response.data)
+
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+
+    async function InserirExame() {
+        const formData = new FormData();
+
+        formData.append("ConsultaId", prontuario.id);
+        formData.append("Imagem", {
+            uri : photo,
+            name : `image.${photo.split(".").pop()}`,
+            type : `image/${photo.split(".").pop()}`
+        })
+
+        await api.post(`/Exame/Cadastrar`, formData, {
+            headers : {
+                "Content-Type" : "multipart/form-data"
+                }
+        }).then(response => {
+            
+            setDescricaoExame(descricaoExame + "\n" + response.data.descricao)
+            console.log(setDescricaoExame);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+
+    useEffect(() => {
+        // requestGalery();
+        ProfileLoad();
+    }, [])
+
+
+    useEffect(() => {
+        if (photo) {
+            console.log(photo);
+            InserirExame();
+        }
+    }, [photo])
+
 
     return (
             <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
@@ -57,15 +129,17 @@ export const ViewPrescription = ({ navigation }) => {
                     placeholderTextColor="#4E4B59"
                 />
 
-                <View style={{ width: '100%', alignItems: 'center' }}>
-                    <LabelUser>Exames médicos</LabelUser>
-                    <FontAwesome6 name="file-arrow-down" size={24} color="black" style={{ position: 'absolute', top: 108.1, zIndex: 1, right: 300 }} />
-
-                    <PhotoButton style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
-                        placeholder="                  Nenhuma foto informada"
-                        placeholderTextColor="#4E4B59"
-                        onPress={() => setShowCamera()}
-                    ><ButtonTitle style={{ fontFamily: 'MontserratAlternates_500Medium', fontSize: 14, color: '#4E4B59', textTransform: 'none', marginTop: 43, marginLeft: 80 }}>Nenhuma foto informada</ButtonTitle></PhotoButton>
+            <View style={{ width: '100%', alignItems: 'center' }}>
+            <LabelUser>Exames médicos</LabelUser>
+                   
+            {photo === null ? (
+            <PhotoButton style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}/>
+            ) : (
+            <PhotoButton source={{ uri : photo }} style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
+            />
+            )      
+            } 
+                    
                 </View>
 
                 <FlexibleBox>
@@ -80,10 +154,9 @@ export const ViewPrescription = ({ navigation }) => {
                     </ButtonCancelPhoto>
                 </FlexibleBox>
 
-                <InputUser style={{ height: 103, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0, marginTop: 30 }}
-                    placeholder={`Resultado do exame de sangue : \ntudo normal`}
-                    placeholderTextColor="#4E4B59"
-                />
+                <OcrView>
+                    <Text>{setDescricaoExame}</Text>
+                </OcrView>
 
                 <CancelText onPress={() => navigation.replace("MainDoctor")}>Voltar</CancelText>
 

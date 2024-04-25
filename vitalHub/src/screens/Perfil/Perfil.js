@@ -36,11 +36,11 @@ export const Perfil = ({ navigation }) => {
     }
 
 
-    async function requestGalery() {
-        await MediaLibrary.requestPermissionsAsync();
+    // async function requestGalery() {
+    //     await MediaLibrary.requestPermissionsAsync();
     
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      }
+    //     await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //   }
     
     async function UserLoad(token) {
         const url = (token.role == 'Medico' ?

@@ -64,7 +64,7 @@ export const Prontuario = ({ navigation,
             </PhotoContainer>
 
             <ContentProntuario>
-                <TitleUser>{consultas.paciente.idNavigation.nome}</TitleUser>
+                <TitleUser></TitleUser>
                 <SubTextQuick></SubTextQuick>
             </ContentProntuario>
 

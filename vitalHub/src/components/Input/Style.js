@@ -53,13 +53,24 @@ export const InputUser = styled.TextInput.attrs({
     font-family: 'MontserratAlternates_500Medium';
 `
 
-export const PhotoButton = styled.TouchableOpacity`
+export const PhotoButton = styled.Image`
     width: 90%;
     height: 111px;
 
     padding-left: 20px;
     padding-bottom: 0px;
     
+    background-color: #F5F3F3;
+    border-radius: 5px;
+`
+
+export const OcrView = styled.View`
+    width: 90%;
+    height: 111px;
+    margin-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+
     background-color: #F5F3F3;
     border-radius: 5px;
 
