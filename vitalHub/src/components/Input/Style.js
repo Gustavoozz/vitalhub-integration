@@ -55,7 +55,7 @@ export const InputUser = styled.TextInput.attrs({
 
 export const PhotoButton = styled.Image`
     width: 90%;
-    height: 111px;
+    height: 200px;
 
     padding-left: 20px;
     padding-bottom: 0px;
@@ -64,12 +64,14 @@ export const PhotoButton = styled.Image`
     border-radius: 5px;
 `
 
-export const OcrView = styled.View`
+export const OcrView = styled.ScrollView
+`
     width: 90%;
-    height: 111px;
+    height: 100%;
     margin-top: 20px;
     padding-left: 20px;
     padding-bottom: 0px;
+    overflow: auto;
 
     background-color: #F5F3F3;
     border-radius: 5px;

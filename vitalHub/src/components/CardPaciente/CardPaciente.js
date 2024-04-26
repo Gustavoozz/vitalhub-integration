@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons"
 import { useState } from "react"
 import moment from "moment"
 
+
 export const CardPaciente = ({ navigation,
     situacao = "pendente",
     onPressCancel = "Cancelada",
@@ -14,13 +15,14 @@ export const CardPaciente = ({ navigation,
     prioridadeUsuario,
     usuarioConsulta,
     crmDoctor,
+    appointmentId
 }) => {
 
     const formatDate = moment(usuarioConsulta.dataNascimento).format('YYYY');
     const formatDay = moment(dataConsulta).format('DD/MM');
-    const ageInYears = moment().diff(formatDate, 'Year');   
+    const ageInYears = moment().diff(formatDate, 'Year');
     const [profile, setProfile] = useState("Paciente");
-    
+
     return (
         <CardContainer>
             <PatientContainer onPress={roleUsuario == "Paciente" ? onPressNotification : onPressAppointment}>
@@ -31,11 +33,11 @@ export const CardPaciente = ({ navigation,
 
                     <InfoPaciente>
                         <Age>{roleUsuario == "Medico" ? `${ageInYears} anos` : ` CRM: ${crmDoctor}`}</Age>
-                        <Type>{roleUsuario == "Medico" ? prioridadeUsuario == 1 ? "Rotina" : prioridadeUsuario == 2 ? "Exame" : "Emergência" : usuarioConsulta.especialidade.especialidade1 }</Type>
+                        <Type>{roleUsuario == "Medico" ? prioridadeUsuario == 1 ? "Rotina" : prioridadeUsuario == 2 ? "Exame" : "Emergência" : usuarioConsulta.especialidade.especialidade1}</Type>
                     </InfoPaciente>
 
                     <HourButton situacao={situacao}>
-                        <Clock situacao={situacao}/>
+                        <Clock situacao={situacao} />
                         <AntDesign situacao={situacao} name="clockcircle" size={15} color={situacao === "Pendente" ?
                             "#49B3BA"
                             :
@@ -46,11 +48,11 @@ export const CardPaciente = ({ navigation,
                 </InfoConsulta>
 
                 {
-                    situacao == "Realizada" ? (                      
-                        <CancelButtonProntuary onPress={roleUsuario == "Paciente" ? () => navigation.navigate("ViewPrescription") : () => navigation.navigate("ViewPrescription")}>
-                            <CancelTitle situacao={situacao}>Ver prontuário</CancelTitle>
+                    situacao == "Realizada" ? (
+                        <CancelButtonProntuary onPress={roleUsuario == "Paciente" ? () => navigation.navigate('ViewPrescription', { appointmentId: appointmentId }) : () => navigation.navigate('ViewPrescription', { appointmentId: appointmentId })}>
+                            <CancelTitle situacao={situacao} >Ver prontuário</CancelTitle>
                         </CancelButtonProntuary>
-    
+
                     ) : situacao == "Pendente" ? (
                         <CancelButton onPress={onPressCancel}>
                             <CancelTitle situacao={situacao}>Cancelar</CancelTitle>
@@ -58,7 +60,7 @@ export const CardPaciente = ({ navigation,
                     ) : (
                         <>
                         </>
-                        
+
                     )
                 }
             </PatientContainer>

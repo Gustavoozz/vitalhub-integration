@@ -25,25 +25,31 @@ import CameraModal from '../../components/CameraProntuary/CameraProntuary'
 // import * as MediaLibrary xfrom 'expo-media-library'
 
 import api from "../../services/Service"
+import { userDecodeToken } from '../../utils/Auth'
+import { useRoute } from '@react-navigation/native'
 
-export const ViewPrescription = ({ navigation }) => {
+export const ViewPrescription = ({ navigation, route }) => {
     const [showCamera, setShowCamera] = useState(false);
     const [photo, setPhoto] = useState(null);
-    const [descricaoExame, setDescricaoExame] = useState("");
 
+    const [descricaoExame, setDescricaoExame] = useState("");
+    const [consultaInfo, setConsultaInfo] = useState([])
+    const [profile, setProfile] = useState([])
+
+    const { appointmentId } = route.params;
 
     async function ProfileLoad() {
         const token = await userDecodeToken();
 
         if (token !== null) {
             setTipoUsuario(token.role);
-
+            setProfile(token)
             await UserLoad(token);
         }
     }
 
 
- 
+
     async function UserLoad(token) {
         const url = (token.role == 'Medico' ?
             "Medicos"
@@ -61,23 +67,57 @@ export const ViewPrescription = ({ navigation }) => {
             })
     }
 
+    // async function GetAppointmentById() {
+    //     const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
+
+    //     console.log(`/${url}/BuscarPorData?data=${dataConsultaCaralho}&id=${profile.user}`);
+    //     await api.get(`/${url}/BuscarPorData?data=${dataConsultaCaralho}&id=${profile.user}`)
+    //     .then(response => {
+    //         setConsultas(response.data)
+    //         console.log(consultas)
+
+    //         // console.log(response.data);
+    //     }).catch(error => {
+    //         console.log(error);
+    //     })
+    // }
+
+
+
+
+    async function GetAppointmentById() {
+        const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
+
+        console.log("PEGUEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        console.log(`/Consultas/BuscarPorId?id=${appointmentId}`);
+        const response = await api.get(`/Consultas/BuscarPorId?id=${appointmentId}`)
+            .then(response => {
+                setConsultaInfo(response.data)
+                console.log(consultas)
+
+                // console.log(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+
 
     async function InserirExame() {
         const formData = new FormData();
 
-        formData.append("ConsultaId", prontuario.id);
+        formData.append("ConsultaId",);
         formData.append("Imagem", {
-            uri : photo,
-            name : `image.${photo.split(".").pop()}`,
-            type : `image/${photo.split(".").pop()}`
+            uri: photo,
+            name: `image.${photo.split(".").pop()}`,
+            type: `image/${photo.split(".").pop()}`
         })
 
         await api.post(`/Exame/Cadastrar`, formData, {
-            headers : {
-                "Content-Type" : "multipart/form-data"
-                }
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
         }).then(response => {
-            
+
             setDescricaoExame(descricaoExame + "\n" + response.data.descricao)
             console.log(setDescricaoExame);
         }).catch(error => {
@@ -86,8 +126,10 @@ export const ViewPrescription = ({ navigation }) => {
     }
 
 
+
     useEffect(() => {
         // requestGalery();
+        GetAppointmentById();
         ProfileLoad();
     }, [])
 
@@ -101,71 +143,73 @@ export const ViewPrescription = ({ navigation }) => {
 
 
     return (
-            <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
-                <PhotoContainer>
-                    <UserContainer source={require('../../assets/UserDoctorBig.png')} />
-                </PhotoContainer>
+        <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+            <PhotoContainer>
+                <UserContainer source={require('../../assets/UserDoctorBig.png')} />
+            </PhotoContainer>
 
-                <ContentProntuario>
-                    <TitleUser>Dr. Cláudio</TitleUser>
-                    <SubTextQuick>Cliníco geral   CRM-15286</SubTextQuick>
-                </ContentProntuario>
+            <ContentProntuario>
+                <TitleUser>Dr. Cláudio</TitleUser>
+                <SubTextQuick>Cliníco geral   CRM-15286</SubTextQuick>
+            </ContentProntuario>
 
-                <LabelUser>Descrição da consulta</LabelUser>
-                <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 30 }}
-                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e \nacompanhamento médico constante`}
-                    placeholderTextColor="#4E4B59"
-                />
+            <LabelUser>Descrição da consulta</LabelUser>
+            <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 30 }}
+                placeholder={consultaInfo.descricao}
+                placeholderTextColor="#4E4B59"
+                value={consultaInfo.descricao}
+            />
 
-                <LabelUser>Diagnóstico do paciente</LabelUser>
-                <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
-                    placeholder="Infecção no ouvido"
-                    placeholderTextColor="#4E4B59"
-                />
+            <LabelUser>Diagnóstico do paciente</LabelUser>
+            <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
+                placeholder="Infecção no ouvido"
+                placeholderTextColor="#4E4B59"
+            />
 
-                <LabelUser>Prescrição médica</LabelUser>
-                <InputUser style={{ height: 133, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
-                    placeholder={`Medicamento: Advil\nDosagem: 50 mg\nFrequência: 3 vezes ao dia\nDuração: 3 dias`}
-                    placeholderTextColor="#4E4B59"
-                />
+            <LabelUser>Prescrição médica</LabelUser>
+            <InputUser style={{ height: 133, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
+                placeholder={`Medicamento: Advil\nDosagem: 50 mg\nFrequência: 3 vezes ao dia\nDuração: 3 dias`}
+                placeholderTextColor="#4E4B59"
+            />
 
             <View style={{ width: '100%', alignItems: 'center' }}>
-            <LabelUser>Exames médicos</LabelUser>
-                   
-            {photo === null ? (
-            <PhotoButton style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}/>
-            ) : (
-            <PhotoButton source={{ uri : photo }} style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
+                <LabelUser>Exames médicos</LabelUser>
+
+                {photo === null ? (
+                    <PhotoButton style={{ height: 200, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }} />
+                ) : (
+                    <PhotoButton source={{ uri: photo }} style={{ height: 200, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
+                    />
+                )
+                }
+            </View>
+
+
+            <FlexibleBox>
+                <ButtonTakePhoto onPress={() => setShowCamera(true)}>
+                    <MaterialCommunityIcons name="camera-plus-outline" size={24} color="#FBFBFB" />
+
+                    <ButtonTakePhotoText>Enviar</ButtonTakePhotoText>
+                </ButtonTakePhoto>
+
+                <ButtonCancelPhoto onPress={() => setPhoto(null)}>
+                    <ButtonCancelPhotoText>Cancelar</ButtonCancelPhotoText>
+                </ButtonCancelPhoto>
+            </FlexibleBox>
+
+            {/* Ocr description: */}
+            <OcrView>
+                <Text>{descricaoExame}</Text>
+            </OcrView>
+
+            <CancelText onPress={() => navigation.replace("MainDoctor")}>Voltar</CancelText>
+
+            <CameraModal
+                visible={showCamera}
+                setShowCamera={setShowCamera}
+                setPhotoUpload={setPhoto}
             />
-            )      
-            } 
-                    
-                </View>
-
-                <FlexibleBox>
-                    <ButtonTakePhoto onPress={() => setShowCamera(true)}>
-                        <MaterialCommunityIcons name="camera-plus-outline" size={24} color="#FBFBFB" />
-
-                        <ButtonTakePhotoText>Enviar</ButtonTakePhotoText>
-                    </ButtonTakePhoto>
-
-                    <ButtonCancelPhoto onPress={() => setPhoto(null)}>
-                        <ButtonCancelPhotoText>Cancelar</ButtonCancelPhotoText>
-                    </ButtonCancelPhoto>
-                </FlexibleBox>
-
-                <OcrView>
-                    <Text>{setDescricaoExame}</Text>
-                </OcrView>
-
-                <CancelText onPress={() => navigation.replace("MainDoctor")}>Voltar</CancelText>
-
-                <CameraModal
-                    visible={showCamera}
-                    setShowCamera={setShowCamera}
-                    setPhotoUpload={setPhoto}
-                />
-            </ContainerUser>
+        </ContainerUser>
 
     )
 }
