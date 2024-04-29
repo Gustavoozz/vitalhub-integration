@@ -3,8 +3,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 
 export const SelectInput = () => {
-
-     
+    // CONSTS
   const data = [
     {key:'1', value:'18:00'},
     {key:'2', value:'20:00'},

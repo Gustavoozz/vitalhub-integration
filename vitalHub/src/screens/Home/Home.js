@@ -167,6 +167,7 @@ export const Home = ({
                     profile.role === "Paciente" ?
                         <>
                             <ScheduleModal
+                                navigation={navigation}
                                 visible={showModalSchedule}
                                 setShowModalSchedule={setShowModalSchedule}
                             />

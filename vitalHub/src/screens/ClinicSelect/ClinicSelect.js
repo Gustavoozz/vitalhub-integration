@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button } from "../../components/Button/Style"
+import { Button, ButtonUnusable } from "../../components/Button/Style"
 import { ClinicCard } from "../../components/ClinicCard/ClinicCard"
 import { Container } from "../../components/Container/Style"
 import { ListComponent } from "../../components/List/List"
@@ -9,20 +9,40 @@ import { CancelLink } from "./Style"
 // API importada
 import api from "../../services/Service";
 
-export const ClinicSelect = ({ navigation }) => {
+export const ClinicSelect = ({
+  navigation,
+  route,
+}) => {
   // CONSTS
-  const [data, setData] = useState({});
+  const [clinica, setClinica] = useState([]); // informações da clínica
+
+  const prioridadeId = route.params.prioridadeId; // id da prioridade
+  const pacienteId = route.params.pacienteId; // id do usuário
+  const prioridade = route.params.prioridade; // nome da prioridade
+  const [clinicaId, setClinicaId] = useState(null); // id da clínica
+
+
 
   // FUNCTIONS
   const ListarClinicas = async () => {
     await api.get("/Clinica/ListarTodas")
       .then(response => {
-        setData(response.data)
-      }
-      ).catch(error => {
+        setClinica(response.data)
+      }).catch(error => {
         console.log(error)
-      }
-      )
+      })
+  }
+
+  const HandleSelectClinic = (rota) => {
+    if (clinica != null) {
+      navigation.replace(rota, {
+        prioridadeId: prioridadeId,
+        pacienteId: pacienteId,
+        clinicaId: clinicaId,
+
+        prioridade: prioridade
+      })
+    }
   }
 
 
@@ -32,25 +52,36 @@ export const ClinicSelect = ({ navigation }) => {
   }, [])
 
 
+
   return (
     <Container>
       <Title>Selecionar clínica</Title>
 
       <ListComponent
-        data={data}
+        data={clinica}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           // card clínica
           <ClinicCard
-            clinic={item}
+            clinica={item}
+            setClinicaId={setClinicaId}
           />
         )}
       />
 
-      <Button
-        onPress={() => navigation.replace("DoctorSelect")}>
-        <ButtonTitle>Continuar</ButtonTitle>
-      </Button>
+      {
+        clinicaId != null ?
+
+          <Button
+            onPress={() => HandleSelectClinic("DoctorSelect")}>
+            <ButtonTitle>Continuar</ButtonTitle>
+          </Button>
+          :
+          <ButtonUnusable>
+            <ButtonTitle>Continuar</ButtonTitle>
+          </ButtonUnusable>
+      }
+
 
       <CancelLink onPress={() => navigation.replace("Main")}>Cancelar</CancelLink>
 

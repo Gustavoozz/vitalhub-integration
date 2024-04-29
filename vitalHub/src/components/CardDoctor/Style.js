@@ -12,6 +12,12 @@ export const DoctorContainer = styled.View`
     background-color: #FFF;
     border-radius: 5px;
     elevation: 5;
+    
+    border: ${(props) => props.selected == true ?
+        "5px solid #60BFC5"
+        :
+        "none"
+    };
 `
 
 export const DoctorTouchable = styled.TouchableOpacity`

@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
-export const CalendarComponent = () => {
+export const CalendarComponent = ({
+  setDataConsulta,
+  dataConsulta
+}) => {
+  // CONSTS
   const [selected, setSelected] = useState("");
-
   const currentDate = new Date();
   const startingDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
+
+
+  // CONFIGS
   LocaleConfig.locales["pt-br"] = {
     monthNames: [
       "Janeiro", "Fevereiro", "Março", "Abril",
@@ -27,6 +33,16 @@ export const CalendarComponent = () => {
   };
   LocaleConfig.defaultLocale = "pt-br";
 
+
+
+  // FUNCTIONS
+  const HandlePress = (date) => {
+    setSelected(date.dateString);
+    setDataConsulta(date.dateString);
+  }
+
+
+
   return (
     <Calendar
       hideArrows={true}
@@ -34,21 +50,15 @@ export const CalendarComponent = () => {
         width: 420,
         alignSelf: 'center',
         backgroundColor: '#FAFAFA'
-
       }}
-
-      onDayPress={(day) => {
-        setSelected(day.dateString);
-      }}
+      onDayPress={(date) => HandlePress(date)}
       markedDates={{
         [selected]: {
           selected: true,
           disableTouchEvent: true
         },
       }}
-
       minDate={startingDate.toDateString()}
-
       theme={{
         calendarBackground: '#FAFAFA',
 

@@ -12,6 +12,12 @@ export const ContainerCard = styled.TouchableOpacity`
     background-color: #FFF;
     elevation: 5;
     border-radius: 5px;
+
+    border: ${(props) => props.selected == true ?
+        "5px solid #60BFC5"
+        :
+        "none"
+    };
 `
 
 export const TitleCard = styled.Text`

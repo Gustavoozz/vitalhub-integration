@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     DoctorContainer,
     DoctorContent,
@@ -10,14 +11,35 @@ import {
 } from "./Style"
 
 export const CardDoctor = ({
-    onPress,
     medico,
+    setMedicoId
 }) => {
+    // CONSTS
+    const [selected, setSelected] = useState(false);
+
+
+
+    // FUNCTIONS    
+    const HandlePress = () => {
+        if (selected == false) {
+            setSelected(true);
+
+            setMedicoId(medico.idNavigation.id);
+        }
+        else {
+            setSelected(false);
+
+            setMedicoId(null);
+        }
+    }
+
+
+
     return (
         <ExtraContainer>
             <ExtraContent>
-                <DoctorContainer>
-                    <DoctorTouchable onPress={onPress}>
+                <DoctorContainer selected={selected}>
+                    <DoctorTouchable onPress={() => HandlePress()}>
                         <DoctorContentImage source={{ uri: "https://imgb.ifunny.co/images/bfc9bc11c482d1bc9f53bb14458fd0f848c34aed77d84390a234c890d70e7c7f_1.jpg" }} />
 
                         <DoctorContent>
@@ -28,6 +50,6 @@ export const CardDoctor = ({
                     </DoctorTouchable>
                 </DoctorContainer>
             </ExtraContent>
-        </ExtraContainer>
+        </ExtraContainer >
     )
 }

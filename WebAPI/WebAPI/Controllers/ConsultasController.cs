@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("Cadastrar")]
-        public IActionResult Post([FromForm] ConsultaViewModel consultaViewModel)
+        public IActionResult Post(ConsultaViewModel consultaViewModel)
         {
             try
             {
