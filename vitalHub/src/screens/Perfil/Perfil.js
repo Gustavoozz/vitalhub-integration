@@ -3,7 +3,7 @@ import { CityContainer, ContainerUser, InformationContent, PhotoContainer } from
 import { UserImage } from "../../components/UserImage/Style"
 import { ButtonTitle, LabelUser, TitleUser } from "../../components/Title/Style"
 import { SubTextQuick } from "../../components/Text/Text"
-import { InputCity, InputUser } from "../../components/Input/Style"
+import { Input, InputCity, InputCityEditable, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
 import { Content } from "./Style"
 
@@ -14,12 +14,20 @@ import moment from "moment";
 
 // API importada
 import api from "../../services/Service"
+import { UseMask } from "../../utils/Converter"
 
 export const Perfil = ({ navigation }) => {
     // CONSTS
-    const [tipoUsuario, setTipoUsuario] = useState();
-    const [user, setUser] = useState([]);
-    const [editar, setEditar] = useState(false);
+    const [tipoUsuario, setTipoUsuario] = useState(null); // tipo de usuário
+    const [user, setUser] = useState([]); // carrega o usuário
+    const [editar, setEditar] = useState(false); // altera os inputs
+
+    const [dataNascimento, setDataNascimento] = useState();
+    const [cpf, setCpf] = useState();
+    const [crm, setCrm] = useState();
+    const [cep, setCep] = useState("");
+    const [address, setAddress] = useState();
+    const [nome, setNome] = useState();
 
     // FUNCTIONS
     async function ProfileLoad() {
@@ -39,8 +47,6 @@ export const Perfil = ({ navigation }) => {
             "Pacientes"
         )
 
-        console.log(`/${url}/BuscarPorId?id=${token.user}`);
-
         await api.get(`/${url}/BuscarPorId?id=${token.user}`)
             .then(response => {
                 setUser(response.data)
@@ -50,55 +56,163 @@ export const Perfil = ({ navigation }) => {
             })
     }
 
+    const HandleEditar = async (e) => {
+        if (e == false) {
+            setEditar(true);
+
+            if (user) {
+                setNome(user.idNavigation.nome);
+
+                if (tipoUsuario == "Medico") {
+                    setCrm(user.crm);
+                } else {
+                    setCpf(user.cpf)
+                    setDataNascimento(moment(user.dataNascimento).format("DD/MM/YYYY"));
+                }
+
+                setCep(user.endereco.cep)
+            }
+        } else {
+            if (user && address) {
+                if (tipoUsuario == "Medico") {
+                    await api.put(`/Medicos?idUsuario=${user.id}`, {
+                        nome: nome,
+                        cep: cep,
+                        logradouro: address.logradouro,
+                        cidade: address.localidade,
+                        crm: crm
+                    })
+                        .then(response => {
+                            console.log(`Atualizado`);
+                            console.log(response.data);
+                            console.log(`
+                --
+                --
+                `);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                else {
+                    await api.put(`/Pacientes?idUsuario=${user.id}`, {
+                        nome: nome,
+                        cpf: cpf,
+                        dataNascimento: ConvertDate(dataNascimento),
+                        cep: cep,
+                        logradouro: address.logradouro,
+                        cidade: address.localidade,
+                    })
+                        .then(response => {
+                            console.log(`Atualizado`);
+                            console.log(response.data);
+                            console.log(`
+                --
+                --
+                `);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+            }
+
+            setEditar(false);
+        }
+
+    }
+
+    const ConvertDate = (d) => {
+        const date = d.split("/")
+
+        const converted = moment(`${date[2]}-${date[1]}-${date[0]}`).format("YYYY-MM-DD")
+
+        return converted;
+    }
+
+    const GetAddress = async () => {
+        await api.get(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => {
+                setAddress(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     // EFFECTS
     useEffect(() => {
         ProfileLoad();
-    }, [])
+    }, [user])
 
-    return (
-        <ContainerUser>
-            <PhotoContainer>
-                <UserImage source={require('../../assets/User.png')} />
+    useEffect(() => {
+        if (cep.length == 8) {
+            GetAddress()
+        }
+    }, [cep])
 
-                {
-                    user.idNavigation != undefined ?
-                        <InformationContent>
-                            <TitleUser>{user.idNavigation.nome}</TitleUser>
+    if (user != undefined && user.idNavigation != undefined) {
+        return (
+            <ContainerUser>
+                <PhotoContainer>
+                    <UserImage source={require('../../assets/User.png')} />
 
-                            <SubTextQuick>{user.idNavigation.email}</SubTextQuick>
-                        </InformationContent>
-                        :
-                        null
-                }
+                    <InformationContent>
+                        <TitleUser>{user.idNavigation.nome}</TitleUser>
 
-            </PhotoContainer>
+                        <SubTextQuick>{user.idNavigation.email}</SubTextQuick>
+                    </InformationContent>
+                </PhotoContainer>
 
-            <Content>
-                {
-                    user.idNavigation != undefined ?
-                        <>
-                            {tipoUsuario !== "Medico" ?
-                                <>
-                                    <LabelUser>Data de Nascimento</LabelUser>
+                <Content>
+                    {
+                        tipoUsuario != "Medico" ?
+                            <>
+                                <LabelUser>Data de Nascimento</LabelUser>
 
-                                    <InputUser
-                                        placeholder={moment(user.dataNascimento).format("DD/MM/YYYY")}
-                                    />
-                                </>
-                                :
-                                null
-
-                            }
-
-
-                            <LabelUser>
-                                {tipoUsuario === "Medico" ?
-                                    "CRM"
-                                    :
-                                    "CPF"
+                                {
+                                    editar != false ?
+                                        <Input
+                                            onChangeText={(txt) => setDataNascimento(txt)}
+                                            value={dataNascimento}
+                                        />
+                                        :
+                                        <InputUser
+                                            placeholder={moment(user.dataNascimento).format("DD/MM/YYYY")}
+                                        />
                                 }
-                            </LabelUser>
 
+                            </>
+                            :
+                            null
+                    }
+
+                    <LabelUser>
+                        {
+                            tipoUsuario === "Medico" ?
+                                "CRM"
+                                :
+                                "CPF"
+                        }
+                    </LabelUser>
+
+                    {
+                        editar != false ?
+                            <Input
+                                onChangeText={(txt) => {
+                                    tipoUsuario == "Medico" ?
+                                        setCrm(txt)
+                                        :
+                                        setCpf(txt)
+                                }}
+                                value={
+                                    tipoUsuario === "Medico" ?
+                                        crm
+                                        :
+                                        cpf
+                                }
+                            />
+                            :
                             <InputUser
                                 placeholder={tipoUsuario === "Medico" ?
                                     user.crm
@@ -106,60 +220,94 @@ export const Perfil = ({ navigation }) => {
                                     user.cpf
                                 }
                             />
+                    }
 
-                            <LabelUser>Endereço</LabelUser>
+                    <LabelUser>Endereço</LabelUser>
 
-                            <InputUser
-                                placeholder={`${user.endereco.logradouro == undefined ?
-                                    ""
+
+                    <InputUser
+                        placeholder={
+                            address ?
+                                address != undefined ?
+                                    address.logradouro != undefined ?
+                                        `${address.logradouro} - ${address.bairro}`
+                                        :
+                                        "Não encontrado"
                                     :
-                                    user.endereco.logradouro
-                                    }, ${user.endereco.numero == undefined ?
-                                        ""
-                                        :
-                                        user.endereco.numero
-                                    }`}
-                            />
+                                    ""
+                                :
+                                `${user.endereco.logradouro}`
+                        }
+                    />
 
-                            <CityContainer>
-                                <View>
-                                    <LabelUser>CEP</LabelUser>
+                    <CityContainer>
+                        <View>
+                            <LabelUser>CEP</LabelUser>
 
-                                    <InputCity
-                                        placeholder={user.endereco.cep}
+                            {
+                                editar != false ?
+                                    <InputCityEditable
+                                        maxLength={8}
+                                        onChangeText={(txt) => setCep(txt)}
+                                        value={cep}
                                     />
-                                </View>
-                                {
-                                    tipoUsuario !== "Medico" ?
-                                        <View>
-                                            <LabelUser>Cidade</LabelUser>
+                                    :
+                                    <InputCity
+                                        value={
+                                            cep == "" ?
+                                                user.endereco.cep
+                                                :
+                                                cep
+                                        }
+                                    />
+                            }
+                        </View>
 
-                                            <InputCity
-                                                placeholder={user.endereco.cidade}
-                                            />
-                                        </View>
+                        <View>
+                            <LabelUser>Cidade</LabelUser>
+
+                            <InputCity
+                                placeholder={
+                                    address ?
+                                        address != undefined ?
+                                            address.localidade != undefined ?
+                                                `${address.localidade}`
+                                                :
+                                                "Não encontrado"
+                                            :
+                                            ""
                                         :
-                                        null
+                                        `${user.endereco.cidade}`
                                 }
+                            />
+                        </View>
+                    </CityContainer>
 
-                            </CityContainer>
-                        </>
-                        :
-                        null
-                }
+                    {
+                        editar != false ?
+                            <Button
+                                style={{ marginBottom: 50 }}
+                                onPress={() => { HandleEditar(editar) }}
+                            >
+                                <ButtonTitle>Salvar</ButtonTitle>
+                            </Button>
+                            :
 
-                <Button>
-                    <ButtonTitle>Salvar</ButtonTitle>
-                </Button>
+                            <>
+                                <Button onPress={() => { HandleEditar(editar) }}>
+                                    <ButtonTitle>Editar</ButtonTitle>
+                                </Button>
 
-                <Button onPress={() => { }}>
-                    <ButtonTitle>Editar</ButtonTitle>
-                </Button>
+                                <ButtonUser onPress={() => UserLogout() && navigation.replace("Login")}>
+                                    <ButtonTitle>Logout</ButtonTitle>
+                                </ButtonUser>
+                            </>
 
-                <ButtonUser onPress={() => UserLogout() && navigation.replace("Login")}>
-                    <ButtonTitle>Logout</ButtonTitle>
-                </ButtonUser>
-            </Content>
-        </ContainerUser >
-    )
+                    }
+
+
+                </Content>
+            </ContainerUser >
+        )
+    }
 }

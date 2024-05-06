@@ -19,7 +19,8 @@ export const DoctorSelect = ({
    const prioridadeId = route.params.prioridadeId; // id da prioridade
    const pacienteId = route.params.pacienteId; // id do usuário
    const clinicaId = route.params.clinicaId; // id da clínica
-   const prioridade = route.params.prioridade // nome da prioridade
+   const prioridade = route.params.prioridade; // nome da prioridade
+   const cidade = route.params.cidade; // cidade
    const [medicoId, setMedicoId] = useState(null); // id do médico
 
    // FUNÇÕES
@@ -40,6 +41,7 @@ export const DoctorSelect = ({
             pacienteId: pacienteId,
             clinicaId: clinicaId,
             medicoId: medicoId,
+            cidade: cidade,
 
             prioridade: prioridade
          })
@@ -50,6 +52,7 @@ export const DoctorSelect = ({
       navigation.replace(rota, {
          prioridadeId: prioridadeId,
          pacienteId: pacienteId,
+         cidade: cidade,
 
          prioridade: prioridade
       })

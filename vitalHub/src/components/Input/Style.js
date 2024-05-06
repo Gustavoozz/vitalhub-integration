@@ -59,7 +59,7 @@ export const InputUser = styled.TextInput.attrs({
     font-family: 'MontserratAlternates_500Medium';
 `
 
-export const PhotoButton = styled.TouchableOpacity`
+export const PhotoButton = styled.Image`
     width: 90%;
     height: 111px;
 
@@ -68,12 +68,22 @@ export const PhotoButton = styled.TouchableOpacity`
     
     background-color: #F5F3F3;
     border-radius: 5px;
-
-    font-family: 'MontserratAlternates_500Medium';
 `
 
 export const InputCity = styled(InputUser)`
     width: 165px;
+`
+
+export const InputCityEditable = styled(InputCity).attrs({
+    editable: true
+})`
+
+border: 2px solid #49B3BA;
+    border-radius: 5px;
+    background-color: #FAFAFA;
+
+    color: #34898F;
+    font-family: "MontserratAlternates_600SemiBold";
 `
 
 export const InputProntuario = styled(Input)`

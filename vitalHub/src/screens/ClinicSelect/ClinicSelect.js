@@ -19,13 +19,14 @@ export const ClinicSelect = ({
   const prioridadeId = route.params.prioridadeId; // id da prioridade
   const pacienteId = route.params.pacienteId; // id do usuário
   const prioridade = route.params.prioridade; // nome da prioridade
+  const cidade = route.params.cidade;
   const [clinicaId, setClinicaId] = useState(null); // id da clínica
 
 
 
   // FUNCTIONS
   const ListarClinicas = async () => {
-    await api.get("/Clinica/ListarTodas")
+    await api.get(`/Clinica/BuscarPorCidade?cidade=${cidade}`)
       .then(response => {
         setClinica(response.data)
       }).catch(error => {
@@ -40,7 +41,8 @@ export const ClinicSelect = ({
         pacienteId: pacienteId,
         clinicaId: clinicaId,
 
-        prioridade: prioridade
+        prioridade: prioridade,
+        cidade: cidade
       })
     }
   }

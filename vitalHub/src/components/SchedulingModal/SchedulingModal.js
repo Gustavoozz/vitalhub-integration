@@ -25,6 +25,7 @@ export const SchedulingModal = ({
     medicoClinica,
     pacienteId,
     prioridadeId,
+    horaSelecionada,
 
     prioridade,
 
@@ -65,7 +66,7 @@ export const SchedulingModal = ({
                 pacienteId: PacienteId,
                 medicoClinicaId: MedicoClinicaId,
                 prioridadeId: PrioridadeId,
-                dataConsulta: DataConsulta,
+                dataConsulta: `${DataConsulta} ${horaSelecionada}`,
                 descricao: null,
                 diagnostico: null
             })
@@ -90,7 +91,7 @@ export const SchedulingModal = ({
         Médico Clínica: ${MedicoClinicaId},
         Receita: ${ReceitaId},
         Prioridade: ${PrioridadeId},
-        Data: ${DataConsulta},
+        Data: ${DataConsulta}, Hora: ${horaSelecionada}
         Descrição: ${Descricao},
         Diagnóstico: ${Diagnostico}
         `);
@@ -109,8 +110,8 @@ export const SchedulingModal = ({
                     <ModalTextBig>Nome</ModalTextBig>
                     <ModalTextMini>{nome}</ModalTextMini>
 
-                    <ModalTextBig>Data da consulta</ModalTextBig>
-                    <ModalTextMini>{ConvertData(dataConsulta)}</ModalTextMini>
+                    <ModalTextBig>Data e hora da consulta</ModalTextBig>
+                    <ModalTextMini>{ConvertData(dataConsulta)} - {horaSelecionada}</ModalTextMini>
 
                     <ModalTextBig>Prioridade</ModalTextBig>
                     <ModalTextMini>{prioridade}</ModalTextMini>

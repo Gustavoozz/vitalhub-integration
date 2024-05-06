@@ -29,12 +29,12 @@ export const InputBox = styled.View`
 
 export const PhotoBoxNull = styled.View`
     width: 90%;
-    height: 111px;
 
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    gap: 5px;
+
+    padding: 20px;
 
     background-color: #F5F3F3;
     border-radius: 5px;

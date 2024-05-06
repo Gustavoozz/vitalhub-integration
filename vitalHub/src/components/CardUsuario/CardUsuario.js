@@ -15,16 +15,18 @@ import {
 import { Clock } from "../Logo/Style";
 import { AntDesign } from "@expo/vector-icons";
 import moment from "moment";
+import { Text } from "react-native";
 
 export const CardUsuario = ({
     navigation,
 
     consulta,
     profile,
-    
+
     onPressCancel,
     onPressAppointment,
     onPressCard,
+    hora
 }) => {
 
     const formatDate = moment(consulta.dataNascimento).format('DD/MM/YYYY')
@@ -94,16 +96,13 @@ export const CardUsuario = ({
                                 :
                                 "#8C8A97"}
                         />
-                        <Hour situacao={consulta.situacao.situacao}>17:00</Hour>
+                        <Hour situacao={consulta.situacao.situacao}>{hora}</Hour>
                     </HourButton>
                 </InfoConsulta>
 
                 {
-                    consulta.situacao.situacao == "Cancelado" ?
-                        (
-                            <>
-                            </>
-                        )
+                    consulta.situacao.situacao == "Cancelada" ?
+                        <CancelTitle>Cancelada</CancelTitle>
                         :
                         consulta.situacao.situacao == "Pendente" ?
                             <CancelButton onPress={onPressCancel}>
@@ -113,7 +112,10 @@ export const CardUsuario = ({
                             <CancelButton onPress={profile !== "Paciente" ?
                                 onPressAppointment
                                 :
-                                () => navigation.replace("ViewPrescription")
+                                () => navigation.replace("ViewPrescription", {
+                                    consulta: consulta,
+                                    receita: consulta.receita
+                                })
                             }>
                                 <CancelTitle situacao={consulta.situacao.situacao}>Ver prontuário</CancelTitle>
                             </CancelButton>

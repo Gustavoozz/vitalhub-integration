@@ -23,8 +23,11 @@ export const DateSelect = ({
     const medicoId = route.params.medicoId; // id do médico
     const [dataConsulta, setDataConsulta] = useState(""); // data da consulta
     const prioridade = route.params.prioridade; // nome da prioridade
+    const cidade = route.params. cidade; // cidade
 
     const [medicoClinica, setMedicoClinica] = useState(null) // medico e clínica
+
+    const [horaSelecionada, setHoraSelecionada] = useState(null);
 
 
     // FUNCTIONS
@@ -33,6 +36,7 @@ export const DateSelect = ({
             prioridadeId: prioridadeId,
             pacienteId: pacienteId,
             clinicaId: clinicaId,
+            cidade: cidade,
 
             prioridade: prioridade
         });
@@ -64,10 +68,13 @@ export const DateSelect = ({
                 <CalendarComponent setDataConsulta={setDataConsulta} />
 
                 <LabelUser>Selecione um horário disponível</LabelUser>
-                <SelectInput />
+
+                <SelectInput
+                    setHoraSelecionada={setHoraSelecionada}
+                />
 
                 {
-                    dataConsulta != "" ?
+                    dataConsulta != "" && horaSelecionada != null  ?
                         <Button onPress={() => setShowModalScheduling(true)}>
                             <ButtonTitle>Confirmar</ButtonTitle>
                         </Button>
@@ -89,6 +96,7 @@ export const DateSelect = ({
                     prioridadeId={prioridadeId}
                     medicoClinica={medicoClinica}
                     prioridade={prioridade}
+                    horaSelecionada={horaSelecionada}
                 />
             </Container>
         )

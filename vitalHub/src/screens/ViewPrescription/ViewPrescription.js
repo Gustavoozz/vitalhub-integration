@@ -5,7 +5,7 @@ import { InputUser, PhotoButton } from '../../components/Input/Style'
 import { SubTextQuick } from '../../components/Text/Text'
 import { ButtonTitle, LabelUser, TitleUser } from '../../components/Title/Style'
 
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import { SendPhotoButton } from '../../components/Button/Style'
 import { CancelText } from '../../components/Link/Style'
 
@@ -19,54 +19,71 @@ import {
     ButtonTakePhoto,
     ButtonTakePhotoText,
     FlexibleBox,
+    PhotoBoxNull,
+    TextPhotoBox,
 } from "./Style";
 import CameraModal from '../../components/CameraProntuary/CameraProntuary'
 import { UserImage } from '../../components/UserImage/Style'
 // import * as MediaLibrary xfrom 'expo-media-library'
 
-export const ViewPrescription = ({ navigation }) => {
+export const ViewPrescription = ({
+    navigation,
+    route
+}) => {
     const [showCamera, setShowCamera] = useState(false);
     const [photo, setPhoto] = useState(null);
 
+    const consulta = route.params.consulta;
+    const receita = route.params.receita;
+
     return (
         <Container>
-            <ContainerUser>
+            <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}>
                 <PhotoContainer>
                     <UserImage source={require('../../assets/UserDoctorBig.png')} />
                 </PhotoContainer>
 
                 <ContentProntuario>
-                    <TitleUser>Dr. Cláudio</TitleUser>
-                    <SubTextQuick>Cliníco geral   CRM-15286</SubTextQuick>
+                    <TitleUser>{consulta.medicoClinica.medico.idNavigation.nome}</TitleUser>
+                    <SubTextQuick>{consulta.medicoClinica.medico.especialidade.especialidade1} - {consulta.medicoClinica.medico.crm}</SubTextQuick>
                 </ContentProntuario>
 
                 <LabelUser>Descrição da consulta</LabelUser>
-                <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 30 }}
-                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e  \nacompanhamento médico constante`}
-                    placeholderTextColor="#4E4B59"
-                />
+
+                <PhotoBoxNull>
+                    <TextPhotoBox>{consulta.descricao}</TextPhotoBox>
+                </PhotoBoxNull>
 
                 <LabelUser>Diagnóstico do paciente</LabelUser>
-                <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
-                    placeholder="Infecção no ouvido"
-                    placeholderTextColor="#4E4B59"
-                />
+
+                <PhotoBoxNull>
+                    <TextPhotoBox>{consulta.diagnostico}</TextPhotoBox>
+                </PhotoBoxNull>
 
                 <LabelUser>Prescrição médica</LabelUser>
-                <InputUser style={{ height: 133, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
-                    placeholder={`Medicamento: Advil\nDosagem: 50 mg\nFrequência: 3 vezes ao dia\nDuração: 3 dias`}
-                    placeholderTextColor="#4E4B59"
-                />
+
+                <PhotoBoxNull>
+                    <TextPhotoBox>{receita.medicamento}</TextPhotoBox>
+                </PhotoBoxNull>
 
                 <View style={{ width: '100%', alignItems: 'center' }}>
                     <LabelUser>Exames médicos</LabelUser>
-                    <FontAwesome6 name="file-arrow-down" size={24} color="black" style={{ position: 'absolute', top: 108.1, zIndex: 1, right: 300 }} />
 
-                    <PhotoButton style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
-                        placeholder="                  Nenhuma foto informada"
-                        placeholderTextColor="#4E4B59"
-                        onPress={() => setShowCameraModal()}
-                    ><ButtonTitle style={{ fontFamily: 'MontserratAlternates_500Medium', fontSize: 14, color: '#4E4B59', textTransform: 'none', marginTop: 43, marginLeft: 80 }}>Nenhuma foto informada</ButtonTitle></PhotoButton>
+                    {
+                        photo === null ? (
+                            <PhotoBoxNull>
+                                <TextPhotoBox>Tire sua foto</TextPhotoBox>
+                            </PhotoBoxNull>
+                        ) : (
+                            <PhotoButton
+                                source={{ uri: photo }}
+                                style={{
+                                    height: 200,
+                                    paddingBottom: 0
+                                }}
+                            />
+                        )
+                    }
                 </View>
 
                 <FlexibleBox>
@@ -81,10 +98,18 @@ export const ViewPrescription = ({ navigation }) => {
                     </ButtonCancelPhoto>
                 </FlexibleBox>
 
-                <InputUser style={{ height: 103, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0, marginTop: 30 }}
-                    placeholder={`Resultado do exame de sangue : \ntudo normal`}
-                    placeholderTextColor="#4E4B59"
-                />
+                <View style={{
+                    width: "90%",
+                    height: "auto",
+                    margin: 20,
+                    padding: 30,
+                    backgroundColor: "#F5F3F3"
+                }}
+                >
+                    <Text
+                        style={{ color: "#4E4B59" }}
+                    ></Text>
+                </View>
 
                 <CancelText onPress={() => navigation.replace("Main")}>Voltar</CancelText>
 

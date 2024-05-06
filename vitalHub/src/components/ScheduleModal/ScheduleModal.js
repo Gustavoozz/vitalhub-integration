@@ -1,4 +1,4 @@
-import { Modal } from "react-native"
+import { Modal, View } from "react-native"
 import { ChooseAppointment, InfoSchedule, ScheduleContent } from "./Style"
 import { ButtonTitle, LabelBox, LabelUser, Title } from "../Title/Style"
 import { Input } from "../Input/Style"
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { BtnAppointmentType } from "../BtnAppointmentType/BtnAppointmentType"
 import api from "../../services/Service"
 import { UserDecodeToken } from "../../utils/Auth"
+import Picker from "react-native-picker-select"
 
 export const ScheduleModal = ({
     navigation,
@@ -22,6 +23,11 @@ export const ScheduleModal = ({
 
     const [prioridadeId, setPrioridadeId] = useState(""); // id da prioridade
     const [pacienteId, setPacienteId] = useState(""); // id do usuário
+
+    const [cidade, setCidade] = useState(null); // cidade
+    const [arrayCity, setArrayCity] = useState([]); // dados do array da cidade
+
+
 
     // FUNCTIONS
     const ProfileLoad = async () => {
@@ -39,8 +45,8 @@ export const ScheduleModal = ({
             navigation.replace(rota, {
                 prioridadeId: prioridadeId,
                 pacienteId: pacienteId,
-
-                prioridade: prioridade
+                prioridade: prioridade,
+                cidade: cidade
             })
         }
     }
@@ -71,74 +77,106 @@ export const ScheduleModal = ({
         }
     }
 
+    const SelectCities = async () => {
+        await api.get(`/Clinica/ListarTodas`)
+            .then(response => {
+                console.log(response.data);
+                response.data.forEach((clinica) => {
+                    setArrayCity((prevArray) => [
+                        ...prevArray,
+                        {
+                            label: clinica.endereco.cidade, value: clinica.endereco.cidade
+                        }
+                    ])
+                })
+
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+
 
     // EFFECTS
     useEffect(() => {
         ProfileLoad();
+
+        SelectCities();
     }, [])
 
 
-    return (
-        <Modal {...rest} visible={visible} transparent={true} animationType="slide">
-            <ScheduleContent>
-                <InfoSchedule>
 
-                    <Title>Agendar consulta</Title>
+    if (arrayCity != null) {
+        return (
+            <Modal {...rest} visible={visible} transparent={true} animationType="slide">
+                <ScheduleContent>
+                    <InfoSchedule>
 
-                    <LabelBox>
-                        <LabelUser>Informe o nível da consulta:</LabelUser>
+                        <Title>Agendar consulta</Title>
 
-                        <ChooseAppointment>
-                            <BtnAppointmentType
-                                textButton={"Rotina"}
-                                clickButton={statusType === "rotina"}
-                                onPress={() => SelectPrioridade("rotina")}
-                            />
+                        <LabelBox>
+                            <LabelUser>Informe o nível da consulta:</LabelUser>
 
-                            <BtnAppointmentType
-                                textButton={"Exame"}
-                                clickButton={statusType === "exame"}
-                                onPress={() => SelectPrioridade("exame")}
-                            />
+                            <ChooseAppointment>
+                                <BtnAppointmentType
+                                    textButton={"Rotina"}
+                                    clickButton={statusType === "rotina"}
+                                    onPress={() => SelectPrioridade("rotina")}
+                                />
 
-                            <BtnAppointmentType
-                                textButton={"Urgência"}
-                                clickButton={statusType === "urgencia"}
-                                onPress={() => SelectPrioridade("urgencia")}
-                            />
-                        </ChooseAppointment>
-                    </LabelBox>
+                                <BtnAppointmentType
+                                    textButton={"Exame"}
+                                    clickButton={statusType === "exame"}
+                                    onPress={() => SelectPrioridade("exame")}
+                                />
 
-
-                    <LabelBox>
-                        <LabelUser style={{ marginRight: 30, marginBottom: 10 }}>Informe a localização desejada:</LabelUser>
-
-                        <Input
-                            placeholder="Informe a localização"
-                            style={{ width: '100%' }}
-                        />
-
-                        {
-                            statusType != null ?
-                                <Button
-                                    onPress={() => HandleSelectPrioridade("ClinicSelect")}
-                                    style={{ width: '100%' }}
-                                >
-                                    <ButtonTitle>Confirmar</ButtonTitle>
-                                </Button>
-                                :
-                                <ButtonUnusable style={{ width: '100%' }} >
-                                    <ButtonTitle>Confirmar</ButtonTitle>
-                                </ButtonUnusable>
-                        }
-
-                    </LabelBox>
-
-                    <CancelText onPress={() => { setShowModalSchedule(false), setStatusType(null) }}>Cancelar</CancelText>
-                </InfoSchedule>
-            </ScheduleContent>
-        </Modal>
+                                <BtnAppointmentType
+                                    textButton={"Urgência"}
+                                    clickButton={statusType === "urgencia"}
+                                    onPress={() => SelectPrioridade("urgencia")}
+                                />
+                            </ChooseAppointment>
+                        </LabelBox>
 
 
-    )
+                        <LabelBox>
+                            <LabelUser style={{ marginRight: 30, marginBottom: 10 }}>Informe a localização desejada:</LabelUser>
+
+                            <View style={{ width: "100%", marginTop: 10, borderWidth: 2, borderRadius: 8, borderColor: "#34898F" }}>
+                                <Picker
+                                    placeholder={{
+                                        label: '-----',
+                                        value: null,
+                                        color: '#34898F'
+                                    }}
+                                    onValueChange={(value) => setCidade(value)}
+                                    items={arrayCity}
+                                />
+                            </View>
+
+                            {
+                                statusType != null && cidade != null ?
+                                    <Button
+                                        onPress={() => HandleSelectPrioridade("ClinicSelect")}
+                                        style={{ width: '100%' }}
+                                    >
+                                        <ButtonTitle>Confirmar</ButtonTitle>
+                                    </Button>
+                                    :
+                                    <ButtonUnusable style={{ width: '100%' }} >
+                                        <ButtonTitle>Confirmar</ButtonTitle>
+                                    </ButtonUnusable>
+                            }
+
+                        </LabelBox>
+
+                        <CancelText onPress={() => { setShowModalSchedule(false), setStatusType(null) }}>Cancelar</CancelText>
+                    </InfoSchedule>
+                </ScheduleContent>
+            </Modal>
+
+
+        )
+    }
 }

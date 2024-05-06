@@ -34,6 +34,8 @@ export const Home = ({
     const [showModalCancel, setShowModalCancel] = useState(false); // visibilidade da modal - Cancelar Consultas
     const [showModalAppointment, setShowModalAppointment] = useState(false); // visibilidade da modal - Ver Consulta
 
+    const today = new moment();
+    const status = "Realizada"
 
 
     // FUNCTIONS
@@ -49,6 +51,18 @@ export const Home = ({
             setDataConsulta(moment().format('YYYY-MM-DD'))
         }
     } // retornará as informações da conta
+
+    async function StatusRealized() {
+        if (dataConsulta < today) {
+            await api.put(`/Consultas/Status?idConsulta=${consultaSelecionada.id}&status=${status}`)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }
 
     async function ListarConsultas() {
         const url = (
@@ -89,9 +103,11 @@ export const Home = ({
     useEffect(() => {
         if (dataConsulta != '') {
             ListarConsultas();
+
+            StatusRealized();
         }
 
-    }, [dataConsulta])
+    }, [dataConsulta, consultas])
 
 
 
@@ -131,8 +147,11 @@ export const Home = ({
                     renderItem={({ item }) =>
                         statusLista == item.situacao.situacao && (
                             <CardUsuario
+                                navigation={navigation}
                                 consulta={item}
                                 profile={profile.role}
+
+                                hora={moment(dataConsulta).format("HH:mm")}
 
                                 onPressCard={() => { SelecionarConsulta(item, "prontuario") }}
                                 onPressCancel={() => SelecionarConsulta(item, "cancelar")}
@@ -145,6 +164,7 @@ export const Home = ({
 
                 <CancelationModal
                     visible={showModalCancel}
+                    consulta={consultaSelecionada}
                     setShowModalCancel={setShowModalCancel}
                 />
 
