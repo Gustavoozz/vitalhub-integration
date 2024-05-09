@@ -85,21 +85,20 @@ export const ViewPrescription = ({ navigation, route }) => {
 
 
 
-    async function GetAppointmentById() {
-        const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
+    // async function GetAppointmentById() {
+    //     const url = (profile.role == 'Paciente' ? "Pacientes" : "Medicos")
 
-        console.log("PEGUEEEEEEEEEEEEEEEEEEEEEEEEEE")
-        console.log(`/Consultas/BuscarPorId?id=${appointmentId}`);
-        const response = await api.get(`/Consultas/BuscarPorId?id=${appointmentId}`)
-            .then(response => {
-                setConsultaInfo(response.data)
-                console.log(consultas)
+    //     console.log(`/Consultas/BuscarPorId?id=${appointmentId}`);
+    //     const response = await api.get(`/Consultas/BuscarPorId?id=${appointmentId}`)
+    //         .then(response => {
+    //             setConsultaInfo(response.data)
+    //             console.log(consultas)
 
-                // console.log(response.data);
-            }).catch(error => {
-                console.log(error);
-            })
-    }
+    //             // console.log(response.data);
+    //         }).catch(error => {
+    //             console.log(error);
+    //         })
+    // }
 
 
     async function InserirExame() {

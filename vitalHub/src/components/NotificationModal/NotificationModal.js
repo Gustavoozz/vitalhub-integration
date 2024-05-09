@@ -4,6 +4,8 @@ import { ButtonTitle, Title } from "../Title/Style"
 import { ModalButton, ModalContent, ModalText, PatientModal } from "./Style"
 import { CancelText } from "../Link/Style"
 import { useNavigation } from '@react-navigation/native'
+import { useEffect, useState } from "react"
+import api from "../../services/Service"
 
 export const NotificationModal = ({
     consulta,
@@ -14,9 +16,24 @@ export const NotificationModal = ({
     ...rest
 }) => {
 
+    const [doctorInfo, setDoctorInfo] = useState("")
+
     function handlePress(rota) {
         navigation.replace(rota, {clinicaId : consulta.medicoClinica.clinicaId})
     }
+
+    async function GetDoctor() {
+        await api.get('/Medicos')
+        .then( response => {
+           setDoctorInfo(response.data)
+        }). catch( error => {
+           console.log(error)
+        })
+     }
+  
+     useEffect(() => {
+        GetDoctor();
+     }, []) 
 
     const navigation = useNavigation();
 

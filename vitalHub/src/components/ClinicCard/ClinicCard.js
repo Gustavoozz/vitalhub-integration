@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ClinicCards, LocationClinic, Rating,
     NameClinic, TimeText, TimeView,
     ViewColumn, ViewRow  } from './Style'
@@ -6,9 +7,20 @@ import { ClinicCards, LocationClinic, Rating,
 import { FontAwesome } from '@expo/vector-icons';
 
 
-const ClinicCard = ({ clinica }) => {
+const ClinicCard = ({ clinica, setClinica }) => {
+const [selected, setSelected ] = useState(true)
+
+
+const handleCard = () => {
+  setSelected(true);
+
+}
+
 return (
-<ClinicCards>
+<ClinicCards
+ onPress={() => handleCard() && setClinica({clinicaId: clinica.Id, clinicaLabel: clinica.nomeFantasia})} 
+ selected={selected}
+ >
 <ViewColumn>
   <NameClinic>{clinica.nomeFantasia}</NameClinic>
 
@@ -21,11 +33,12 @@ return (
   <FontAwesome name="calendar" size={16} color="#49B3BA" />
   
 
-    <TimeText>Seg-Sex</TimeText>
+  <TimeText>Seg-Sex</TimeText>
   </TimeView>
 
 </ViewColumn>
 </ClinicCards>
+
 );
 };
 

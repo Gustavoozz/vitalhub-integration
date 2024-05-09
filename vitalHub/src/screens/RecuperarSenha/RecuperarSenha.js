@@ -8,6 +8,7 @@ import { ButtonTitle, Title } from "../../components/Title/Style"
 import { Feather } from "@expo/vector-icons"
 import { useEffect, useState } from "react"
 import api from "../../services/Service"
+import { userDecodeToken } from "../../utils/Auth"
 
 export const RecuperarSenha = ({ navigation }) => {
 

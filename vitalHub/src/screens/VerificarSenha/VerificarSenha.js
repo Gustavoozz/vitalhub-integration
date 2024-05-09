@@ -101,8 +101,8 @@ export const VerificarSenha = ({ navigation, route }) => {
             </ContentAccount>
 
 
-            <Button>
-                <ButtonTitle onPress={() => codeValidate()}>Entrar</ButtonTitle>
+            <Button onPress={() => codeValidate()}>
+                <ButtonTitle>Entrar</ButtonTitle>
             </Button>
 
             <TextReenviar>Reenviar Código</TextReenviar>

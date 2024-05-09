@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Title } from '../Title/Style'
+import { css } from 'styled-components';
 
 export const MedicalCards = styled.View`
   width: 95%;
@@ -13,6 +14,7 @@ export const MedicalCards = styled.View`
 
   padding-left: 10px;
   height: 120px;
+   ${(props) => props.selected ? css`border: 2px solid #496BBA;` : ``}
 `;
 
 export const ViewColumn = styled.View`

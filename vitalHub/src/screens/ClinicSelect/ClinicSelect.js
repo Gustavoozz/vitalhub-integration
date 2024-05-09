@@ -10,16 +10,34 @@ import { TextReenviar } from "../../components/Link/Style"
 import api from "../../services/Service"
 
 
-export const ClinicSelect = ({ navigation }) => {
+export const ClinicSelect = ({ navigation, route, selected }) => {
     // const animation = new Animated.Value(0);
     // const inputRange = [0, 1];
     // const outputRange = [0.95, 1.0];
     // const scale = animation.interpolate({inputRange, outputRange});
+   
+   const [clinicaLista, setClinicaLista] = useState([]);
+   const [clinica, setClinica] = useState();
+   //  async function GetClinic() {
+   //    await api.get('/Clinica/ListarTodas')
+   //    .then( response => {
+   //       setClinicaLista(response.data)
+   //    }). catch( error => {
+   //       console.log(error)
+   //    })
+   // }
 
-    const [clinicaLista, setClinicaLista] = useState([]);
+    function handleContinue() {
 
-    async function GetClinic() {
-      await api.get('/Clinica/ListarTodas')
+      navigation.replace("DoctorSelect", { agendamento: {
+         ...route.params.agendamento,
+         ...clinica
+      }
+   })
+  }
+
+   async function GetClinicByCity() {
+      await api.get(`/Clinica/BuscarPorCidade?cidade=${route.params.agendamento.localizacao}`)
       .then( response => {
          setClinicaLista(response.data)
       }). catch( error => {
@@ -28,8 +46,12 @@ export const ClinicSelect = ({ navigation }) => {
    }
 
    useEffect(() => {
-    GetClinic();
+    GetClinicByCity();
  }, []) 
+
+ useEffect(() => {
+   console.log(route);
+ }, [route])
  
   
     // const onPressIn = () => {
@@ -54,18 +76,21 @@ export const ClinicSelect = ({ navigation }) => {
                data={clinicaLista}
                keyExtractor={(item) => item.id}
                renderItem={({item}) => (
-               <ClinicCard clinica={item}/>
+               <ClinicCard clinica={item} 
+               setClinica={setClinica}
+               // selected={selected}
+               />
                )}
                showsVerticalScrollIndicator={false}
              />
 
             <Button 
-            onPress={() => navigation.replace("DoctorSelect")}
+            onPress={() => handleContinue()}
             style={{ marginTop: 20 }}>
                 <ButtonTitle>Continuar</ButtonTitle>
             </Button>
 
-            <TextReenviar style={{ marginBottom: 20 }} onPress={() => navigation.replace("ClinicSelect")}>Cancelar</TextReenviar>
+            <TextReenviar style={{ marginBottom: 20 }} onPress={() => navigation.replace("Main")}>Cancelar</TextReenviar>
 
             </Container>
     )

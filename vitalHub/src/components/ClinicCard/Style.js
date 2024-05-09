@@ -14,7 +14,7 @@ export const ClinicCards = styled.View`
   flex-direction: row;
   justify-content: space-between;
 
- ${ (props) => props.selected ?  css`border: 2px solid #496BBA;` : ``};
+ ${(props) => props.selected ? css`border: 2px solid #496BBA;` : ``};
 `
 
 export const ViewRow = styled.View`

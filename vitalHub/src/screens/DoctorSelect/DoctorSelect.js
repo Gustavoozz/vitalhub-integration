@@ -18,12 +18,12 @@ import { TextReenviar } from "../../components/Link/Style"
 //    {id: 6, nome: "Usmar", especialidade: "Cardiologista"},
 // ]
 
-export const DoctorSelect = ({ navigation }) => {
+export const DoctorSelect = ({ navigation, route, selected }) => {
 
    const [medicoLista, setMedicoLista] = useState([]);
 
    async function GetDoctor() {
-      await api.get('/Medicos')
+      await api.get(`/Medicos/BuscarPorIdClinica?id=${route.params.agendamento.clinicaId}`)
       .then( response => {
          setMedicoLista(response.data)
       }). catch( error => {
@@ -31,9 +31,21 @@ export const DoctorSelect = ({ navigation }) => {
       })
    }
 
+   function handleContinue() {
+      navigation.replace("DateSelect", { agendamento : {
+         ...route.params.agendamento,
+         ...medico
+      }})
+   }
+
    useEffect(() => {
       GetDoctor();
    }, []) 
+
+   useEffect(() => {
+      console.log(route);
+    }, [route])
+    
    
     return(
         <Container contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
@@ -43,13 +55,15 @@ export const DoctorSelect = ({ navigation }) => {
                data={medicoLista}
                keyExtractor={(item) => item.id}
                renderItem={({item}) => (
-               <DoctorCard medico={item}/>
+               <DoctorCard medico={item}
+                  setMedico={setMedico}
+               />
                )}
                showsVerticalScrollIndicator={false}
              />
               
             <Button 
-               onPress={() => navigation.replace("DateSelect")}
+               onPress={() => handleContinue()}
                style={{ marginTop: 40 }}>
                <ButtonTitle>Continuar</ButtonTitle>
             </Button>
