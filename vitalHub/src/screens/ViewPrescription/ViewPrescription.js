@@ -10,7 +10,7 @@ import { SendPhotoButton } from '../../components/Button/Style'
 import { CancelText } from '../../components/Link/Style'
 
 import CameraProntuary from "../../components/CameraProntuary/CameraProntuary"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FontAwesome } from '@expo/vector-icons'
 
 import {
@@ -26,19 +26,78 @@ import CameraModal from '../../components/CameraProntuary/CameraProntuary'
 import { UserImage } from '../../components/UserImage/Style'
 // import * as MediaLibrary xfrom 'expo-media-library'
 
+// API importada
+import api from '../../services/Service'
+
 export const ViewPrescription = ({
     navigation,
     route
 }) => {
+    // CONSTS
     const [showCamera, setShowCamera] = useState(false);
     const [photo, setPhoto] = useState(null);
+    const [descricaoExame, setDescricaoExame] = useState("");
 
     const consulta = route.params.consulta;
     const receita = route.params.receita;
 
+
+
+    // FUNCTIONS
+    async function InserirExame() {
+        const formData = new FormData();
+
+        formData.append("ConsultaId", consulta.id);
+        formData.append("Imagem", {
+            uri: photo,
+            name: `image.${photo.split(".").pop()}`,
+            type: `image/${photo.split(".").pop()}`
+        })
+
+        await api.post(`/Exame/Cadastrar`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then(response => {
+            setDescricaoExame(response.data.descricao)
+            console.log(descricaoExame);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const GetExam = async () => {
+        await api.get(`/Consultas/BuscarPorId?id=${consulta.id}`)
+            .then(response => {
+                console.log(response.data.exames[2].descricao);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+
+
+    // EFFECTS
+    useEffect(() => {
+        if (photo) {
+            console.log(photo);
+
+            InserirExame();
+        }
+    }, [photo])
+
+    useEffect(() => {
+        GetExam();
+    }, [])
+
+
+
     return (
         <Container>
-            <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}>
+            <ContainerUser
+                contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+                showsVerticalScrollIndicator={false}>
                 <PhotoContainer>
                     <UserImage source={require('../../assets/UserDoctorBig.png')} />
                 </PhotoContainer>
@@ -71,9 +130,9 @@ export const ViewPrescription = ({
 
                     {
                         photo === null ? (
-                            <PhotoBoxNull>
-                                <TextPhotoBox>Tire sua foto</TextPhotoBox>
-                            </PhotoBoxNull>
+                            <PhotoButton />
+
+
                         ) : (
                             <PhotoButton
                                 source={{ uri: photo }}
@@ -106,12 +165,12 @@ export const ViewPrescription = ({
                     backgroundColor: "#F5F3F3"
                 }}
                 >
-                    <Text
-                        style={{ color: "#4E4B59" }}
-                    ></Text>
+                    <Text>{descricaoExame}</Text>
                 </View>
 
-                <CancelText onPress={() => navigation.replace("Main")}>Voltar</CancelText>
+                <CancelText
+                    onPress={() => navigation.replace("Main")}
+                >Voltar</CancelText>
 
                 <CameraModal
                     visible={showCamera}

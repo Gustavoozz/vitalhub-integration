@@ -5,7 +5,7 @@ import { ButtonTitle, LabelUser, TitleUser } from "../../components/Title/Style"
 import { SubTextQuick } from "../../components/Text/Text"
 import { Input, InputCity, InputCityEditable, InputUser } from "../../components/Input/Style"
 import { Button, ButtonUser } from "../../components/Button/Style"
-import { Content } from "./Style"
+import { ButtonCamera, Content } from "./Style"
 
 import { UserDecodeToken, UserLogout } from "../../utils/Auth"
 import { useEffect, useState } from "react"
@@ -15,6 +15,8 @@ import moment from "moment";
 // API importada
 import api from "../../services/Service"
 import { UseMask } from "../../utils/Converter"
+import CameraModal from "../../components/CameraProntuary/CameraProntuary"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 export const Perfil = ({ navigation }) => {
     // CONSTS
@@ -22,23 +24,30 @@ export const Perfil = ({ navigation }) => {
     const [user, setUser] = useState([]); // carrega o usuário
     const [editar, setEditar] = useState(false); // altera os inputs
 
-    const [dataNascimento, setDataNascimento] = useState();
-    const [cpf, setCpf] = useState();
-    const [crm, setCrm] = useState();
-    const [cep, setCep] = useState("");
-    const [address, setAddress] = useState();
-    const [nome, setNome] = useState();
+    const [dataNascimento, setDataNascimento] = useState(); // data de nascimento do usuário
+    const [cpf, setCpf] = useState(); // cpf do usuário - paciente
+    const [crm, setCrm] = useState(); // crm do usuário - médico
+    const [cep, setCep] = useState(""); // cep do usuário
+    const [address, setAddress] = useState(); // endereço usando API ViaCep
+    const [nome, setNome] = useState(); // nome do usuário
+    const [photo, setPhoto] = useState(null); // foto do usuário
+    const [showCamera, setShowCamera] = useState(false); // seta a visibilidade da câmera
+    const [idUsuario, setIdUsuario] = useState(""); // id do usuário
 
     // FUNCTIONS
     async function ProfileLoad() {
+        // constante token usa o token decodado
         const token = await UserDecodeToken();
 
+        // se token não for vazio
         if (token !== null) {
             setTipoUsuario(token.role);
+            
+            setIdUsuario(token.user);
 
             await UserLoad(token);
         }
-    }
+    } // lê o usuário pelo token
 
     async function UserLoad(token) {
         const url = (token.role == 'Medico' ?
@@ -83,12 +92,8 @@ export const Perfil = ({ navigation }) => {
                         crm: crm
                     })
                         .then(response => {
-                            console.log(`Atualizado`);
+                            console.log("");
                             console.log(response.data);
-                            console.log(`
-                --
-                --
-                `);
                         })
                         .catch(error => {
                             console.log(error);
@@ -104,12 +109,8 @@ export const Perfil = ({ navigation }) => {
                         cidade: address.localidade,
                     })
                         .then(response => {
-                            console.log(`Atualizado`);
+                            console.log("");
                             console.log(response.data);
-                            console.log(`
-                --
-                --
-                `);
                         })
                         .catch(error => {
                             console.log(error);
@@ -140,6 +141,29 @@ export const Perfil = ({ navigation }) => {
             })
     }
 
+    async function ChangeProfilePhoto() {
+        const formData = new FormData();
+        formData.append("Arquivo", {
+            uri: photo,
+            name: `image.${photo.split(".")[1]}`,
+            type: `image/${photo.split(".")[1]}`,
+        })
+        console.log(`/Usuario/AlterarFotoDePerfil?id=${idUsuario}`);
+
+        await api.put(`/Usuario/AlterarFotoDePerfil?id=${idUsuario}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then(async response => {
+            console.log(response);
+
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+
+
     // EFFECTS
     useEffect(() => {
         ProfileLoad();
@@ -151,11 +175,27 @@ export const Perfil = ({ navigation }) => {
         }
     }, [cep])
 
+    useEffect(() => {
+        if (photo != null) {
+            ChangeProfilePhoto();
+        }
+    }, [])
+
     if (user != undefined && user.idNavigation != undefined) {
         return (
             <ContainerUser>
                 <PhotoContainer>
-                    <UserImage source={require('../../assets/User.png')} />
+                    <UserImage source={{ uri: photo }} />
+
+                    <ButtonCamera
+                        onPress={() => setShowCamera(true)}
+                    >
+                        <MaterialCommunityIcons
+                            name="camera-plus"
+                            size={20}
+                            color={"#FBFBFB"}
+                        />
+                    </ButtonCamera>
 
                     <InformationContent>
                         <TitleUser>{user.idNavigation.nome}</TitleUser>
@@ -305,7 +345,12 @@ export const Perfil = ({ navigation }) => {
 
                     }
 
-
+                    <CameraModal
+                        getMediaLibrary={true}
+                        visible={showCamera}
+                        setShowCamera={setShowCamera}
+                        setPhotoUpload={setPhoto}
+                    />
                 </Content>
             </ContainerUser >
         )

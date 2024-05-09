@@ -3,26 +3,49 @@ import { UserDecodeToken } from "../../utils/Auth";
 import { BoxUser, DataUser, ImageUser, NameUser, TextDefault, ContainerHeader, DataUser2 } from "./Style";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome6 } from '@expo/vector-icons';
+import api from "../../services/Service";
 
 export const Header = ({ }) => {
+  // CONSTS
   const [nome, setNome] = useState();
-  const [role, setRole] = useState()
+  const [role, setRole] = useState();
+  const [photo, setPhoto] = useState(null);
 
+
+
+  // FUNCTIONS
   async function profileLoad() {
     const token = await UserDecodeToken();
 
     setNome(token.name);
     setRole(token.role);
+
+    GetPhoto(token.user)
   }
 
+  const GetPhoto = async (id) => {
+    await api.get(`/Usuario/BuscarPorId?id=${id}`)
+    .then(response => {
+      console.log(response.data.foto);
+
+      setPhoto(response.data.foto)
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+
+
+  // EFFECTS
   useEffect(() => {
     profileLoad();
-  })
+  }, [])
 
   return (
     <ContainerHeader>
       <BoxUser>
-        <ImageUser source={{ uri: "https://github.com/HookCreeping.png" }} />
+        <ImageUser source={{ uri: photo }} />
         <DataUser>
           <TextDefault>Bem vindo !</TextDefault>
           <NameUser>{nome}</NameUser>

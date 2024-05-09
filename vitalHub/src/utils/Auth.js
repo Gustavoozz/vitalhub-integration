@@ -18,18 +18,20 @@ export const UserDecodeToken = async () => {
     if (token === null) {
         return null;
     }
+    else {
+        // se existir, decoda o token
+        const decoded = jwtDecode(token);
 
-    // se existir, decoda o token
-    const decoded = jwtDecode(token);
-
-    // retorno
-    return {
-        token: token, // token inteiro
-        name: decoded.name, // nome
-        email: decoded.email,// email
-        role: decoded.role, // tipo do usuário
-        user: decoded.jti, // id do usuário
+        // retorno
+        return {
+            name: decoded.name, // nome
+            email: decoded.email,// email
+            role: decoded.role, // tipo do usuário
+            user: decoded.jti, // id do usuário
+        }
     }
+
+
 }
 
 export const UserLogout = async () => {

@@ -1,10 +1,12 @@
-﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+﻿
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 
 namespace WebAPI.Utils.OCR
 {
     public class OcrService
     {
+
         private readonly string subscriptionKey = "5e4435933eb049a081eb2c96aedd4ba9";
 
         private readonly string endpoint = "https://vhgrupo8-computervision.cognitiveservices.azure.com/";
@@ -15,7 +17,7 @@ namespace WebAPI.Utils.OCR
             {
                 var client = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
                 {
-                    Endpoint = endpoint,
+                    Endpoint = endpoint
                 };
 
                 var ocrResult = await client.RecognizePrintedTextInStreamAsync(true, imageStream);
@@ -24,7 +26,7 @@ namespace WebAPI.Utils.OCR
             }
             catch (Exception ex)
             {
-                return "Erro ao reconhecer o texto: " + ex.Message;
+                return "Erro ao recohecer o texto!" + ex.Message;
             }
         }
 
@@ -32,27 +34,30 @@ namespace WebAPI.Utils.OCR
         {
             try
             {
-                string recognizeText = "";
+                string recognizedText = "";
 
+                // Percorrer cada bloco ( Regions ), linha ( Lines ) e letra ( Words ), organizar e extrair as palavras lidas ( 3 Foreachs para cada um ):
                 foreach (var region in result.Regions)
                 {
                     foreach (var line in region.Lines)
                     {
                         foreach (var word in line.Words)
                         {
-                            recognizeText += word.Text + "";
+                            // Operador de incremento = "+=".
+                            // " " = Espaçar os elementos.
+                            recognizedText += word.Text + " ";
                         }
 
-                        recognizeText += "\n";
+                        // Quebrar linha.
+                        recognizedText += "\n";
                     }
                 }
+                return recognizedText;
 
-                return recognizeText;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                return "Erro" + ex.Message;
             }
         }
     }

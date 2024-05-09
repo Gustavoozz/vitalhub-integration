@@ -6,19 +6,37 @@ import { ArrowIcon, Logo } from "../../components/Logo/Style"
 import { TextQuick } from "../../components/Text/Text"
 import { ButtonTitle, Title } from "../../components/Title/Style"
 import { Feather } from "@expo/vector-icons"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { UserDecodeToken } from "../../utils/Auth"
+import api from "../../services/Service"
+import { TextAccount } from "../../components/Link/Style"
 
 export const RecuperarSenha = ({ navigation }) => {
-    // STATES
-    const [email, setEmail] = useState(""); // email
-    const [paginaErro, setPaginaErro] = useState(false) // muda a cor do input caso haja erro
+    const [email, setEmail] = useState("");
+    const [paginaErro, setPaginaErro] = useState(false);
 
-    // FUNCTIONS
+    async function SendEmail() {
+        await api.post(`/RecuperarSenha?email=${email}`).then(() => {
+            setPaginaErro(false);
+
+            navigation.replace("VerificarSenha", { emailRecuperacao: email })
+        }).catch(error => {
+            console.log(error);
+
+            setPaginaErro(true);
+        })
+    }
 
     return (
+
         <Container>
-            <Feather style={{ position: 'absolute', left: 20, top: 30 }} onPress={() => navigation.replace("Login")} name="arrow-left-circle" size={30} color="#34898F" />
+            <Feather
+                style={{ position: 'absolute', left: 20, top: 30 }}
+                onPress={() => navigation.replace("Login")}
+                name="arrow-left-circle"
+                size={30}
+                color="#34898F"
+            />
 
             <Logo
                 source={require('../../assets/VitalHub_Logo.png')}
@@ -28,30 +46,35 @@ export const RecuperarSenha = ({ navigation }) => {
 
             <TextQuick>Digite abaixo seu email cadastrado que enviaremos um link para recuperação de senha</TextQuick>
 
-            {/* há um erro no email? */}
-            {paginaErro ?
-                // sim: faz com que os inputs fiquem vermelhos e dá um alerta
-                <>
-                    <InputError
-                        placeholder="Usuário ou E-mail"
-                        value={email}
-                        onChangeText={(txt) => setEmail(txt)}
-                    />
-                </>
-                :
-                // não: faz com que o usuário acesse a próxima página normalmente
-                <>
+            {
+                paginaErro == false ?
                     <Input
                         placeholder="Usuário ou E-mail"
                         value={email}
                         onChangeText={(txt) => setEmail(txt)}
                     />
-                </>
+                    :
+                    <>
+                        <InputError
+                            placeholder="Usuário ou E-mail"
+                            value={email}
+                            onChangeText={(txt) => setEmail(txt)}
+                        />
+
+                        <TextAccount
+                            style={{
+                                color: "#DB2C15",
+                            }}
+                        >
+                            Email inexistente
+                            </TextAccount>
+                    </>
             }
 
-            <Button onPress={() => navigation.replace("VerificarSenha")}>
-                <ButtonTitle>Continuar</ButtonTitle>
-            </Button>
-        </Container>
+<Button onPress={() => SendEmail()}>
+    <ButtonTitle>Continuar</ButtonTitle>
+</Button>
+        </Container >
     )
+
 }

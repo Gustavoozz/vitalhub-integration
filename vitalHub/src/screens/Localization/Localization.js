@@ -23,12 +23,15 @@ import MapViewDirections from 'react-native-maps-directions'
 import { mapskey } from '../../utils/mapsKey';
 import { useEffect, useState, useRef } from 'react';
 import api from "../../services/Service"
+import { UserDecodeToken } from "../../utils/Auth"
 
 export const Localization = ({
   navigation,
   route
 }) => {
+  // CONSTS
   const [clinica, setClinica] = useState(null);
+  const [tipoUsuario, setTipoUsuario] = useState("");
 
   const mapReference = useRef(null);
   const [initialPosition, setInitialPosition] = useState(null);
@@ -37,6 +40,8 @@ export const Localization = ({
     longitude: -46.4137,
   })
 
+
+  // FUNCTIONS
   async function CapturarLocalizacao() {
     const { granted } = await requestForegroundPermissionsAsync()
 
@@ -44,7 +49,6 @@ export const Localization = ({
       const currentPosition = await getCurrentPositionAsync()
 
       await setInitialPosition(currentPosition)
-      console.log(initialPosition)
     }
   }
 
@@ -64,15 +68,54 @@ export const Localization = ({
     }
   }
 
-  const BuscarClinica = async () => {
-    await api.get(`/Clinica/BuscarPorId?id=${route.params.clinicaId}`)
+  const ProfileLoad = async () => {
+    const token = await UserDecodeToken();
+
+    if (token) {
+      setTipoUsuario(token.role);
+
+      BuscarClinicaPorUsuario(token);
+    }
+  }
+
+  const BuscarClinicaPorUsuario = async (token) => {
+    if (token.role == "Paciente") {
+      await api.get(`/Clinica/BuscarPorId?id=${route.params.clinicaId}`)
+        .then(response => {
+          setClinica(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    } else {
+      await api.get(`/Medicos/BuscarPorId?id=${token.user}`)
+        .then(response => {
+          const medicoClinica = response.data.medicosClinicas[0].clinicaId;
+
+          BuscarClinica(medicoClinica);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+  }
+
+  const BuscarClinica = async (id) => {
+    await api.get(`/Clinica/BuscarPorId?id=${id}`)
       .then(response => {
-        setClinica(response.data);
+        setClinica(response.data)
       })
       .catch(error => {
         console.log(error);
       })
   }
+
+
+
+  // EFFECTS
+  useEffect(() => {
+    ProfileLoad();
+  }, []);
 
   useEffect(() => {
     CapturarLocalizacao();
@@ -86,21 +129,15 @@ export const Localization = ({
       await setInitialPosition(response)
 
       mapReference.current?.animateCamera({
-        pitch: 60, // Angulação.
+        pitch: 3, // Angulação.
         center: response.coords
       })
     })
-
-    console.log(route)
   }, [route.params])
 
   useEffect(() => {
     RecarregarVisualizacaoMapa();
   }, [initialPosition])
-
-  useEffect(() => {
-    BuscarClinica();
-  }, [])
 
 
   if (clinica != null) {
@@ -132,8 +169,8 @@ export const Localization = ({
 
                 <Marker
                   coordinate={{
-                    latitude: -23.7141,
-                    longitude: -46.4137,
+                    latitude: clinica.endereco.latitude,
+                    longitude: clinica.endereco.longitude,
                   }}
                   title="Local"
                   description="Descrição do local."
@@ -142,8 +179,8 @@ export const Localization = ({
                 <MapViewDirections
                   origin={initialPosition.coords}
                   destination={{
-                    latitude: -23.7141,
-                    longitude: -46.4137,
+                    latitude: clinica.endereco.latitude,
+                    longitude: clinica.endereco.longitude,
                     latitudeDelta: 0.005,
                     longitudeDelta: 0.005
                   }}
@@ -160,14 +197,15 @@ export const Localization = ({
             )
         }
         <Title style={{ marginTop: 30, marginBottom: 10 }}>{clinica.nomeFantasia}</Title>
-        <SubTextQuick>São Paulo, SP</SubTextQuick>
 
         <LabelUser>Endereço</LabelUser>
         <InputUser
           placeholder={clinica.endereco.logradouro}
           placeholderTextColor="#33303E" />
 
-        <CityContainer>
+        <CityContainer style={tipoUsuario != "Paciente" ? {
+          marginBottom: 30
+        } : null}>
           <View>
             <LabelUser>Número</LabelUser>
             <InputCity
@@ -181,13 +219,18 @@ export const Localization = ({
               placeholder={clinica.endereco.cidade}
               placeholderTextColor="#33303E" />
           </View>
-
         </CityContainer>
 
-        <CancelText
-          onPress={() => navigation.replace("Main")}
-          style={{ marginBottom: 40 }}
-        >Voltar</CancelText>
+        {
+          tipoUsuario == "Paciente" ?
+            <CancelText
+              onPress={() => navigation.replace("Main")}
+              style={{ marginBottom: 40 }}
+            >Voltar</CancelText>
+            :
+            null
+        }
+
       </Container>
     )
   }

@@ -61,7 +61,7 @@ export const InputUser = styled.TextInput.attrs({
 
 export const PhotoButton = styled.Image`
     width: 90%;
-    height: 111px;
+    height: auto;
 
     padding-left: 20px;
     padding-bottom: 0px;

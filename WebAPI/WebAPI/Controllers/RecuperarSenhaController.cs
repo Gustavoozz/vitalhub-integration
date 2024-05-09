@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
 
                 await vitalContext.SaveChangesAsync();
 
-                await emailSendingService.SendRecovery(user.Email!, recoveryCode);
+                await emailSendingService.SendRecoveryEmail(user.Email!, recoveryCode);
 
                 return Ok("Código enviado com sucesso");
             }

@@ -18,7 +18,7 @@ namespace WebAPI.Utils.Mail
         }
 
         // método para envio de email
-        public async Task SendMailAsync(MailRequest mailRequest)
+        public async Task SendEmailAsync(MailRequest mailRequest)
         {
             try
             {
@@ -59,6 +59,11 @@ namespace WebAPI.Utils.Mail
 
                 throw;
             }
+        }
+
+        public Task SendMailAsync(MailRequest mailRequest)
+        {
+            throw new NotImplementedException();
         }
     }
 }
