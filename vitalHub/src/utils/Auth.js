@@ -10,6 +10,7 @@ if (!global.btoa) {
     global.btoa = encode
 }
 
+<<<<<<< HEAD
 export const userDecodeToken = async () => {
     const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 
@@ -32,4 +33,32 @@ export const userLogout = async () => {
     const token = await AsyncStorage.removeItem("token")
 
     console.log(token);
+=======
+export const UserDecodeToken = async () => {
+    // obtendo o token da async storage
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
+
+    // se não existir token, retorne nulo
+    if (token === null) {
+        return null;
+    }
+    else {
+        // se existir, decoda o token
+        const decoded = jwtDecode(token);
+
+        // retorno
+        return {
+            name: decoded.name, // nome
+            email: decoded.email,// email
+            role: decoded.role, // tipo do usuário
+            user: decoded.jti, // id do usuário
+        }
+    }
+
+
+}
+
+export const UserLogout = async () => {
+    await AsyncStorage.removeItem("token")
+>>>>>>> develop
 }

@@ -47,6 +47,8 @@ const SplashScreen = () => {
         return () => clearTimeout(timer);
     }, [navigation, logoScale, opacity]);
 
+
+
     return (
         <ContainSplash>
             <Animated.Image

@@ -1,11 +1,15 @@
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraType, useCameraPermissions, CameraView } from 'expo-camera';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState, useRef } from 'react';
 import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker'
+<<<<<<< HEAD
 import { LastPhoto } from './Style';
+=======
+>>>>>>> develop
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import { LastPhoto } from './Style';
 
 
 export default function CameraModal({
@@ -20,11 +24,19 @@ export default function CameraModal({
   const cameraRef = useRef(null);
   const [photo, setPhoto] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+<<<<<<< HEAD
   const [tipoCamera, setTipoCamera] = useState(CameraType.front);
   const [lastPhoto, setLastPhoto] = useState(null)
 
   async function GetLatestPhoto() {
     const {assets} = await MediaLibrary.getAssetsAsync({ sortBy : [[MediaLibrary.SortBy.creationTime, false]], first : 1})
+=======
+  const [tipoCamera, setTipoCamera] = useState('front');
+  const [lastPhoto, setLastPhoto] = useState(null)
+
+  async function GetLatestPhoto() {
+    const { assets } = await MediaLibrary.getAssetsAsync({ sortBy: [[MediaLibrary.SortBy.creationTime, false]], first: 1 })
+>>>>>>> develop
     console.log(assets);
 
     if (assets.length > 0) {
@@ -40,10 +52,19 @@ export default function CameraModal({
       const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync();
     })()
 
+<<<<<<< HEAD
      if (getMediaLibrary) {
       
       GetLatestPhoto()
      }
+=======
+    if (getMediaLibrary) {
+
+      GetLatestPhoto()
+    }
+
+    console.log(typeof tipoCamera);
+>>>>>>> develop
 
   }, []);
 
@@ -70,7 +91,11 @@ export default function CameraModal({
       setPhoto(result.assets[0].uri)
 
       setOpenModal(true)
+<<<<<<< HEAD
     } 
+=======
+    }
+>>>>>>> develop
   }
 
   function UploadPhoto() {
@@ -86,22 +111,27 @@ export default function CameraModal({
     setOpenModal(false)
   }
 
+
+  function toggleCameraType() {
+    setTipoCamera(current => (current === 'front' ? 'back' : 'front'))
+  }
+
   return (
     // modal
     <Modal {...rest} visible={visible} transparent={true} animationType='fade'>
       {/* container inteiro */}
       <View style={styles.container}>
         {/* camera */}
-        <Camera
+        <CameraView
+          facing={tipoCamera}
           ref={cameraRef}
           style={styles.camera}
-          type={tipoCamera}
           ratio='16:9'
         >
           <View style={styles.viewFlip}>
 
           </View>
-        </Camera>
+        </CameraView>
 
         <View style={styles.bottom}>
           {/* retornar */}
@@ -113,6 +143,7 @@ export default function CameraModal({
 
           <TouchableOpacity onPress={() => SelectImageGallery()}>
             {
+<<<<<<< HEAD
               lastPhoto != null 
               ? (
             <LastPhoto
@@ -125,6 +156,20 @@ export default function CameraModal({
            
           </TouchableOpacity>
           
+=======
+              lastPhoto != null
+                ? (
+                  <LastPhoto
+                    source={{ uri: lastPhoto }}
+                  />
+                ) : (
+                  null
+                )
+            }
+
+          </TouchableOpacity>
+
+>>>>>>> develop
           {/* tirar foto */}
           <TouchableOpacity
             style={styles.btnCapture}
@@ -136,10 +181,7 @@ export default function CameraModal({
           {/* trocar câmera */}
           <TouchableOpacity
             style={styles.btnSwitch}
-            onPress={() => setTipoCamera(tipoCamera == CameraType.front ?
-              CameraType.back :
-              CameraType.front
-            )}
+            onPress={() => toggleCameraType()}
           >
             <MaterialIcons name="cameraswitch" size={24} color="#FFF" />
           </TouchableOpacity>

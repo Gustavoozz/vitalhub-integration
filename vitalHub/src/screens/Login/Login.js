@@ -8,6 +8,10 @@ import { ContentAccount } from "../../components/ContentAccount/Style";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { useState } from "react";
+<<<<<<< HEAD
+import { UserDecodeToken } from "../../utils/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+=======
 import { userDecodeToken } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -15,21 +19,30 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../services/Service";
 
 
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
 // API importada
 import api from "../../services/Service";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export const Login = ({ navigation }) => {
 <<<<<<< HEAD
+    // STATES
+=======
+<<<<<<< HEAD
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
     const [email, setEmail] = useState(""); // email
     const [senha, setSenha] = useState(""); // senha
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
-    const [paginaErro, setPaginaErro] = useState(false)
+    const [paginaErro, setPaginaErro] = useState(false); // muda a cor do input caso haja erros
 
+    // FUNCTIONS
     const TrocarVisibilidadeSenha = () => {
         setMostrarSenha(!mostrarSenha);
+<<<<<<< HEAD
+    }; // troca a visibilidade da senha
+=======
     };
 =======
     // STATES
@@ -43,31 +56,32 @@ export const Login = ({ navigation }) => {
         setMostrarSenha(!mostrarSenha);
     }; // troca a visibilidade da senha
 >>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
     async function Login() {
         await api.post('/Login', {
             email: email,
 <<<<<<< HEAD
+            senha: senha,
+=======
+<<<<<<< HEAD
             senha: senha
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
         }).then(async response => {
             setPaginaErro(false);
 
-            await AsyncStorage.setItem("token", JSON.stringify(response.data))
+            await AsyncStorage.setItem("token", JSON.stringify(response.data));
 
-            navigation.navigate("Main")
-
-            console.log("Logado");
+            navigation.replace("Main");
         }
         ).catch(error => {
             setPaginaErro(true);
 
             console.log(error);
         });
-    }
+    } // loga o usuário
 
-    async function LoginDoctor() {
-        navigation.navigate("MainDoctor");
-    };
+
 
 =======
             senha: senha,
@@ -106,12 +120,18 @@ export const Login = ({ navigation }) => {
             <Title>Entrar ou criar conta</Title>
 
 <<<<<<< HEAD
+            {/* há erro no usuário ou senha? */}
+            {paginaErro ?
+            // sim: faz com que os inputs fiquem vermelhos e dá um alerta
+=======
+<<<<<<< HEAD
             {paginaErro ?
 =======
             {/* há erro no usuário ou senha? */}
             {paginaErro ?
             // sim: faz com que os inputs fiquem vermelhos e dá um alerta
 >>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
                 <>
                     <InputError
                         placeholder="Usuário ou E-mail"
@@ -156,9 +176,13 @@ export const Login = ({ navigation }) => {
                 </>
                 :
 <<<<<<< HEAD
+                // não: faz com que o usuário acesse o app normalmente
+=======
+<<<<<<< HEAD
 =======
                 // não: faz com que o usuário acesse o app normalmente
 >>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
                 <>
                     <Input
                         placeholder="Usuário ou E-mail"

@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 export const Title = styled.Text`
     font-family: "MontserratAlternates_600SemiBold";
     font-size: 20px;
     color: #33303E;
+    margin-top: 20px;
     margin-bottom: 15px;
 `
 
@@ -24,13 +25,19 @@ export const TitleUser = styled(Title)`
 `
 
 export const LabelUser = styled(Title)`
-    font-family: 'Quicksand_600SemiBold';
-    font-size: 16px;
+    width: 90%;
+
     margin-bottom: 10px;
     margin-top: 30px;
-    width: 90%;
+    
+    font-size: 16px;
+    text-align: left;
+    font-family: 'Quicksand_600SemiBold';
 `
 
 export const LabelProntuario = styled(LabelUser)`
     margin-top: 10px;
+`
+export const LabelBox = styled.View`
+    width: 100%;
 `

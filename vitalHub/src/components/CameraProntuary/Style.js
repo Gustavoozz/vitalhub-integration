@@ -7,6 +7,9 @@ export const LastPhoto = styled.Image`
     
     width: 60px;
     height: 60px;
+<<<<<<< HEAD
     border-radius: 5px;
     border: 2px solid #FBFBFB;
+=======
+>>>>>>> develop
 `

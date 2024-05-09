@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient"
 
 export const Container = styled.SafeAreaView`
@@ -7,9 +7,13 @@ export const Container = styled.SafeAreaView`
     background-color: white;
 `
 
-export const ContainerUser = styled.ScrollView`
+export const ContainerUser = styled.ScrollView.attrs({
+    
+})`
     flex: 1;
     background-color: white;
+
+    padding: 0px 0px 5px 0px;
 `
 
 export const InformationContent = styled.View`
@@ -34,11 +38,18 @@ export const ContentProntuario = styled.View`
     justify-content: center;
     width: 80%;
     bottom: 30px;
+
+    margin-top: 20px;
 `
 
 export const PhotoContainer = styled.View`
     width: 100%;
+<<<<<<< HEAD
+    align-items: center;
+    height: auto;
+=======
     height: 330px;
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 `
 
 export const CityContainer = styled.View`
@@ -79,10 +90,9 @@ export const ImageContainer = styled.View`
     border: 1px solid red;
 `
 
-export const DoctorContainer = styled.View`
+export const UserContent = styled.View`
    flex: 1;
    width: 100%;
-
 `
 
 export const AppointmentBox = styled.TouchableOpacity`
@@ -99,9 +109,3 @@ export const AppointmentBox = styled.TouchableOpacity`
    margin-left: 330px;
    margin-bottom: 20px;
 `
-
-
-
-
-
-

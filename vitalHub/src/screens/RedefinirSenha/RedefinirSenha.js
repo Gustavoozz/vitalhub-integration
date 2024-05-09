@@ -1,3 +1,4 @@
+
 import { Image } from "react-native";
 import { Button } from "../../components/Button/Style";
 import { Container } from "../../components/Container/Style";

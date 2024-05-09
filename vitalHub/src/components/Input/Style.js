@@ -2,6 +2,7 @@ import { styled, css } from "styled-components/native";
 
 export const Input = styled.TextInput.attrs({
     placeholderTextColor: "#34898F",
+    autoCapitalize: "none"
 })`
     width: 90%;
     height: 60px;
@@ -25,7 +26,10 @@ export const InputError = styled(Input).attrs({
     color: #DB2C15;
 `
 
-export const InputVerify = styled(Input)`
+export const InputVerify = styled(Input).attrs({
+    placeholder: "0",
+    maxLength: 1
+})`
     width: 20%;
     height: 75px;
     
@@ -34,13 +38,15 @@ export const InputVerify = styled(Input)`
     justify-content: center;
 
     text-align: center;
-
     font-size: 40px;
+    font-family: 'Quicksand_600SemiBold';
+    color: #34898F;
 `
 
 export const InputUser = styled.TextInput.attrs({
     placeholderTextColor: '#33303E',
     multiline: true,
+    editable: false,
 })`
     height: 54px;
     width: 90%;
@@ -50,21 +56,31 @@ export const InputUser = styled.TextInput.attrs({
     border-radius: 5px;
     background-color: #F5F3F3;
 <<<<<<< HEAD
+
+    font-family: 'MontserratAlternates_500Medium';
+=======
+<<<<<<< HEAD
 =======
 
     font-family: 'MontserratAlternates_500Medium';
 >>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 `
 
 export const PhotoButton = styled.Image`
     width: 90%;
+<<<<<<< HEAD
     height: 200px;
+=======
+    height: auto;
+>>>>>>> develop
 
     padding-left: 20px;
     padding-bottom: 0px;
     
     background-color: #F5F3F3;
     border-radius: 5px;
+<<<<<<< HEAD
 `
 
 export const OcrView = styled.ScrollView
@@ -80,14 +96,39 @@ export const OcrView = styled.ScrollView
     border-radius: 5px;
 
     font-family: 'MontserratAlternates_500Medium';
+=======
+>>>>>>> develop
 `
 
 export const InputCity = styled(InputUser)`
     width: 165px;
 `
 
+export const InputCityEditable = styled(InputCity).attrs({
+    editable: true
+})`
+
+border: 2px solid #49B3BA;
+    border-radius: 5px;
+    background-color: #FAFAFA;
+
+    color: #34898F;
+    font-family: "MontserratAlternates_600SemiBold";
+`
+
 export const InputProntuario = styled(Input)`
     height: 121px;
 
     padding-bottom: 90px;
+
+    font-family: 'MontserratAlternates_500Medium';
+`
+
+export const InputProntuarioNonEditable = styled(InputProntuario).attrs(({ 
+    editable: false,
+    placeholderTextColor: "#33303E"
+     }))`
+    background-color: #F5F3F3;
+    color: #33303E;
+    border: none;
 `
