@@ -19,8 +19,23 @@ import {
     ButtonTakePhoto,
     ButtonTakePhotoText,
     FlexibleBox,
+<<<<<<< HEAD
     PhotoBoxNull,
     TextPhotoBox,
+=======
+<<<<<<< HEAD
+    ImageDoctor,
+    ImagePhoto,
+    InputBox,
+    Line,
+    PhotoBox,
+    PhotoBoxNull,
+    RecordContainer,
+    RecordContent,
+    TextPhotoBox
+=======
+>>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 } from "./Style";
 import CameraModal from '../../components/CameraProntuary/CameraProntuary'
 import { UserImage } from '../../components/UserImage/Style'
@@ -94,10 +109,18 @@ export const ViewPrescription = ({
 
 
     return (
+<<<<<<< HEAD
         <Container>
+<<<<<<< HEAD
             <ContainerUser
                 contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
                 showsVerticalScrollIndicator={false}>
+=======
+            <ContainerUser>
+=======
+            <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+>>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
                 <PhotoContainer>
                     <UserImage source={require('../../assets/UserDoctorBig.png')} />
                 </PhotoContainer>
@@ -108,10 +131,21 @@ export const ViewPrescription = ({
                 </ContentProntuario>
 
                 <LabelUser>Descrição da consulta</LabelUser>
+<<<<<<< HEAD
 
                 <PhotoBoxNull>
                     <TextPhotoBox>{consulta.descricao}</TextPhotoBox>
                 </PhotoBoxNull>
+=======
+                <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 30 }}
+<<<<<<< HEAD
+                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e  \nacompanhamento médico constante`}
+=======
+                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e \nacompanhamento médico constante`}
+>>>>>>> gustavo
+                    placeholderTextColor="#4E4B59"
+                />
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
                 <LabelUser>Diagnóstico do paciente</LabelUser>
 
@@ -128,6 +162,7 @@ export const ViewPrescription = ({
                 <View style={{ width: '100%', alignItems: 'center' }}>
                     <LabelUser>Exames médicos</LabelUser>
 
+<<<<<<< HEAD
                     {
                         photo === null ? (
                             <PhotoButton />
@@ -143,6 +178,17 @@ export const ViewPrescription = ({
                             />
                         )
                     }
+=======
+                    <PhotoButton style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
+                        placeholder="                  Nenhuma foto informada"
+                        placeholderTextColor="#4E4B59"
+<<<<<<< HEAD
+                        onPress={() => setShowCameraModal()}
+=======
+                        onPress={() => setShowCamera()}
+>>>>>>> gustavo
+                    ><ButtonTitle style={{ fontFamily: 'MontserratAlternates_500Medium', fontSize: 14, color: '#4E4B59', textTransform: 'none', marginTop: 43, marginLeft: 80 }}>Nenhuma foto informada</ButtonTitle></PhotoButton>
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
                 </View>
 
                 <FlexibleBox>
@@ -156,6 +202,7 @@ export const ViewPrescription = ({
                         <ButtonCancelPhotoText>Cancelar</ButtonCancelPhotoText>
                     </ButtonCancelPhoto>
                 </FlexibleBox>
+<<<<<<< HEAD
 
                 <View style={{
                     width: "90%",
@@ -179,5 +226,22 @@ export const ViewPrescription = ({
                 />
             </ContainerUser>
         </Container>
+=======
+
+                <InputUser style={{ height: 103, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0, marginTop: 30 }}
+                    placeholder={`Resultado do exame de sangue : \ntudo normal`}
+                    placeholderTextColor="#4E4B59"
+                />
+
+                <CancelText onPress={() => navigation.replace("Main")}>Voltar</CancelText>
+
+                <CameraModal
+                    visible={showCamera}
+                    setShowCamera={setShowCamera}
+                    setPhotoUpload={setPhoto}
+                />
+            </ContainerUser>
+
+>>>>>>> gustavo
     )
 }

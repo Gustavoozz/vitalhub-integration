@@ -48,7 +48,11 @@ export const CalendarHome = ({ setDataConsulta }) => {
 
   return (
     <StyledCalendarStrip
+<<<<<<< HEAD
       onDateSelected={date => setDataConsulta(moment(date).format('YYYY-MM-DD'))}
+=======
+      onDateSelected={ date => setDataConsulta(moment(date).format('YYYY-MM-DD'))}
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
       // animação e seleção de cada data
       calendarAnimation={{ type: "sequence", duration: 30 }}

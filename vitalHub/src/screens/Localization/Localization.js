@@ -25,6 +25,7 @@ import { useEffect, useState, useRef } from 'react';
 import api from "../../services/Service"
 import { UserDecodeToken } from "../../utils/Auth"
 
+<<<<<<< HEAD
 export const Localization = ({
   navigation,
   route
@@ -32,6 +33,20 @@ export const Localization = ({
   // CONSTS
   const [clinica, setClinica] = useState(null);
   const [tipoUsuario, setTipoUsuario] = useState("");
+=======
+export const Localization = ({ navigation, route }) => {
+
+  useEffect(() => {
+    console.log(route);
+  }, [route.params])
+  
+    const mapReference = useRef(null);
+    const [ initialPosition, setInitialPosition ] = useState(null);
+    const [ finalPosition, setFinalPosition ] = useState({
+      latitude : -23.7141,
+      longitude: -46.4137,
+    })
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
   const mapReference = useRef(null);
   const [initialPosition, setInitialPosition] = useState(null);

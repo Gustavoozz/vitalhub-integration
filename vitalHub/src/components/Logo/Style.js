@@ -49,7 +49,7 @@ export const DoctorPicture = styled.Image`
     width: 85px;
     height: 90px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 15px;
 `
 
 export const MapClinic = styled.Image`

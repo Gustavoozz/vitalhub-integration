@@ -55,8 +55,16 @@ export const InputUser = styled.TextInput.attrs({
     
     border-radius: 5px;
     background-color: #F5F3F3;
+<<<<<<< HEAD
 
     font-family: 'MontserratAlternates_500Medium';
+=======
+<<<<<<< HEAD
+=======
+
+    font-family: 'MontserratAlternates_500Medium';
+>>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 `
 
 export const PhotoButton = styled.Image`

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ﻿using System;
+=======
+﻿
+using System;
+>>>>>>> gustavo
 using System.Collections.Generic;
 
 namespace WebAPI.Domains;

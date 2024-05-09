@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Container } from "../../components/Container/Style";
 import { ButtonTitle, LabelUser, Title } from "../../components/Title/Style";
 import { CalendarComponent } from "../../components/CalendarComponent/CalendarComponent";
@@ -9,6 +10,19 @@ import { Button, ButtonUnusable } from "../../components/Button/Style";
 
 // API importada
 import api from "../../services/Service";
+=======
+import { useState } from "react"
+import CalendarComponent from "../../components/CalendarComponent/CalendarComponent"
+import { Container } from "../../components/Container/Style"
+
+import { SelectInput } from "../../components/SelectInput/SelectInput"
+import { ButtonTitle, LabelUser, Title } from "../../components/Title/Style"
+import { SchedulingModal } from "../../components/SchedulingModal/SchedulingModal"
+import { ButtonDate } from "../../components/ButtonDate/ButtonDate"
+import { CancelText } from "../../components/Link/Style"
+
+export const DateSelect = ({ navigation }) => {
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
 export const DateSelect = ({
     navigation,
@@ -30,6 +44,7 @@ export const DateSelect = ({
     const [horaSelecionada, setHoraSelecionada] = useState(null);
 
 
+<<<<<<< HEAD
     // FUNCTIONS
     const Return = (rota) => {
         navigation.replace(rota, {
@@ -37,6 +52,9 @@ export const DateSelect = ({
             pacienteId: pacienteId,
             clinicaId: clinicaId,
             cidade: cidade,
+=======
+        <CancelText onPress={() => navigation.replace("DoctorSelect")} style={{ marginTop: 40 }}>Cancelar</CancelText>
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
             prioridade: prioridade
         });

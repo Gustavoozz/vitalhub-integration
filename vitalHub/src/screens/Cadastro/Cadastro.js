@@ -6,6 +6,7 @@ import { TextReenviar } from "../../components/Link/Style";
 import { Logo } from "../../components/Logo/Style";
 import { TextQuick } from "../../components/Text/Text";
 import { ButtonTitle, Title } from "../../components/Title/Style";
+import Spinner from "../../components/Spinner/Spinner";
 
 import Spinner from "../../components/Spinner/Spinner";
 
@@ -13,6 +14,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import api from "../../services/Service";
 
 export const Cadastro = ({ navigation }) => {
+<<<<<<< HEAD
     // CONSTS
     const [showSpinner, setShowSpinner] = useState(false);
     const [email, setEmail] = useState("");
@@ -21,6 +23,12 @@ export const Cadastro = ({ navigation }) => {
     const tipoUsuario = "978C712B-09CF-433C-8153-8DDE8DE41E15";
 
     // FUNCTIONS
+=======
+<<<<<<< HEAD
+=======
+    const [showSpinner, setShowSpinner] = useState(false);
+
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
     function Timing() {
         setShowSpinner(true)
 
@@ -29,6 +37,7 @@ export const Cadastro = ({ navigation }) => {
         }, 3000)
     }
 
+<<<<<<< HEAD
     const Cadastrar = async () => {
         Timing();
 
@@ -51,6 +60,9 @@ export const Cadastro = ({ navigation }) => {
 
     // EFFECTS
 
+=======
+>>>>>>> gustavo
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
     return (
         <Container>
             <Logo
@@ -76,11 +88,19 @@ export const Cadastro = ({ navigation }) => {
                 onChangeText={txt => setConfirmarSenha(txt)}
             />
 
+<<<<<<< HEAD
             <Button onPress={() => Cadastrar()}>
                 <ButtonTitle>Cadastrar</ButtonTitle>
             </Button>
 
             <TextReenviar onPress={() => navigation.replace("Login")}>Cancelar</TextReenviar>
+=======
+            <Button onPress={() => Timing()}>
+                <ButtonTitle>Cadastrar</ButtonTitle>
+            </Button>
+
+            <TextReenviar onPress={() => navigation.navigate("Login")}>Cancelar</TextReenviar>
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
             <Spinner
                 visible={showSpinner}

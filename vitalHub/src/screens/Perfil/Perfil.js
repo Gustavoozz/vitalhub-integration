@@ -18,7 +18,11 @@ import { UseMask } from "../../utils/Converter"
 import CameraModal from "../../components/CameraProntuary/CameraProntuary"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
+import { userDecodeToken, userLogout } from "../../utils/Auth"
+import { useEffect, useState } from "react"
+
 export const Perfil = ({ navigation }) => {
+<<<<<<< HEAD
     // CONSTS
     const [tipoUsuario, setTipoUsuario] = useState(null); // tipo de usuário
     const [user, setUser] = useState([]); // carrega o usuário
@@ -355,4 +359,85 @@ export const Perfil = ({ navigation }) => {
             </ContainerUser >
         )
     }
+=======
+    const [nome, setNome] = useState();
+    const [email, setEmail] = useState();
+
+    async function profileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+        }
+
+        setNome(token.name);
+
+        setEmail(token.email);
+    }
+
+    useEffect(() => {
+        profileLoad();
+    })
+
+    return (
+        <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+            <PhotoContainer>
+                <UserContainer source={require('../../assets/User.png')} />
+
+                <InformationContent>
+                    <TitleUser>{nome}</TitleUser>
+                    <SubTextQuick>{email}</SubTextQuick>
+                </InformationContent>
+            </PhotoContainer>
+
+            <LabelUser>Data de Nascimento</LabelUser>
+
+            <InputUser
+                placeholder="04/05/1999"
+            />
+
+            <LabelUser>CPF</LabelUser>
+
+            <InputUser
+                placeholder="859********"
+            />
+
+            <LabelUser>Endereço</LabelUser>
+
+            <InputUser
+                placeholder="Rua Vicenso Silva, 987"
+            />
+
+            <CityContainer>
+                <View>
+                    <LabelUser>CEP</LabelUser>
+
+                    <InputCity
+                        placeholder="06548-909"
+                    />
+                </View>
+
+                <View>
+                    <LabelUser>Cidade</LabelUser>
+                    
+                    <InputCity
+                        placeholder="Moema-SP"
+                    />
+                </View>
+            </CityContainer>
+
+            <Button>
+                <ButtonTitle>Salvar</ButtonTitle>
+            </Button>
+
+            <Button onPress={() => navigation.navigate("Login")}>
+                <ButtonTitle>Editar</ButtonTitle>
+            </Button>
+
+            <ButtonUser onPress={() => userLogout() && navigation.navigate("Login")}>
+                <ButtonTitle>Logout</ButtonTitle>
+            </ButtonUser>
+        </ContainerUser>
+    )
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 }

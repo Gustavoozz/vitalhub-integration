@@ -8,6 +8,10 @@ namespace WebAPI.Repositories
     {
         VitalContext ctx = new VitalContext();
         
+<<<<<<< HEAD
+=======
+
+>>>>>>> gustavo
         public Especialidade BuscarPorId(Guid id)
         {
             return ctx.Especialidades.FirstOrDefault(x=> x.Id==id);

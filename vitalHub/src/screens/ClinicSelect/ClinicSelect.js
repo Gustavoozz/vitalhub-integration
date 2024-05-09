@@ -1,13 +1,63 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react"
 import { Button, ButtonUnusable } from "../../components/Button/Style"
 import { ClinicCard } from "../../components/ClinicCard/ClinicCard"
+=======
+
+import { Button } from "../../components/Button/Style"
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 import { Container } from "../../components/Container/Style"
 import { ListComponent } from "../../components/List/List"
 import { ButtonTitle, Title } from "../../components/Title/Style"
+<<<<<<< HEAD
 import { CancelLink } from "./Style"
 
 // API importada
 import api from "../../services/Service";
+=======
+
+import { useEffect, useState } from "react"
+import { ListComponent } from "../../components/List/List"
+import ClinicCard from "../../components/ClinicCard/ClinicCard"
+import { TextReenviar } from "../../components/Link/Style"
+import api from "../../services/Service"
+
+
+export const ClinicSelect = ({ navigation }) => {
+    // const animation = new Animated.Value(0);
+    // const inputRange = [0, 1];
+    // const outputRange = [0.95, 1.0];
+    // const scale = animation.interpolate({inputRange, outputRange});
+
+    const [clinicaLista, setClinicaLista] = useState([]);
+
+    async function GetClinic() {
+      await api.get('/Clinica/ListarTodas')
+      .then( response => {
+         setClinicaLista(response.data)
+      }). catch( error => {
+         console.log(error)
+      })
+   }
+
+   useEffect(() => {
+    GetClinic();
+ }, []) 
+ 
+  
+    // const onPressIn = () => {
+    //   Animated.spring(animation, {
+    //     toValue: 1,
+    //     useNativeDriver: true,
+    //   }).start();
+    // };
+    // const onPressOut = () => {
+    //   Animated.spring(animation, {
+    //     toValue: 0,
+    //     useNativeDriver: true,
+    //   }).start();
+    // };
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
 export const ClinicSelect = ({
   navigation,
@@ -16,6 +66,7 @@ export const ClinicSelect = ({
   // CONSTS
   const [clinica, setClinica] = useState([]); // informações da clínica
 
+<<<<<<< HEAD
   const prioridadeId = route.params.prioridadeId; // id da prioridade
   const pacienteId = route.params.pacienteId; // id do usuário
   const prioridade = route.params.prioridade; // nome da prioridade
@@ -58,6 +109,16 @@ export const ClinicSelect = ({
   return (
     <Container>
       <Title>Selecionar clínica</Title>
+=======
+            <ListComponent
+               data={clinicaLista}
+               keyExtractor={(item) => item.id}
+               renderItem={({item}) => (
+               <ClinicCard clinica={item}/>
+               )}
+               showsVerticalScrollIndicator={false}
+             />
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
       <ListComponent
         data={clinica}
@@ -71,8 +132,12 @@ export const ClinicSelect = ({
         )}
       />
 
+<<<<<<< HEAD
       {
         clinicaId != null ?
+=======
+            <TextReenviar style={{ marginBottom: 20 }} onPress={() => navigation.replace("ClinicSelect")}>Cancelar</TextReenviar>
+>>>>>>> 2015219969a40b6e3ba1e09b53e66329dfec0978
 
           <Button
             onPress={() => HandleSelectClinic("DoctorSelect")}>

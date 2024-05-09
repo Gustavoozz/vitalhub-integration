@@ -13,6 +13,7 @@ public partial class Endereco
 
     public int? Numero { get; set; }
 
+<<<<<<< HEAD
     public decimal? Longitude { get; set; }
 
     public decimal? Latitude { get; set; }
@@ -23,5 +24,7 @@ public partial class Endereco
 
     public virtual ICollection<Medico> Medicos { get; set; } = new List<Medico>();
 
+=======
+>>>>>>> gustavo
     public virtual ICollection<Paciente> Pacientes { get; set; } = new List<Paciente>();
 }

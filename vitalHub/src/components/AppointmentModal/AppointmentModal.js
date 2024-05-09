@@ -6,6 +6,8 @@ import { CancelText } from "../Link/Style"
 
 
 export const AppointmentModal = ({
+    consulta,
+    roleUsuario,
     navigation,
     visible,
 
