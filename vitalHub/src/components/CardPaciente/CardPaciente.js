@@ -9,13 +9,21 @@ export const CardPaciente = ({ navigation,
     situacao = "pendente",
     onPressCancel = "Cancelada",
     onPressAppointment,
+<<<<<<< HEAD
+    onPressNotification
+=======
     onPressNotification,
     roleUsuario,
     dataConsulta,
     prioridadeUsuario,
+<<<<<<< HEAD
     usuarioConsulta,
     crmDoctor,
     appointmentId
+=======
+    usuarioConsulta
+>>>>>>> gustavo
+>>>>>>> origin/develop
 }) => {
 
     const formatDate = moment(usuarioConsulta.dataNascimento).format('YYYY');
@@ -29,16 +37,33 @@ export const CardPaciente = ({ navigation,
                 <PatientPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
 
                 <InfoConsulta>
+<<<<<<< HEAD
+                    <TitlePatient>Gustavo Magalhães</TitlePatient>
+
+                    <InfoPaciente>
+                        <Age>19 anos</Age>
+                        <Type>Cardiologist</Type>
+=======
                     <TitlePatient>{usuarioConsulta.idNavigation.nome}</TitlePatient>
 
                     <InfoPaciente>
+<<<<<<< HEAD
                         <Age>{roleUsuario == "Medico" ? `${ageInYears} anos` : ` CRM: ${crmDoctor}`}</Age>
                         <Type>{roleUsuario == "Medico" ? prioridadeUsuario == 1 ? "Rotina" : prioridadeUsuario == 2 ? "Exame" : "Emergência" : usuarioConsulta.especialidade.especialidade1}</Type>
+=======
+                        <Age>{roleUsuario == "Medico" ? usuarioConsulta.dataNascimento(moment().format('YYYY-MM-DD') ) : usuarioConsulta.especialidade }</Age>
+                        <Type>{prioridadeUsuario}</Type>
+>>>>>>> gustavo
+>>>>>>> origin/develop
                     </InfoPaciente>
 
                     <HourButton situacao={situacao}>
                         <Clock situacao={situacao} />
+<<<<<<< HEAD
+                        <AntDesign situacao={situacao} name="clockcircle" size={15} color={situacao === "pendente" ?
+=======
                         <AntDesign situacao={situacao} name="clockcircle" size={15} color={situacao === "Pendente" ?
+>>>>>>> gustavo
                             "#49B3BA"
                             :
                             "#8C8A97"}
@@ -48,12 +73,22 @@ export const CardPaciente = ({ navigation,
                 </InfoConsulta>
 
                 {
+<<<<<<< HEAD
                     situacao == "Realizada" ? (
                         <CancelButtonProntuary onPress={roleUsuario == "Paciente" ? () => navigation.navigate('ViewPrescription', { appointmentId: appointmentId }) : () => navigation.navigate('ViewPrescription', { appointmentId: appointmentId })}>
                             <CancelTitle situacao={situacao} >Ver prontuário</CancelTitle>
                         </CancelButtonProntuary>
 
+=======
+                    situacao == "Cancelado" ? (
+                        <>
+                        </>
+<<<<<<< HEAD
+                    ) : situacao == "pendente" ? (
+=======
+>>>>>>> origin/develop
                     ) : situacao == "Pendente" ? (
+>>>>>>> gustavo
                         <CancelButton onPress={onPressCancel}>
                             <CancelTitle situacao={situacao}>Cancelar</CancelTitle>
                         </CancelButton>

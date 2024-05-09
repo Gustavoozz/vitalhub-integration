@@ -13,11 +13,17 @@ import { ButtonTitle, Title } from "../../components/Title/Style";
 import api from "../../services/Service";
 
 export const Cadastro = ({ navigation }) => {
+<<<<<<< HEAD
     // CONSTS
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
     const tipoUsuario = "978C712B-09CF-433C-8153-8DDE8DE41E15";
+=======
+<<<<<<< HEAD
+=======
+    const [showSpinner, setShowSpinner] = useState(false);
+>>>>>>> origin/develop
 
     // FUNCTIONS
     // function Timing() {
@@ -46,9 +52,13 @@ export const Cadastro = ({ navigation }) => {
         }
     }
 
+<<<<<<< HEAD
 
     // EFFECTS
 
+=======
+>>>>>>> gustavo
+>>>>>>> origin/develop
     return (
         <Container>
             <Logo

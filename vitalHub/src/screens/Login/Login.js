@@ -16,7 +16,22 @@ import api from "../../services/Service";
 
 
 
+// API importada
+import api from "../../services/Service";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const Login = ({ navigation }) => {
+<<<<<<< HEAD
+    const [email, setEmail] = useState(""); // email
+    const [senha, setSenha] = useState(""); // senha
+    const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
+    const [paginaErro, setPaginaErro] = useState(false)
+
+    const TrocarVisibilidadeSenha = () => {
+        setMostrarSenha(!mostrarSenha);
+    };
+=======
     // STATES
     const [email, setEmail] = useState("cristiano@medico.com"); // email
     const [senha, setSenha] = useState("medico123"); // senha
@@ -27,10 +42,34 @@ export const Login = ({ navigation }) => {
     const TrocarVisibilidadeSenha = () => {
         setMostrarSenha(!mostrarSenha);
     }; // troca a visibilidade da senha
+>>>>>>> gustavo
 
     async function Login() {
         await api.post('/Login', {
             email: email,
+<<<<<<< HEAD
+            senha: senha
+        }).then(async response => {
+            setPaginaErro(false);
+
+            await AsyncStorage.setItem("token", JSON.stringify(response.data))
+
+            navigation.navigate("Main")
+
+            console.log("Logado");
+        }
+        ).catch(error => {
+            setPaginaErro(true);
+
+            console.log(error);
+        });
+    }
+
+    async function LoginDoctor() {
+        navigation.navigate("MainDoctor");
+    };
+
+=======
             senha: senha,
         }).then(async response => {
             setPaginaErro(false);
@@ -59,21 +98,29 @@ export const Login = ({ navigation }) => {
 
 
 
+>>>>>>> gustavo
     return (
         <Container>
             <Logo source={require('../../assets/VitalHub_Logo.png')} />
 
             <Title>Entrar ou criar conta</Title>
 
+<<<<<<< HEAD
+            {paginaErro ?
+=======
             {/* há erro no usuário ou senha? */}
             {paginaErro ?
             // sim: faz com que os inputs fiquem vermelhos e dá um alerta
+>>>>>>> gustavo
                 <>
                     <InputError
                         placeholder="Usuário ou E-mail"
                         onChangeText={(txt) => setEmail(txt)}
                         value={email}
+<<<<<<< HEAD
+=======
                         autoCapitalize={"none"}
+>>>>>>> gustavo
                     />
 
                     <InputError
@@ -81,7 +128,10 @@ export const Login = ({ navigation }) => {
                         secureTextEntry={!mostrarSenha}
                         value={senha}
                         onChangeText={(txt) => setSenha(txt)}
+<<<<<<< HEAD
+=======
                         autoCapitalize={"none"}
+>>>>>>> gustavo
                     />
 
                     <MaterialCommunityIcons
@@ -105,7 +155,10 @@ export const Login = ({ navigation }) => {
                     >Usuário ou senha incorretos</TextAccount>
                 </>
                 :
+<<<<<<< HEAD
+=======
                 // não: faz com que o usuário acesse o app normalmente
+>>>>>>> gustavo
                 <>
                     <Input
                         placeholder="Usuário ou E-mail"

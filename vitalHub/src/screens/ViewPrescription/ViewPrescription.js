@@ -20,6 +20,18 @@ import {
     ButtonTakePhoto,
     ButtonTakePhotoText,
     FlexibleBox,
+<<<<<<< HEAD
+    ImageDoctor,
+    ImagePhoto,
+    InputBox,
+    Line,
+    PhotoBox,
+    PhotoBoxNull,
+    RecordContainer,
+    RecordContent,
+    TextPhotoBox
+=======
+>>>>>>> gustavo
 } from "./Style";
 import CameraModal from '../../components/CameraProntuary/CameraProntuary'
 // import * as MediaLibrary xfrom 'expo-media-library'
@@ -142,22 +154,46 @@ export const ViewPrescription = ({ navigation, route }) => {
 
 
     return (
+<<<<<<< HEAD
         <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <PhotoContainer>
                 <UserContainer source={require('../../assets/UserDoctorBig.png')} />
             </PhotoContainer>
+=======
+<<<<<<< HEAD
+        <Container>
+            <ContainerUser>
+=======
+            <ContainerUser contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+>>>>>>> gustavo
+                <PhotoContainer>
+                    <UserContainer source={require('../../assets/UserDoctorBig.png')} />
+                </PhotoContainer>
+>>>>>>> origin/develop
 
             <ContentProntuario>
                 <TitleUser>Dr. Cláudio</TitleUser>
                 <SubTextQuick>Cliníco geral   CRM-15286</SubTextQuick>
             </ContentProntuario>
 
+<<<<<<< HEAD
             <LabelUser>Descrição da consulta</LabelUser>
             <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 30 }}
                 placeholder={consultaInfo.descricao}
                 placeholderTextColor="#4E4B59"
                 value={consultaInfo.descricao}
             />
+=======
+                <LabelUser>Descrição da consulta</LabelUser>
+                <InputUser style={{ height: 121, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 30 }}
+<<<<<<< HEAD
+                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e  \nacompanhamento médico constante`}
+=======
+                    placeholder={`O paciente possuí uma infecção no ouvido.\nNecessário repouse de 2 dias e \nacompanhamento médico constante`}
+>>>>>>> gustavo
+                    placeholderTextColor="#4E4B59"
+                />
+>>>>>>> origin/develop
 
             <LabelUser>Diagnóstico do paciente</LabelUser>
             <InputUser style={{ fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
@@ -174,6 +210,7 @@ export const ViewPrescription = ({ navigation, route }) => {
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <LabelUser>Exames médicos</LabelUser>
 
+<<<<<<< HEAD
                 {photo === null ? (
                     <PhotoButton style={{ height: 200, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }} />
                 ) : (
@@ -182,14 +219,50 @@ export const ViewPrescription = ({ navigation, route }) => {
                 )
                 }
             </View>
+=======
+                    <PhotoButton style={{ height: 111, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0 }}
+                        placeholder="                  Nenhuma foto informada"
+                        placeholderTextColor="#4E4B59"
+<<<<<<< HEAD
+                        onPress={() => setShowCameraModal()}
+=======
+                        onPress={() => setShowCamera()}
+>>>>>>> gustavo
+                    ><ButtonTitle style={{ fontFamily: 'MontserratAlternates_500Medium', fontSize: 14, color: '#4E4B59', textTransform: 'none', marginTop: 43, marginLeft: 80 }}>Nenhuma foto informada</ButtonTitle></PhotoButton>
+                </View>
+>>>>>>> origin/develop
 
 
             <FlexibleBox>
                 <ButtonTakePhoto onPress={() => setShowCamera(true)}>
                     <MaterialCommunityIcons name="camera-plus-outline" size={24} color="#FBFBFB" />
 
+<<<<<<< HEAD
                     <ButtonTakePhotoText>Enviar</ButtonTakePhotoText>
                 </ButtonTakePhoto>
+=======
+                    <ButtonCancelPhoto onPress={() => setPhoto(null)}>
+                        <ButtonCancelPhotoText>Cancelar</ButtonCancelPhotoText>
+                    </ButtonCancelPhoto>
+                </FlexibleBox>
+<<<<<<< HEAD
+
+                <InputUser style={{ height: 103, fontFamily: 'MontserratAlternates_500Medium', paddingBottom: 0, marginTop: 30 }}
+                    placeholder={`Resultado do exame de sangue : \ntudo normal`}
+                    placeholderTextColor="#4E4B59"
+                />
+
+                <CancelText onPress={() => navigation.replace("Main")}>Voltar</CancelText>
+
+                <CameraModal
+                    visible={showCamera}
+                    setShowCamera={setShowCamera}
+                    setPhotoUpload={setPhoto}
+                />
+            </ContainerUser>
+        </Container>
+=======
+>>>>>>> origin/develop
 
                 <ButtonCancelPhoto onPress={() => setPhoto(null)}>
                     <ButtonCancelPhotoText>Cancelar</ButtonCancelPhotoText>
@@ -210,5 +283,6 @@ export const ViewPrescription = ({ navigation, route }) => {
             />
         </ContainerUser>
 
+>>>>>>> gustavo
     )
 }
