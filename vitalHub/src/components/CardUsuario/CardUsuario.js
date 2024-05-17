@@ -26,15 +26,17 @@ export const CardUsuario = ({
     onPressCancel,
     onPressAppointment,
     onPressCard,
-    hora
 }) => {
-
-    const formatDate = moment(consulta.dataNascimento).format('DD/MM/YYYY')
 
     return (
         <CardContainer>
             <PatientContainer onPress={onPressCard}>
-                <PatientPhoto source={{ uri: 'https://imgb.ifunny.co/images/bfc9bc11c482d1bc9f53bb14458fd0f848c34aed77d84390a234c890d70e7c7f_1.jpg' }} />
+                <PatientPhoto source={{
+                    uri: profile === "Medico" ?
+                        consulta.paciente.idNavigation.foto
+                        :
+                        consulta.medicoClinica.medico.idNavigation.foto
+                }} />
 
                 <InfoConsulta>
                     <TitleCard>
@@ -55,7 +57,7 @@ export const CardUsuario = ({
                                 // a conta é de um médico?
                                 profile === "Medico" ?
                                     // sim - retorne data de nascimento do paciente
-                                    formatDate
+                                    moment(consulta.paciente.dataNascimento).format('DD/MM/YYYY')
                                     :
                                     // não - retorne o crm do médico
                                     consulta.medicoClinica.medico.crm
@@ -96,7 +98,11 @@ export const CardUsuario = ({
                                 :
                                 "#8C8A97"}
                         />
-                        <Hour situacao={consulta.situacao.situacao}>{hora}</Hour>
+                        <Hour
+                            situacao={consulta.situacao.situacao}
+                        >
+                            {moment(consulta.dataConsulta).format("HH:mm")}
+                        </Hour>
                     </HourButton>
                 </InfoConsulta>
 
@@ -105,19 +111,39 @@ export const CardUsuario = ({
                         <CancelTitle>Cancelada</CancelTitle>
                         :
                         consulta.situacao.situacao == "Pendente" ?
-                            <CancelButton onPress={onPressCancel}>
-                                <CancelTitle situacao={consulta.situacao.situacao}>Cancelar</CancelTitle>
+                            <CancelButton
+                                style={{
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    backgroundColor: '#C81D25',
+                                }}
+                                onPress={onPressCancel}>
+                                <CancelTitle
+
+                                    style={{
+                                        color: '#FFF'
+                                    }}
+                                    situacao={consulta.situacao.situacao}>Cancelar</CancelTitle>
                             </CancelButton>
                             :
-                            <CancelButton onPress={profile !== "Paciente" ?
-                                onPressAppointment
-                                :
-                                () => navigation.replace("ViewPrescription", {
-                                    consulta: consulta,
-                                    receita: consulta.receita
-                                })
-                            }>
-                                <CancelTitle situacao={consulta.situacao.situacao}>Ver prontuário</CancelTitle>
+                            <CancelButton
+                                style={{
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    backgroundColor: '#344F8F',
+                                }}
+                                onPress={
+                                    () => navigation.replace("ViewPrescription", {
+                                        consulta: consulta,
+                                        receita: consulta.receita,
+                                        profile: profile,
+                                    })
+                                }>
+                                <CancelTitle
+                                    style={{
+                                        color: '#FFF'
+                                    }}
+                                    situacao={consulta.situacao.situacao}>Ver prontuário</CancelTitle>
                             </CancelButton>
                 }
             </PatientContainer>

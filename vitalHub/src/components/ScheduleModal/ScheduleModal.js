@@ -80,7 +80,6 @@ export const ScheduleModal = ({
     const SelectCities = async () => {
         await api.get(`/Clinica/ListarTodas`)
             .then(response => {
-                console.log(response.data);
                 response.data.forEach((clinica) => {
                     setArrayCity((prevArray) => [
                         ...prevArray,
@@ -148,8 +147,9 @@ export const ScheduleModal = ({
                                     placeholder={{
                                         label: '-----',
                                         value: null,
-                                        color: '#34898F'
+                                        color: '#34898F',
                                     }}
+                                    
                                     onValueChange={(value) => setCidade(value)}
                                     items={arrayCity}
                                 />

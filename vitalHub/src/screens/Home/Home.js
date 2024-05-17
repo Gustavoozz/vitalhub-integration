@@ -17,6 +17,8 @@ import api from "../../services/Service"
 import { UserDecodeToken } from "../../utils/Auth"
 import moment from "moment"
 import { ButtonPatient } from "../../components/ButtonPatient/ButtonPatient"
+import Spinner from "../../components/Spinner/Spinner"
+import { Text, View } from "react-native"
 
 
 export const Home = ({
@@ -33,9 +35,12 @@ export const Home = ({
     const [showModalSchedule, setShowModalSchedule] = useState(false) // visibilidade da modal - Cadastrar Consulta
     const [showModalCancel, setShowModalCancel] = useState(false); // visibilidade da modal - Cancelar Consultas
     const [showModalAppointment, setShowModalAppointment] = useState(false); // visibilidade da modal - Ver Consulta
+    const [updateData, setUpdateData] = useState(true); // atualiza os dados
 
-    const today = new moment();
+    const today = new Date();
     const status = "Realizada"
+
+    const [showSpinner, setShowSpinner] = useState(false);
 
 
     // FUNCTIONS
@@ -52,19 +57,29 @@ export const Home = ({
         }
     } // retornará as informações da conta
 
-    async function StatusRealized() {
-        if (dataConsulta < today) {
-            await api.put(`/Consultas/Status?idConsulta=${consultaSelecionada.id}&status=${status}`)
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+    async function StatusRealized(filter) {
+        // let filter = consultas;
+
+        for (const item of filter) {
+            if (moment(item.dataConsulta)
+                .isBefore(today)
+            ) {
+                await api.put(`/Consultas/Status?idConsulta=${item.id}&status=${status}`)
+                    .then(() => {
+                        item.situacao.situacao = "Realizada"
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         }
+
+        setConsultas(filter);
     }
 
     async function ListarConsultas() {
+        setShowSpinner(true);
+
         const url = (
             // a conta é de um médico?
             profile.role === "Medico" ?
@@ -77,10 +92,12 @@ export const Home = ({
 
         await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
             .then(response => {
-                setConsultas(response.data);
+                StatusRealized(response.data);
             }).catch(error => {
                 console.log(error);
             })
+
+        setShowSpinner(false);
     }
 
     const SelecionarConsulta = async (consulta, modal) => {
@@ -97,17 +114,18 @@ export const Home = ({
 
     // EFFECTS
     useEffect(() => {
+        setShowSpinner(true);
+
         ProfileLoad();
+
+        setShowSpinner(false);
     }, [])
 
     useEffect(() => {
         if (dataConsulta != '') {
             ListarConsultas();
-
-            StatusRealized();
         }
-
-    }, [dataConsulta, consultas])
+    }, [dataConsulta, updateData])
 
 
 
@@ -151,8 +169,6 @@ export const Home = ({
                                 consulta={item}
                                 profile={profile.role}
 
-                                hora={moment(dataConsulta).format("HH:mm")}
-
                                 onPressCard={() => { SelecionarConsulta(item, "prontuario") }}
                                 onPressCancel={() => SelecionarConsulta(item, "cancelar")}
                                 onPressAppointment={() => SelecionarConsulta(item, "prontuario")}
@@ -165,6 +181,7 @@ export const Home = ({
                 <CancelationModal
                     visible={showModalCancel}
                     consulta={consultaSelecionada}
+                    setUpdateData={setUpdateData}
                     setShowModalCancel={setShowModalCancel}
                 />
 
@@ -173,6 +190,7 @@ export const Home = ({
                         <AppointmentModal
                             navigation={navigation}
 
+                            day={today}
                             visible={showModalAppointment}
                             setShowModalAppointment={setShowModalAppointment}
 
@@ -201,6 +219,10 @@ export const Home = ({
                         null
                 }
             </UserContent>
+
+            <Spinner
+                visible={showSpinner}
+            />
         </Container>
     )
 }

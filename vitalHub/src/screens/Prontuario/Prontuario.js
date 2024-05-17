@@ -14,6 +14,9 @@ import { CancelLink } from './Style'
 
 // API importada
 import api from "../../services/Service"
+import Spinner from "../../components/Spinner/Spinner"
+import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker'
 
 export const Prontuario = ({
     navigation,
@@ -25,6 +28,7 @@ export const Prontuario = ({
     const [descricao, setDescricao] = useState(); // descrição da consulta
     const [diagnostico, setDiagnostico] = useState() // diagnóstico da consulta
     const [prescricao, setPrescricao] = useState() // prescrição da consulta - remédio
+    const [showSpinner, setShowSpinner] = useState(false);
 
 
     // FUNCTIONS
@@ -45,6 +49,17 @@ export const Prontuario = ({
     }
 
 
+
+    const AtualizarStatus = async () => {
+        await api.put(`/Consultas/Status?idConsulta=${route.params.consultaId}&status=Realizada`)
+            .then(() => {
+                item.situacao.situacao = "Realizada"
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     const AtualizarProntuario = async () => {
         await api.put(`/Consultas/Prontuario`, {
             consultaId: route.params.consultaId,
@@ -52,13 +67,24 @@ export const Prontuario = ({
             descricao: descricao,
             diagnostico: diagnostico
         })
+            .then(response => {
+                AtualizarStatus();
+
+                console.log(response.data);
+
+                navigation.replace("Main");
+            })
     }
 
 
 
     // EFFECTS
     useEffect(() => {
+        setShowSpinner(true);
+
         BuscarConsulta();
+
+        setShowSpinner(false);
     }, [])
 
 
@@ -66,7 +92,7 @@ export const Prontuario = ({
         return (
             <ContainerUser contentContainerStyle={{ alignItems: 'center' }}>
                 <PhotoContainer>
-                    <UserImage source={require('../../assets/User.png')} />
+                    <UserImage source={{ uri: consulta.paciente.idNavigation.foto }} />
                 </PhotoContainer>
 
                 <ContentProntuario>
@@ -113,8 +139,17 @@ export const Prontuario = ({
                 }
 
                 {
+                    editavel === false ?
+                        <Button onPress={() => setEditavel(true)}>
+                            <ButtonTitle>Editar</ButtonTitle>
+                        </Button>
+                        :
+                        null
+                }
+
+                {
                     editavel == false ?
-                        <Button onPress={() => AtualizarProntuario()}>
+                        <Button style={{ backgroundColor: "#49B3BA" }} onPress={() => AtualizarProntuario()}>
                             <ButtonTitle>Enviar</ButtonTitle>
                         </Button>
                         :
@@ -124,19 +159,13 @@ export const Prontuario = ({
                 }
 
 
-                {
-                    editavel === false ?
-                        <ButtonEdit onPress={() => setEditavel(true)}>
-                            <ButtonTitle>Editar</ButtonTitle>
-                        </ButtonEdit>
-                        :
-                        null
-                }
-
-
                 <CancelLink onPress={() => navigation.replace("Main")}>
                     <CancelText>Cancelar</CancelText>
                 </CancelLink>
+
+                <Spinner
+                    visible={showSpinner}
+                />
             </ContainerUser>
 
         )

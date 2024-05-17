@@ -4,6 +4,8 @@ import { ModalPhoto, ModalText, ModelBack } from "./Style"
 import { ButtonTitle, Title } from "../Title/Style"
 import { CancelText } from "../Link/Style"
 
+import moment from "moment";
+
 
 export const AppointmentModal = ({
     navigation,
@@ -12,6 +14,7 @@ export const AppointmentModal = ({
     profile,
     situacao,
     consulta,
+    day,
 
     setShowModalAppointment,
 
@@ -35,22 +38,32 @@ export const AppointmentModal = ({
                     profile === "Medico" ?
                         <>
                             <ModalContent>
-                                <ModalPhoto source={{ uri: 'https://github.com/Gustavoozz.png' }} />
+                                <ModalPhoto source={{ uri: consulta.paciente.idNavigation.foto }} />
 
                                 <Title>{consulta.paciente.idNavigation.nome}</Title>
 
                                 <ModalText> {consulta.paciente.idNavigation.email}</ModalText>
 
-                                <ModalButton onPress={() => HandlePress("Prontuario")}>
-                                    <ButtonTitle>Inserir Prontuário</ButtonTitle>
-                                </ModalButton>
+                                {
+                                    moment(day)
+                                        .isAfter(consulta.dataConsulta)
+                                        ||
+                                        moment(day)
+                                            .format("DD/MM/YYYY") == moment(consulta.dataConsulta)
+                                                .format("DD/MM/YYYY") ?
+                                        <ModalButton onPress={() => HandlePress("Prontuario")}>
+                                            <ButtonTitle>Inserir Prontuário</ButtonTitle>
+                                        </ModalButton>
+                                        :
+                                        null
+                                }
 
                                 <CancelText style={{ marginBottom: 10 }} onPress={() => setShowModalAppointment(false)}>Cancelar</CancelText>
                             </ModalContent></>
                         :
                         <ModalContent>
 
-                            <ModalPhoto source={{ uri: 'https://github.com/Gustavoozz.png ' }} />
+                            <ModalPhoto source={{ uri: consulta.medicoClinica.medico.idNavigation.foto }} />
 
                             <Title>{consulta.medicoClinica.medico.idNavigation.nome}</Title>
 

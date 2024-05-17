@@ -28,6 +28,10 @@ import { UserImage } from '../../components/UserImage/Style'
 
 // API importada
 import api from '../../services/Service'
+import { UserDecodeToken } from '../../utils/Auth'
+import Spinner from '../../components/Spinner/Spinner'
+import { getMediaLibraryPermissionsAsync, useMediaLibraryPermissions } from 'expo-image-picker'
+import { Camera } from 'expo-camera'
 
 export const ViewPrescription = ({
     navigation,
@@ -38,13 +42,23 @@ export const ViewPrescription = ({
     const [photo, setPhoto] = useState(null);
     const [descricaoExame, setDescricaoExame] = useState("");
 
+    const [showSpinner, setShowSpinner] = useState(false);
+
     const consulta = route.params.consulta;
     const receita = route.params.receita;
+    const profile = route.params.profile;
+
+    const [nome, setNome] = useState("");
+
+    const [photoUser, setPhotoUser] = useState(null);
+
 
 
 
     // FUNCTIONS
     async function InserirExame() {
+        setShowSpinner(true);
+
         const formData = new FormData();
 
         formData.append("ConsultaId", consulta.id);
@@ -60,16 +74,32 @@ export const ViewPrescription = ({
             }
         }).then(response => {
             setDescricaoExame(response.data.descricao)
-            console.log(descricaoExame);
         }).catch(error => {
             console.log(error);
         })
+
+        setShowSpinner(false);
     }
 
     const GetExam = async () => {
         await api.get(`/Consultas/BuscarPorId?id=${consulta.id}`)
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    async function ProfileLoad() {
+        const token = await UserDecodeToken();
+
+        setNome(token.name);
+
+        GetPhoto(token.user)
+    }
+
+    const GetPhoto = async (id) => {
+        await api.get(`/Usuario/BuscarPorId?id=${id}`)
             .then(response => {
-                console.log(response.data.exames[2].descricao);
+                setPhotoUser(response.data.foto);
             })
             .catch(error => {
                 console.log(error);
@@ -78,33 +108,73 @@ export const ViewPrescription = ({
 
 
 
+
+
+
     // EFFECTS
     useEffect(() => {
         if (photo) {
-            console.log(photo);
-
             InserirExame();
         }
     }, [photo])
 
     useEffect(() => {
+        ProfileLoad();
+
         GetExam();
     }, [])
 
-
+ 
 
     return (
-        <Container>
+        <Container
+            style={{
+                paddingTop: 30,
+            }}
+        >
             <ContainerUser
-                contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+                contentContainerStyle={{
+                    flexGrow: 1,
+                    alignItems: "center",
+                }}
+                style={{
+                    width: "100%"
+                }}
                 showsVerticalScrollIndicator={false}>
                 <PhotoContainer>
-                    <UserImage source={require('../../assets/UserDoctorBig.png')} />
+                    <UserImage
+                        style={{
+                            borderRadius: 15
+                        }}
+                        source={{
+                            uri: profile != "Medico" ?
+                                consulta.medicoClinica.medico.idNavigation.foto
+                                :
+                                photoUser
+                        }} />
                 </PhotoContainer>
 
                 <ContentProntuario>
-                    <TitleUser>{consulta.medicoClinica.medico.idNavigation.nome}</TitleUser>
-                    <SubTextQuick>{consulta.medicoClinica.medico.especialidade.especialidade1} - {consulta.medicoClinica.medico.crm}</SubTextQuick>
+                    <TitleUser style={{
+                        marginBottom: 0,
+                        marginTop: 40,
+                    }}>
+                        {
+                            profile != "Medico" ?
+                                consulta.medicoClinica.medico.idNavigation.nome
+                                :
+                                nome
+                        }
+                    </TitleUser>
+
+                    <SubTextQuick>
+                        {
+                            profile != "Medico" ?
+                                consulta.medicoClinica.medico.especialidade.especialidade1
+                                :
+                                ""
+                        }
+                    </SubTextQuick>
                 </ContentProntuario>
 
                 <LabelUser>Descrição da consulta</LabelUser>
@@ -178,6 +248,10 @@ export const ViewPrescription = ({
                     setPhotoUpload={setPhoto}
                 />
             </ContainerUser>
+
+            <Spinner
+                visible={showSpinner}
+            />
         </Container>
     )
 }

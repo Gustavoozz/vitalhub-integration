@@ -6,6 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker'
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { LastPhoto } from './Style';
+import Spinner from '../Spinner/Spinner';
 
 
 export default function CameraModal({
@@ -21,12 +22,12 @@ export default function CameraModal({
   const [photo, setPhoto] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [tipoCamera, setTipoCamera] = useState('front');
-  const [lastPhoto, setLastPhoto] = useState(null)
+  const [lastPhoto, setLastPhoto] = useState(null);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   async function GetLatestPhoto() {
     const { assets } = await MediaLibrary.getAssetsAsync({ sortBy: [[MediaLibrary.SortBy.creationTime, false]], first: 1 })
-    console.log(assets);
-
+    
     if (assets.length > 0) {
       setLastPhoto(assets[0].uri)
     }
@@ -34,6 +35,8 @@ export default function CameraModal({
 
 
   useEffect(() => {
+    setShowSpinner(true);
+
     (async () => {
       const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync();
 
@@ -41,12 +44,10 @@ export default function CameraModal({
     })()
 
     if (getMediaLibrary) {
-
       GetLatestPhoto()
     }
 
-    console.log(typeof tipoCamera);
-
+    setShowSpinner(false);
   }, []);
 
   async function CapturePhoto() {
@@ -56,8 +57,6 @@ export default function CameraModal({
       setPhoto(photo.uri);
 
       setOpenModal(true);
-
-      console.log(photo);
     }
   }
 
@@ -66,7 +65,6 @@ export default function CameraModal({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1
     });
-    console.log(result);
 
     if (!result.canceled) {
       setPhoto(result.assets[0].uri)
@@ -96,7 +94,10 @@ export default function CameraModal({
   return (
     // modal
     <Modal {...rest} visible={visible} transparent={true} animationType='fade'>
-      {/* container inteiro */}
+      <Spinner
+        visible={showSpinner}
+      />
+
       <View style={styles.container}>
         {/* camera */}
         <CameraView
@@ -181,7 +182,6 @@ export default function CameraModal({
               }}
               source={{ uri: photo }}
             />
-
           </View>
         </Modal>
       </View>

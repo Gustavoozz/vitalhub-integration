@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserDecodeToken } from "../../utils/Auth";
 import { BoxUser, DataUser, ImageUser, NameUser, TextDefault, ContainerHeader, DataUser2 } from "./Style";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome6 } from '@expo/vector-icons';
 import api from "../../services/Service";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const Header = ({ }) => {
   // CONSTS
@@ -25,29 +26,30 @@ export const Header = ({ }) => {
 
   const GetPhoto = async (id) => {
     await api.get(`/Usuario/BuscarPorId?id=${id}`)
-    .then(response => {
-      console.log(response.data.foto);
-
-      setPhoto(response.data.foto)
-    })
-    .catch(error => {
-      console.log(error);
-    })
+      .then(response => {
+        setPhoto(response.data.foto)
+        setNome(response.data.nome)
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
 
 
   // EFFECTS
-  useEffect(() => {
-    profileLoad();
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      profileLoad();
+    }, [])
+  )
 
   return (
     <ContainerHeader>
       <BoxUser>
         <ImageUser source={{ uri: photo }} />
         <DataUser>
-          <TextDefault>Bem vindo !</TextDefault>
+          <TextDefault style={{color: "#fbfbfb"}}>Bem vindo!</TextDefault>
           <NameUser>{nome}</NameUser>
         </DataUser>
       </BoxUser>

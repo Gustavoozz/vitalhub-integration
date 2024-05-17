@@ -43,6 +43,8 @@ export const DoctorContentImage = styled.Image`
 `
 
 export const DoctorTitle = styled.Text`
+    width: 90%;
+
     font-family: "MontserratAlternates_600SemiBold";
     font-size: 16px;
     color: #33303E;

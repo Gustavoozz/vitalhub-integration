@@ -44,6 +44,7 @@ export const ContainerHeader = styled(LinearGradient).attrs({
 })`
   width: 100%;
   padding: 20px;
+  padding-top: 35px;
   padding-bottom: 22px;
 
   flex-direction: row;

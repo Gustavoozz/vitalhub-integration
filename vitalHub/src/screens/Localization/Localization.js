@@ -90,6 +90,7 @@ export const Localization = ({
     } else {
       await api.get(`/Medicos/BuscarPorId?id=${token.user}`)
         .then(response => {
+          console.log(response.data.medicosClinicas);
           const medicoClinica = response.data.medicosClinicas[0].clinicaId;
 
           BuscarClinica(medicoClinica);
@@ -103,6 +104,7 @@ export const Localization = ({
   const BuscarClinica = async (id) => {
     await api.get(`/Clinica/BuscarPorId?id=${id}`)
       .then(response => {
+        console.log(response.data);
         setClinica(response.data)
       })
       .catch(error => {

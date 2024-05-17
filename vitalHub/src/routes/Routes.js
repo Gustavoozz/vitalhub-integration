@@ -32,7 +32,12 @@ export const Route = () => {
         // >> options ( title ): Título da tela.
 
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerShown: false,
+                    animation: "fade_from_bottom"
+                }}
+            >
                 <Stack.Screen
                     name="SplashScreen"
                     component={SplashScreen}

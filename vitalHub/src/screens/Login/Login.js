@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // API importada
 import api from "../../services/Service";
+import Spinner from "../../components/Spinner/Spinner";
 
 
 
@@ -23,12 +24,16 @@ export const Login = ({ navigation }) => {
     const [mostrarSenha, setMostrarSenha] = useState(false); // seta se a senha é visível
     const [paginaErro, setPaginaErro] = useState(false); // muda a cor do input caso haja erros
 
+    const [showSpinner, setShowSpinner] = useState(false);
+
     // FUNCTIONS
     const TrocarVisibilidadeSenha = () => {
         setMostrarSenha(!mostrarSenha);
     }; // troca a visibilidade da senha
 
     async function Login() {
+        setShowSpinner(true);
+
         await api.post('/Login', {
             email: email,
             senha: senha,
@@ -44,7 +49,9 @@ export const Login = ({ navigation }) => {
 
             console.log(error);
         });
-    } // loga o usuário
+
+        setShowSpinner(false);
+    }
 
 
 
@@ -56,7 +63,7 @@ export const Login = ({ navigation }) => {
 
             {/* há erro no usuário ou senha? */}
             {paginaErro ?
-            // sim: faz com que os inputs fiquem vermelhos e dá um alerta
+                // sim: faz com que os inputs fiquem vermelhos e dá um alerta
                 <>
                     <InputError
                         placeholder="Usuário ou E-mail"
@@ -126,14 +133,13 @@ export const Login = ({ navigation }) => {
                 <ButtonTitle>Entrar</ButtonTitle>
             </Button>
 
-            <ButtonGoogle>
-                <AntDesign name="google" size={20} color="#496BBA" />
-                <ButtonTitleGoogle>Entrar com Google</ButtonTitleGoogle>
-            </ButtonGoogle>
-
             <ContentAccount>
                 <TextAccount>Não tem conta? <TextReenviar onPress={() => navigation.replace("Cadastro")}>Crie uma conta agora!</TextReenviar></TextAccount>
             </ContentAccount>
+
+            <Spinner
+                visible={showSpinner}
+            />
         </Container>
     );
 }

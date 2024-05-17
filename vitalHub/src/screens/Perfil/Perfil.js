@@ -17,6 +17,7 @@ import api from "../../services/Service"
 import { UseMask } from "../../utils/Converter"
 import CameraModal from "../../components/CameraProntuary/CameraProntuary"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import Spinner from "../../components/Spinner/Spinner"
 
 export const Perfil = ({ navigation }) => {
     // CONSTS
@@ -34,6 +35,8 @@ export const Perfil = ({ navigation }) => {
     const [showCamera, setShowCamera] = useState(false); // seta a visibilidade da câmera
     const [idUsuario, setIdUsuario] = useState(""); // id do usuário
 
+    const [showSpinner, setShowSpinner] = useState(false);
+
     // FUNCTIONS
     async function ProfileLoad() {
         // constante token usa o token decodado
@@ -42,7 +45,7 @@ export const Perfil = ({ navigation }) => {
         // se token não for vazio
         if (token !== null) {
             setTipoUsuario(token.role);
-            
+
             setIdUsuario(token.user);
 
             await UserLoad(token);
@@ -92,8 +95,7 @@ export const Perfil = ({ navigation }) => {
                         crm: crm
                     })
                         .then(response => {
-                            console.log("");
-                            console.log(response.data);
+
                         })
                         .catch(error => {
                             console.log(error);
@@ -109,8 +111,7 @@ export const Perfil = ({ navigation }) => {
                         cidade: address.localidade,
                     })
                         .then(response => {
-                            console.log("");
-                            console.log(response.data);
+
                         })
                         .catch(error => {
                             console.log(error);
@@ -142,24 +143,32 @@ export const Perfil = ({ navigation }) => {
     }
 
     async function ChangeProfilePhoto() {
+        setShowSpinner(true);
+
         const formData = new FormData();
         formData.append("Arquivo", {
             uri: photo,
-            name: `image.${photo.split(".")[1]}`,
-            type: `image/${photo.split(".")[1]}`,
+            name: `image.${photo.split(".").pop()}`,
+            type: `image/${photo.split(".").pop()}`,
         })
-        console.log(`/Usuario/AlterarFotoDePerfil?id=${idUsuario}`);
 
         await api.put(`/Usuario/AlterarFotoDePerfil?id=${idUsuario}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         }).then(async response => {
-            console.log(response);
-
+            setUser({
+                ...user,
+                idNavigation: {
+                    ...user.idNavigation,
+                    foto: photo
+                }
+            })
         }).catch(error => {
             console.log(error);
         })
+
+            setShowSpinner(false);
     }
 
 
@@ -170,8 +179,10 @@ export const Perfil = ({ navigation }) => {
     }, [user])
 
     useEffect(() => {
-        if (cep.length == 8) {
-            GetAddress()
+        if (cep != undefined) {
+            if (cep.length == 8) {
+                GetAddress();
+            }
         }
     }, [cep])
 
@@ -179,13 +190,13 @@ export const Perfil = ({ navigation }) => {
         if (photo != null) {
             ChangeProfilePhoto();
         }
-    }, [])
+    }, [photo])
 
     if (user != undefined && user.idNavigation != undefined) {
         return (
             <ContainerUser>
                 <PhotoContainer>
-                    <UserImage source={{ uri: photo }} />
+                    <UserImage source={{ uri: user.idNavigation.foto }} />
 
                     <ButtonCamera
                         onPress={() => setShowCamera(true)}
@@ -206,9 +217,24 @@ export const Perfil = ({ navigation }) => {
 
                 <Content>
                     {
+                        editar != false ?
+                            <>
+                                <LabelUser style={{ marginTop: -20 }}>Nome</LabelUser>
+
+                                <Input
+                                    onChangeText={(txt) => setNome(txt)}
+                                    value={nome}
+                                />
+                            </>
+
+                            :
+                            null
+                    }
+
+                    {
                         tipoUsuario != "Medico" ?
                             <>
-                                <LabelUser>Data de Nascimento</LabelUser>
+                                <LabelUser style={{ marginTop: 0 }}>Data de Nascimento</LabelUser>
 
                                 {
                                     editar != false ?
@@ -227,7 +253,7 @@ export const Perfil = ({ navigation }) => {
                             null
                     }
 
-                    <LabelUser>
+                    <LabelUser style={{ marginTop: 0 }}>
                         {
                             tipoUsuario === "Medico" ?
                                 "CRM"
@@ -317,7 +343,11 @@ export const Perfil = ({ navigation }) => {
                                             :
                                             ""
                                         :
-                                        `${user.endereco.cidade}`
+                                        `${user.endereco.cidade == undefined ?
+                                            "Não encontrado"
+                                            :
+                                            user.endereco.cidade
+                                        }`
                                 }
                             />
                         </View>
@@ -352,6 +382,10 @@ export const Perfil = ({ navigation }) => {
                         setPhotoUpload={setPhoto}
                     />
                 </Content>
+
+                <Spinner
+                    visible={showSpinner}
+                />
             </ContainerUser >
         )
     }

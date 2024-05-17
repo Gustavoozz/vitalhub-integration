@@ -14,6 +14,10 @@ import {
 
 // import das routes
 import { Route } from "./src/routes/Routes";
+import { StatusBar } from "expo-status-bar";
+
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export default function App() {
   const [fontsLoaded, fontsError] = useFonts({
@@ -30,6 +34,10 @@ export default function App() {
   }
 
   return (
-    <Route />
+    <>
+      <StatusBar translucent backgroundColor="transparent" />
+
+      <Route />
+    </>
   );
 }

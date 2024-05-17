@@ -10,6 +10,7 @@ import {
 } from "./Style"
 import { Button } from "../Button/Style"
 import { useEffect, useState } from "react"
+import * as Notifications from "expo-notifications"
 
 import moment from "moment";
 
@@ -34,7 +35,7 @@ export const SchedulingModal = ({
     // CONSTS
     const [nome, setNome] = useState(); // nome do usuário
 
-    const SituacaoId = "4BD2232C-14CF-4FB9-9321-1AA4119DA703";
+    const SituacaoId = "EED5A890-B957-4DF6-ACDF-B33AD1ED1FAE";
     const PacienteId = pacienteId;
     const MedicoClinicaId = medicoClinica.id;
     const ReceitaId = "Sem receita";
@@ -55,6 +56,23 @@ export const SchedulingModal = ({
             })
     }
 
+    const HandleCallNotifications = async () => {
+        const { status } = await Notifications.getPermissionsAsync()
+
+        if (status !== "granted") {
+            alert("As notificações do usuário não estão ativas!")
+            return;
+        }
+
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: "Consulta agendada",
+                body: "Consulta agendada com sucesso!!"
+            },
+            trigger: null
+        });
+    }
+
     const ConvertData = (data) => {
         return (moment(data).format('DD/MM/YYYY'))
     }
@@ -71,6 +89,8 @@ export const SchedulingModal = ({
                 diagnostico: null
             })
                 .then(() => {
+                    HandleCallNotifications();
+
                     navigation.replace(rota)
                 })
                 .catch(error => {
@@ -84,17 +104,6 @@ export const SchedulingModal = ({
     // EFFECTS
     useEffect(() => {
         NameLoad();
-
-        console.log(`
-        Situação: ${SituacaoId},
-        Paciente: ${PacienteId},
-        Médico Clínica: ${MedicoClinicaId},
-        Receita: ${ReceitaId},
-        Prioridade: ${PrioridadeId},
-        Data: ${DataConsulta}, Hora: ${horaSelecionada}
-        Descrição: ${Descricao},
-        Diagnóstico: ${Diagnostico}
-        `);
     }, [])
 
 

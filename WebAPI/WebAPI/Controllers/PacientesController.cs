@@ -81,7 +81,7 @@ namespace WebAPI.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] PacienteViewModel pacienteModel)
+        public async Task<IActionResult> Post(PacienteViewModel pacienteModel)
         {
             try
             {

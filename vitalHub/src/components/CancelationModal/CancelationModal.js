@@ -4,6 +4,8 @@ import { ModalButton, ModalContent, ModalText, PatientModal } from "./Style"
 import { CancelText } from "../Link/Style"
 import * as Notifications from "expo-notifications"
 import api from "../../services/Service"
+import { useState } from "react"
+import Spinner from "../Spinner/Spinner"
 
 Notifications.requestPermissionsAsync()
 
@@ -19,10 +21,13 @@ export const CancelationModal = ({
     visible,
     setShowModalCancel,
     consulta,
+    setUpdateData,
     ...rest
 }) => {
     // CONSTS
     const status = "Cancelada";
+
+    const [showSpinner, setShowSpinner] = useState(false);
 
 
     // FUNCTIONS
@@ -44,9 +49,10 @@ export const CancelationModal = ({
     }
 
     const Cancelamento = async () => {
+        setShowSpinner(true);
+
         await api.put(`/Consultas/Status?idConsulta=${consulta.id}&status=${status}`)
             .then(response => {
-                console.log(response);
             })
             .catch(error => {
                 console.log(error);
@@ -54,7 +60,12 @@ export const CancelationModal = ({
 
         HandleCallNotifications();
 
-        setShowModalCancel(false)
+        setShowSpinner(false);
+
+        setUpdateData(false);
+        setUpdateData(true);
+
+        setShowModalCancel(false);
     }
 
     return (
@@ -70,6 +81,11 @@ export const CancelationModal = ({
                     </ModalButton>
 
                     <CancelText onPress={() => setShowModalCancel(false)}>Cancelar</CancelText>
+
+
+                    <Spinner
+                        visible={showSpinner}
+                    />
                 </ModalContent>
             </PatientModal>
         </Modal>

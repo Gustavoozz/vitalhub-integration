@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient"
 export const Container = styled.SafeAreaView`
     flex: 1;
     align-items: center;
+    justify-content: center;
+
     background-color: white;
 `
 

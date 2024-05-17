@@ -17,10 +17,14 @@ namespace WebAPI.Repositories
             {
                 Paciente pacienteBuscado = ctx.Pacientes
                 .Include(x => x.Endereco)
+                .Include(x => x.IdNavigation)
                 .FirstOrDefault(x => x.Id == Id)!;
 
                 //if (paciente.Foto != null)
                 //    pacienteBuscado!.IdNavigation.Foto = paciente.Foto;
+
+                if (paciente.Nome != null)
+                    pacienteBuscado!.IdNavigation.Nome = paciente.Nome;
 
                 if (paciente.DataNascimento != null)
                     pacienteBuscado!.DataNascimento = paciente.DataNascimento;
@@ -59,8 +63,9 @@ namespace WebAPI.Repositories
                  .Include(x => x.Situacao)
                  .Include(x => x.Prioridade)
                  .Include(x => x.MedicoClinica!.Medico!.IdNavigation)
+                 .Include(x => x.Receita)
                  .Include(x => x.MedicoClinica!.Medico!.Especialidade)
-                 .Include (x => x.Receita)
+                 .Include(x => x.Receita)
 
                  // diferença em dias entre a Data da Consulta e a dataConsulta é igual a 0.
                  .Where(x => x.PacienteId == idPaciente && EF.Functions.DateDiffDay(x.DataConsulta, dataConsulta) == 0)

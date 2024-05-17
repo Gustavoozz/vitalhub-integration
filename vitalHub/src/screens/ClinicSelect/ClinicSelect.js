@@ -56,7 +56,9 @@ export const ClinicSelect = ({
 
 
   return (
-    <Container>
+    <Container
+      style={{ paddingTop: 30 }}
+    >
       <Title>Selecionar clínica</Title>
 
       <ListComponent

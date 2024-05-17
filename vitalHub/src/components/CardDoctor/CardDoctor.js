@@ -40,7 +40,7 @@ export const CardDoctor = ({
             <ExtraContent>
                 <DoctorContainer selected={selected}>
                     <DoctorTouchable onPress={() => HandlePress()}>
-                        <DoctorContentImage source={{ uri: "https://imgb.ifunny.co/images/bfc9bc11c482d1bc9f53bb14458fd0f848c34aed77d84390a234c890d70e7c7f_1.jpg" }} />
+                        <DoctorContentImage source={{ uri: medico.idNavigation.foto }} />
 
                         <DoctorContent>
                             <DoctorTitle>{medico.idNavigation.nome}</DoctorTitle>

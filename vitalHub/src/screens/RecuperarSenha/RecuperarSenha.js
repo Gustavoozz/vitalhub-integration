@@ -10,13 +10,24 @@ import { useEffect, useState } from "react"
 import { UserDecodeToken } from "../../utils/Auth"
 import api from "../../services/Service"
 import { TextAccount } from "../../components/Link/Style"
+import Spinner from "../../components/Spinner/Spinner"
 
 export const RecuperarSenha = ({ navigation }) => {
+    // CONSTS
     const [email, setEmail] = useState("");
     const [paginaErro, setPaginaErro] = useState(false);
 
+    const [showSpinner, setShowSpinner] = useState(false);
+
+
+
+    // FUNCTIONS
     async function SendEmail() {
+        setShowSpinner(true);
+
         await api.post(`/RecuperarSenha?email=${email}`).then(() => {
+            setShowSpinner(true);
+
             setPaginaErro(false);
 
             navigation.replace("VerificarSenha", { emailRecuperacao: email })
@@ -25,13 +36,21 @@ export const RecuperarSenha = ({ navigation }) => {
 
             setPaginaErro(true);
         })
+
+        setShowSpinner(false);
     }
+
+
+
+    // EFFECTS
+
+
 
     return (
 
         <Container>
             <Feather
-                style={{ position: 'absolute', left: 20, top: 30 }}
+                style={{ position: 'absolute', left: 20, top: 55 }}
                 onPress={() => navigation.replace("Login")}
                 name="arrow-left-circle"
                 size={30}
@@ -67,13 +86,17 @@ export const RecuperarSenha = ({ navigation }) => {
                             }}
                         >
                             Email inexistente
-                            </TextAccount>
+                        </TextAccount>
                     </>
             }
 
-<Button onPress={() => SendEmail()}>
-    <ButtonTitle>Continuar</ButtonTitle>
-</Button>
+            <Button onPress={() => SendEmail()}>
+                <ButtonTitle>Continuar</ButtonTitle>
+            </Button>
+
+            <Spinner
+                visible={showSpinner}
+            />
         </Container >
     )
 

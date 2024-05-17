@@ -52,13 +52,13 @@ export const CalendarComponent = ({
         backgroundColor: '#FAFAFA'
       }}
       onDayPress={(date) => HandlePress(date)}
+      minDate={startingDate.toDateString()}
       markedDates={{
         [selected]: {
           selected: true,
           disableTouchEvent: true
         },
       }}
-      minDate={startingDate.toDateString()}
       theme={{
         calendarBackground: '#FAFAFA',
 

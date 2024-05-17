@@ -55,7 +55,7 @@ namespace WebAPI.Repositories
                 }
                 else
                 {
-                    ctx.Add(consulta.Receita);
+                    ctx.Add(consulta.Receita!);
                 }
 
                 ctx.Update(buscada);

@@ -28,8 +28,6 @@ export const SelectInput = ({ setHoraSelecionada }) => {
         })
 
         setArrayOptions(options);
-
-        console.log(horasRestantes);
     }
 
 

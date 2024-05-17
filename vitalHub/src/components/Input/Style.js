@@ -43,6 +43,14 @@ export const InputVerify = styled(Input).attrs({
     color: #34898F;
 `
 
+export const InputVerifyError = styled(InputVerify).attrs({
+    placeholderTextColor: "#DB2C15"
+})`
+    border: 2px solid #DB163D;
+
+    color: #DB2C15;
+`
+
 export const InputUser = styled.TextInput.attrs({
     placeholderTextColor: '#33303E',
     multiline: true,
@@ -94,10 +102,10 @@ export const InputProntuario = styled(Input)`
     font-family: 'MontserratAlternates_500Medium';
 `
 
-export const InputProntuarioNonEditable = styled(InputProntuario).attrs(({ 
+export const InputProntuarioNonEditable = styled(InputProntuario).attrs(({
     editable: false,
     placeholderTextColor: "#33303E"
-     }))`
+}))`
     background-color: #F5F3F3;
     color: #33303E;
     border: none;
